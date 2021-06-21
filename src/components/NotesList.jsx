@@ -1,19 +1,18 @@
 import React from 'react'
 import { connect  } from 'react-redux' 
+import { Link } from 'react-router-dom'
+import {removeExpense} from '../actions/notes'
 
-
-const NotesListItem = ({description, amount, createdAt}) =>(
+const NotesListItem = ({dispatch, id, description, amount, createdAt}) =>(
     <div>
+   
         <h3>{description}</h3>
         <p> {amount} - {createdAt} </p>
-
-
-    </div>
-)
-
-const NotesListFilter = () => (
-    <div>
-        <input type="text" placeholder="Filter" />
+        <button
+        onClick ={()=> {
+            dispatch(removeExpense({id}))
+        }}  
+        >remove</button>
     </div>
 )
 
@@ -25,7 +24,8 @@ const NotesList =(props) => (
         {props.expenses.length}
 
         {props.expenses.map ((expense)=> {
-            return <NotesListItem key={expense.id} {...expense}/>
+            return <NotesListItem 
+            key={expense.id} {...expense}/>
         })}
 
 
@@ -35,7 +35,7 @@ const NotesList =(props) => (
 
 const mapStateToProps = (state)=>{
     return{
-
+        
         expenses : state.expenses
     }
 }

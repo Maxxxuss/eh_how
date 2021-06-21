@@ -8,24 +8,23 @@ import {setTextFilter} from './actions/filters'
 import getVisibleExpenses from './selectors/notes'
 import { Provider } from 'react-redux';
 import NotesDashboardPage from './components/NotesDashboard';
+import store from './store/configureStore'
 
 import configureStore from './store/configureStore'
 
-const store = configureStore()
+// const store = configureStore()
 
-store.dispatch(addExpense({description: "Water Bill"}))
-console.log(store.getState())
+// store.dispatch(addExpense({description: "Water Bill", amount: 4544}))
+// store.dispatch(addExpense({description: "Gas Bill", amount: 23}))
+// store.dispatch(addExpense({description: "Bier Bill", amount: 99, createdAt:1000}))
 
-const jsx = (
-  <Provider store = {store}>
-    <App/>
-    <NotesDashboardPage/>
-  </Provider>
-)
+
 
 
 ReactDOM.render(
-  jsx, 
+  <Provider store = {store}>
+    <NotesDashboardPage/>
+  </Provider>,
   document.getElementById('root')
 );
 

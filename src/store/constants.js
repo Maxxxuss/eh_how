@@ -1,0 +1,1 @@
+export const localStorageKey = '__TODO_APP_Store__'

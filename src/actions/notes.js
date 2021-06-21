@@ -1,4 +1,3 @@
-// import {createStore, combineReducers } from 'redux'
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -8,19 +7,24 @@ import { v4 as uuidv4 } from 'uuid';
 // ADD_EXPENSE
 export const addExpense = (
   {
-    description = '',
-    note = '',
-    amount = 0,
-    createdAt = 0
+    description,
+    relevance,
+    priority,
+    noteDecscription,
+    createdAt,
+    calenderFocused,
+ 
   } = {}
 ) => ({
   type: 'ADD_EXPENSE',
   expense: {
     id: uuidv4(),
     description,
-    note,
-    amount,
-    createdAt
+    relevance,
+    priority,
+    noteDecscription,
+    createdAt,
+    calenderFocused
 }
 });
 
