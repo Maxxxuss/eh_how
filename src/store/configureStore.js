@@ -1,35 +1,51 @@
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux'
 import expensesReducer from '../reducers/notes';
 import filtersReducer from '../reducers/filters';
-import localStorageMiddleware from './local-storage';
-import loggingMiddleware from './logging';
+// import localStorageMiddleware from './local-storage';
+// import loggingMiddleware from './logging';
 import thunk from 'redux-thunk';
 import {localStorageKey} from './constants'
 
 
-const composerFunction = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() || compose
+const composerFunction = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+
 
 const getLocalStorageState = () => {
   const cache = localStorage.getItem(localStorageKey);
   return cache ? JSON.parse(cache) : {};
 }
-const middelwares = applyMiddleware(
-  localStorageMiddleware, 
-  loggingMiddleware)
-
 
 const store =  combineReducers({
     expenses: expensesReducer,
     filters: filtersReducer
   })
 
+  const loggingMiddleware = (store) => (next) => (action) => {
+    console.groupCollapsed(action.type);
+    console.log('Action:', action);
+    console.log('State - Before:', store.getState());
+    const result = next(action);
+    console.log('State - After:', store.getState());
+    console.groupEnd(action.type);
+    return result;
+};
+
+const localStorageMiddleware = (store) => (next) => (action) => {
+  const result = next(action);
+  const state = JSON.stringify(store.getState());
+  localStorage.setItem(localStorageKey, state);
+  return result;
+};
+
+const middelwares = applyMiddleware(
+  localStorageMiddleware, 
+  loggingMiddleware)
+
 
   export default createStore(
-    combineReducers({
-      expenses: expensesReducer,
-      filters: filtersReducer
-    }), 
-    // getLocalStorageState(), 
-    // composerFunction(applyMiddleware(thunk), applyMiddleware(localStorageMiddleware, loggingMiddleware))
+    store,    
+    getLocalStorageState(), 
+    composerFunction(applyMiddleware  (thunk), middelwares)
   )
     

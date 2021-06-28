@@ -1,9 +1,9 @@
 import React from 'react'
 import NotesList from './NotesList'
 import NoteListFilter from './NoteListFilter'
-import NotesForm from './NotesForm'
+import NotesForm from './AddNotes'
 import { connect } from 'react-redux'
-import { addExpense } from '../actions/notes'
+import { addExpense, removeExpense } from '../actions/notes'
 import store from '../store/configureStore'
 
 
@@ -18,11 +18,12 @@ const NotesDashboardPage = (props) => (
         }}
         />
 
-        <NotesList/>
+        <NotesList
+        />
         <NoteListFilter/>
 
     </div>
 )
 console.log(store.getState());
 
-export default connect () (NotesDashboardPage)
+export default connect() (NotesDashboardPage)

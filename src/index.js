@@ -1,11 +1,7 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { addExpense } from './actions/notes';
-import {setTextFilter} from './actions/filters'
-import getVisibleExpenses from './selectors/notes'
+
 import { Provider } from 'react-redux';
 import NotesDashboardPage from './components/NotesDashboard';
 import store from './store/configureStore'
