@@ -12,11 +12,11 @@ class NotesList extends React.Component {
         this.state= {
             id: this.props.expenses.id ? this.props.expenses.id : "pups", 
             // description: 
-            allExpenses: this.props.expenses, 
-            activeNote: "", 
+            allExpenses:  this.props.expenses.sort((a,b) => (a.sRelevance > b.sRelevance) ? 1: -1),
+            activeNote: this.props.expenses.description ? this.props.expenses.description : "", 
+
         }
     }
-
 
     handelRemoveNote = () => {
         this.props.removeExpense ({id: this.state.activeNote.id})
@@ -27,15 +27,21 @@ class NotesList extends React.Component {
         console.log("Active Note: " , this.state.activeNote)
     }
 
-displayLinkedNotes = ( expenses = this.props.expenses) => 
+displayLinkedNotes = ( expenses = this.state.allExpenses) => 
 expenses.map(expense => (
   <li
     key={expense.id}  
     onClick ={() => this.setActiveNote(expense)}
     > 
-       # {expense.description}
+       # {expense.sRelevance} {"--" } {expense.description}
     </li>
   ))
+
+
+
+getVisibleNotes = (allExpenses = this.props.expenses) => allExpenses.sort((a,b)=>{
+        return a.sRelevance <b.sRelevance ? 1: -1
+    })
 
     render (){
         const {allExpenses} = this.state
@@ -49,8 +55,15 @@ expenses.map(expense => (
                 </button>
                 <div>
                    { this.displayLinkedNotes() }
-                   {console.log("this.props.expenses", this.props.expenses)}
-                   {console.log("this.state.allExpenses", allExpenses)}
+        
+
+                </div>
+
+                <div>
+                    <div>
+
+
+                    </div>
                 </div>
             </div>
         )
@@ -65,7 +78,6 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps =(dispatch) =>({
     removeExpense: (id) => dispatch(removeExpense(id))
-
 }) 
 
 export default connect(

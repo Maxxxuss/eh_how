@@ -11,8 +11,8 @@ export const setTextFilter = (text = '') => ({
   });
   
   // SORT_BY_AMOUNT
-  export const sortByAmount = () => ({
-    type: 'SORT_BY_AMOUNT'
+  export const sortByRelevance = () => ({
+    type: 'SORT_BY_RELEVANCE'
   });
   
   // SET_START_DATE

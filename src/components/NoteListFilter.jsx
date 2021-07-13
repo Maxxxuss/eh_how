@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect  } from 'react-redux' 
-import { setTextFilter, sortByAmount, sortByDate} from '../actions/filters'
+import { setTextFilter, sortByRelevance, sortByDate} from '../actions/filters'
 
 
 
@@ -21,13 +21,13 @@ const NotesListFilter = (props) => (
          onChange={(e)=>{
              if (e.target.value ==='date'){
                  props.dispatch(sortByDate())
-             } else if (e.target.value ==='amount'){
-                 props.dispatch(sortByAmount())
+             } else if (e.target.value ==='sRelevance'){
+                 props.dispatch(sortByRelevance())
              }
          }}
          >
-             <option value="date" >  Date</option>
-             <option value="amount"> amount</option>
+             <option value="sRelevance"> Relevance</option>
+             <option value="date"> Date</option>
 
          </select>
     </div>

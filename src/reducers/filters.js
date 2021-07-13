@@ -1,7 +1,7 @@
 
 const filtersReducerDefaultState = {
   text: '',
-  sortBy: 'date',
+  sortBy: 'sRelvance',
   startDate: undefined,
   endDate: undefined
 };
@@ -13,10 +13,10 @@ const filtersReducer = (state = filtersReducerDefaultState, action) => {
         ...state,
         text: action.text
       };
-    case 'SORT_BY_AMOUNT':
+    case 'SORT_BY_RELEVANCE':
       return {
         ...state,
-        sortBy: 'amount'
+        sortBy: 'sRelevance'
       };
     case 'SORT_BY_DATE':
       return {

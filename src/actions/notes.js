@@ -1,9 +1,6 @@
 
 import { v4 as uuidv4 } from 'uuid';
 
-
-
-
 // ADD_EXPENSE
 export const addExpense = (
   {
@@ -24,7 +21,8 @@ export const addExpense = (
     priority,
     noteDecscription,
     createdAt,
-    calenderFocused
+    calenderFocused, 
+    relevance, 
 }
 });
 

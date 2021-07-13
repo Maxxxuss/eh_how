@@ -7,7 +7,7 @@ import { addExpense, removeExpense } from '../actions/notes'
 import store from '../store/configureStore'
 
 
-const NotesDashboardPage = (props) => (
+export const NotesDashboardPage = (props) => (
     <div>
         <NotesForm
         onSubmit = {(expense)=> {
@@ -26,4 +26,3 @@ const NotesDashboardPage = (props) => (
 )
 console.log(store.getState());
 
-export default connect() (NotesDashboardPage)
