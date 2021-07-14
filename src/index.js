@@ -7,6 +7,9 @@ import NotesDashboardPage from './components/NotesDashboard';
 import store from './store/configureStore'
 
 import configureStore from './store/configureStore'
+import Categorie from './components/Categorie';
+import { Menu, Icon, Modal, Form, Input, Button } from "semantic-ui-react";
+
 
 // const store = configureStore()
 

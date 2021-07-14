@@ -6,6 +6,7 @@ export const getAllExpenses = createSelector(
   getExpenses, 
   expenses => expenses.map(expense => ({
     id: expense.id,
+    categorie: expense.categorie ? expense.categorie : "", 
     sRelevance: expense.priority * expense.relevance ? expense.priority * expense.relevance : "",
     description: expense.description? expense.description: "" ,
     relevance: expense.relevance? expense.relevance: "" ,
@@ -14,6 +15,7 @@ export const getAllExpenses = createSelector(
     createdAt: expense.createdAt? expense.createdAt: "" ,
     calenderFocused: expense.calenderFocused? expense.calenderFocused: "" ,
     date: randomDate(),
+  
   })), 
 )
 

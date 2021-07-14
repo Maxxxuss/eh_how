@@ -10,6 +10,7 @@ export const addExpense = (
     noteDecscription,
     createdAt,
     calenderFocused,
+    categorie, 
  
   } = {}
 ) => ({
@@ -23,6 +24,7 @@ export const addExpense = (
     createdAt,
     calenderFocused, 
     relevance, 
+    categorie,
 }
 });
 
