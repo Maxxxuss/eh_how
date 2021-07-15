@@ -1,22 +1,15 @@
 import React from 'react'
 import NotesList from './NotesList'
 import NoteListFilter from './NoteListFilter'
-import NotesForm from './AddNotes'
 import { connect } from 'react-redux'
-import { addExpense, removeExpense } from '../actions/notes'
 import store from '../store/configureStore'
-import AddNotes from '../container/AddNotes'
 import Categorie from './Categorie'
-import { Menu, Icon, Modal, Form, Input, Button } from "semantic-ui-react";
 
 
 const NotesDashboardPage = (props) => (
     <div>
         <Categorie/>
-     
-
-        <NotesList
-        />
+        <NotesList/>
         <NoteListFilter/>
 
     </div>

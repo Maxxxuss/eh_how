@@ -6,14 +6,14 @@ export const getAllExpenses = createSelector(
   getExpenses, 
   expenses => expenses.map(expense => ({
     id: expense.id,
+    description: expense.description ? expense.description: "" ,
     categorie: expense.categorie ? expense.categorie : "", 
     sRelevance: expense.priority * expense.relevance ? expense.priority * expense.relevance : "",
-    description: expense.description? expense.description: "" ,
     relevance: expense.relevance? expense.relevance: "" ,
     priority: expense.priority? expense.priority: "" ,
     noteDecscription: expense.noteDecscription? expense.noteDecscription: "" ,
     createdAt: expense.createdAt? expense.createdAt: "" ,
-    calenderFocused: expense.calenderFocused? expense.calenderFocused: "" ,
+    // calenderFocused: expense.calenderFocused? expense.calenderFocused: "" ,
     date: randomDate(),
   
   })), 

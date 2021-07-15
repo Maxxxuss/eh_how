@@ -1,9 +1,8 @@
 import React from 'react'
 import moment from 'moment'
-import {SingleDatePicker} from "react-dates"
+// import {SingleDatePicker} from "react-dates"
 import 'react-dates/lib/css/_datepicker.css';
 import 'react-dates/initialize';
-import { connect } from 'react-redux'
 
 
 
@@ -18,7 +17,6 @@ export default class AddNotes extends React.Component {
         createdAt: moment(),
         calenderFocused: false, 
         categorie: "",
-        activeCategorie: "", 
 
     }}
 
@@ -60,7 +58,7 @@ export default class AddNotes extends React.Component {
             priority: this.state.priority,
             noteDecscription: this.state.noteDecscription,
             createdAt: this.state.createdAt.valueOf(),
-            
+            categorie: this.props.activeCategorie ? this.props.activeCategorie.id : undefined
         })
     }
 
@@ -74,44 +72,9 @@ export default class AddNotes extends React.Component {
         console.log("Submit pressed ", this.state.categorie);
     }
 
-    displayCategories = (categories) => 
-        categories.map(categorie => (
-
-            <li
-                key = {categorie.id}
-                onClick ={() => this.setActiveCategorie(categorie)}
-
-                >
-            {categorie.catName}
-
-            </li>
-        ),
-        console.log("AddMotes Categorie:", categories)
-        )
-
-    setActiveCategorie = (categorie) => {
-        
-        this.setState({activeCategorie : categorie})
-        console.log("active Kategoei", this.state.activeCategorie.catName);
-
-
-    }
-
-    
-
-
-  
-
     render () {
-        const {categories} = this.props
         return (
             <div>
-                <div>
-                {this.displayCategories(categories)}
-
-
-                </div>
-                
 
                 <div>
                     
@@ -125,8 +88,7 @@ export default class AddNotes extends React.Component {
                    onClick = {this.onCategorieSubmit}
                    >Add Categorie</button>
                 </div>
-
-                
+        
             <div>
                 <form onSubmit={this.onSubmit}>
                     <input
