@@ -5,7 +5,6 @@ export const getExpenses = state => state.expenses
 export const getAllExpenses = createSelector(
   getExpenses, 
   expenses => expenses.map(expense => ({
-    id: expense.id,
     description: expense.description ? expense.description: "" ,
     categorie: expense.categorie ? expense.categorie : "", 
     sRelevance: expense.priority * expense.relevance ? expense.priority * expense.relevance : "",
@@ -15,8 +14,9 @@ export const getAllExpenses = createSelector(
     createdAt: expense.createdAt? expense.createdAt: "" ,
     // calenderFocused: expense.calenderFocused? expense.calenderFocused: "" ,
     date: randomDate(),
-  
+    id: expense.id,
   })), 
+  
 )
 
 function randomDate(date1= '02/13/2013', date2 = '01/01/2000'){
@@ -34,4 +34,3 @@ function randomDate(date1= '02/13/2013', date2 = '01/01/2000'){
 
   }
 }
-

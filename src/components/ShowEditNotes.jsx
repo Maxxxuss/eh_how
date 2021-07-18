@@ -1,17 +1,23 @@
 import React from "react"
+import { connect  } from 'react-redux' 
+import { editExpense } from "../actions/notes"
+import { getAllExpenses } from "../selectors/notes"
 
-export default class ShowEditNotes extends React.Component {
-        
-        state = {
+
+ export default class ShowEditNotes extends React.Component {
+        constructor(props){
+            super(props)
+        this.state = {
             // description: this.props.activeNote ? this.props.activeNote.description : "",
-            description:[] ? this.props.activeNote.description : "", 
-            noteDecscription: "",
+            // description: props.activeNote.description,
+            description: "", 
+            noteDecscription: "note DEs Def", 
             relevance:"",
             priority :"",
             createdAt:"",
-            activeNote: this.props.activeNote ? this.props.activeNote : ""
+            activeNote: ""
 
-        }
+        }}
 
 
     onDescriptionChange = (e) =>{
@@ -52,21 +58,26 @@ export default class ShowEditNotes extends React.Component {
     //     })
     // }
     onSubmit = () => {
-        const description = this.state.description
+        const description = [] ? this.props.activeNote.description : this.state.description
+        // const description = this.state.description 
         const relevance= this.state.relevance
         const priority= this.state.priority
         const noteDecscription= this.state.noteDecscription
 
         const updates =  {description, relevance, priority, noteDecscription}
+        // const updates = {
+        //     description: "" ? this.props.activeNote.description : this.state.description
+        // }
 
 
-        this.props.editExpense(this.props.activeNote.id, updates)
-        console.log("edit Expense: ", this.props.activeNote.id, updates);
-
+        // this.props.editExpense(this.props.activeNote.id, updates)
+        // console.log("edit Expense: ", this.props.activeNote.id, updates);
+        console.log(updates)
        
     }
 
     render () {
+        const {description, noteDecscription, priority, relevance} = this.state
         const {activeNote} = this.props
         return (
             <div>
@@ -74,8 +85,9 @@ export default class ShowEditNotes extends React.Component {
                     {/* <form onSubmit={this.onSubmit} > */}
                   <input
                      type="text"
-                    placeholder= {this.props.activeNote ? this.props.activeNote.description : "Beschreibung"}
-                    value={ this.state.description}
+                    placeholder=  "Beschreibung"
+                    value={ description ? description : activeNote.description}
+                    // value = {description}
                     onChange={this.onDescriptionChange}
 
                     />
@@ -83,22 +95,22 @@ export default class ShowEditNotes extends React.Component {
                      type="text"
                     placeholder="Relevance"
                     
-                    value={this.state.relevance}
+                    // value={relevance ? relevance : activeNote.relevance}
                     onChange={this.onRelevanveChange}
                     /> 
                      <input
                     type="text"
                    placeholder="Priority"
-                   value={this.state.priority}
+                //    value={priority ? priority : activeNote.priority}
                    onChange={this.onPriorityChange}
                    />
                    <textarea 
                    placeholder= "NoteDescription"
-                   value= {this.state.noteDecscription}
+                //    value= {noteDecscription ? noteDecscription : activeNote.noteDecscription }
                    onChange= {this.onNoteDescriptionChange}
                    />
                    <button
-                   onClick = {this.onSubmit}
+                   onSubmit = {this.onSubmit}
                    >Take Changes</button>
                    {/* </form> */}
 
@@ -110,5 +122,24 @@ export default class ShowEditNotes extends React.Component {
     }
 
 
-
 }
+
+
+// const mapStateToProps = (state)=>{
+//     return{
+//         expenses : getAllExpenses(state).sort((a,b) => (a.sRelevance > b.sRelevance) ? -1: 1),
+//         activeNote : getAllExpenses(state)
+        
+//     }
+// }
+
+// const mapDispatchToProps =(dispatch) =>({
+//     editExpense: (id, updates) => dispatch(editExpense(id, updates)), 
+
+
+// }) 
+
+// export default connect(
+//     mapStateToProps, 
+//     mapDispatchToProps)
+//     (ShowEditNotes)
