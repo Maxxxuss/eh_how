@@ -15,7 +15,7 @@ import { Menu, Icon, Modal, Form, Input, Button } from "semantic-ui-react";
 
 // store.dispatch(addExpense({description: "Water Bill", amount: 4544}))
 // store.dispatch(addExpense({description: "Gas Bill", amount: 23}))
-// store.dispatch(addExpense({description: "Bier Bill", amount: 99, createdAt:1000}))
+// store.dispatch(addExpense({description: "Bier Bill", amount: 99, datesToFinish:1000}))
 
 
 

@@ -7,7 +7,6 @@ import categorieReducer from '../reducers/categorie'
 import thunk from 'redux-thunk';
 import {localStorageKey} from './constants'
 
-
 const composerFunction = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 
@@ -17,7 +16,18 @@ const getLocalStorageState = () => {
   return cache ? JSON.parse(cache) : {};
 }
 
-const store =  combineReducers({
+export const setLocalStorageState = (cache) => {
+   localStorage.setItem(localStorageKey, cache)
+  return getLocalStorageState()
+}
+
+export const locCache = () => {
+  const cache = localStorage.getItem(localStorageKey);
+  return cache
+
+}
+
+ const store =  combineReducers({
     expenses: expensesReducer,
     filters: filtersReducer, 
     categories: categorieReducer

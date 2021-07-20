@@ -1,23 +1,23 @@
+import moment from "moment"
 import React from "react"
+import { isNextDay } from "react-dates"
 import { connect  } from 'react-redux' 
 import { editExpense } from "../actions/notes"
 import { getAllExpenses } from "../selectors/notes"
 
-
- export default class ShowEditNotes extends React.Component {
-        constructor(props){
-            super(props)
-        this.state = {
+export default class ShowEditNotes extends React.Component {
+        
+        state = {
             // description: this.props.activeNote ? this.props.activeNote.description : "",
             // description: props.activeNote.description,
             description: "", 
-            noteDecscription: "note DEs Def", 
+            noteDecscription: "",
             relevance:"",
-            priority :"",
-            createdAt:"",
+            important :"",
+            datesToFinish:"",
             activeNote: ""
 
-        }}
+        }
 
 
     onDescriptionChange = (e) =>{
@@ -32,12 +32,12 @@ import { getAllExpenses } from "../selectors/notes"
         const relevance = e.target.value
         this.setState(()=>({relevance}))
     }
-    onPriorityChange = (e) =>{
-        const priority = e.target.value
-        this.setState(()=>({priority}))
+    onimportantChange = (e) =>{
+        const important = e.target.value
+        this.setState(()=>({important}))
     }
-    onDateChange = (createdAt) => {
-        this.setState(()=> ({createdAt}))
+    onDateChange = (datesToFinish) => {
+        this.setState(()=> ({datesToFinish}))
     }
 
     onCategorieChange = (e) => {
@@ -52,32 +52,28 @@ import { getAllExpenses } from "../selectors/notes"
     //     this.props.editExpense({
     //         description: this.state.description,
     //         relevance: this.state.relevance,
-    //         priority: this.state.priority,
+    //         important: this.state.important,
     //         noteDecscription: this.state.noteDecscription,
-    //         createdAt: this.state.createdAt.valueOf(),
+    //         datesToFinish: this.state.datesToFinish.valueOf(),
     //     })
     // }
     onSubmit = () => {
-        const description = [] ? this.props.activeNote.description : this.state.description
-        // const description = this.state.description 
-        const relevance= this.state.relevance
-        const priority= this.state.priority
-        const noteDecscription= this.state.noteDecscription
+        const description = this.state.description ? this.state.description : this.props.description
+        const relevance= this.state.relevance ? this.state.relevance : this.props.relevance
+        const important= this.state.important ? this.state.important : this.props.important
+        const noteDecscription= this.state.noteDecscription ? this.state.noteDecscription : this.props.noteDecscription
 
-        const updates =  {description, relevance, priority, noteDecscription}
-        // const updates = {
-        //     description: "" ? this.props.activeNote.description : this.state.description
-        // }
+        const updates =  {description, relevance, important, noteDecscription}
+       
 
 
-        // this.props.editExpense(this.props.activeNote.id, updates)
-        // console.log("edit Expense: ", this.props.activeNote.id, updates);
-        console.log(updates)
+        this.props.editExpense(this.props.activeNote.id, updates)
+        console.log("edit Expense: ", this.props.activeNote.id, updates);
        
     }
 
     render () {
-        const {description, noteDecscription, priority, relevance} = this.state
+        const {description, noteDecscription, important, relevance, datesToFinish} = this.state
         const {activeNote} = this.props
         return (
             <div>
@@ -86,41 +82,44 @@ import { getAllExpenses } from "../selectors/notes"
                   <input
                      type="text"
                     placeholder=  "Beschreibung"
-                    value={ description ? description : activeNote.description}
-                    // value = {description}
+                    value = {description ? description: this.props.description}
                     onChange={this.onDescriptionChange}
 
                     />
                       <input
                      type="text"
                     placeholder="Relevance"
-                    
-                    // value={relevance ? relevance : activeNote.relevance}
+                    value = {relevance ? relevance : this.props.relevance} 
                     onChange={this.onRelevanveChange}
                     /> 
                      <input
                     type="text"
-                   placeholder="Priority"
-                //    value={priority ? priority : activeNote.priority}
-                   onChange={this.onPriorityChange}
+                   placeholder="important"
+                   value = {important ? important : this.props.important}
+                   onChange={this.onimportantChange}
                    />
+                  <input
+                    type="text"
+                   placeholder="Finish Till"
+                   value = {datesToFinish ? datesToFinish :  moment(this.props.datesToFinish).endOf('day').fromNow() }
+                   onChange={this.onimportantChange}
+                   />
+
                    <textarea 
                    placeholder= "NoteDescription"
-                //    value= {noteDecscription ? noteDecscription : activeNote.noteDecscription }
+                   value = {noteDecscription ? noteDecscription : this.props.noteDecscription}
                    onChange= {this.onNoteDescriptionChange}
                    />
+
                    <button
-                   onSubmit = {this.onSubmit}
+                   onClick = {this.onSubmit}
                    >Take Changes</button>
                    {/* </form> */}
 
                 </div>
             </div>
-
-
         )
     }
-
 
 }
 
@@ -139,7 +138,3 @@ import { getAllExpenses } from "../selectors/notes"
 
 // }) 
 
-// export default connect(
-//     mapStateToProps, 
-//     mapDispatchToProps)
-//     (ShowEditNotes)

@@ -6,9 +6,9 @@ export const addExpense = (
   {
     description,
     relevance,
-    priority,
+    important,
     noteDecscription,
-    createdAt,
+    datesToFinish,
     calenderFocused,
     categorie, 
  
@@ -19,9 +19,9 @@ export const addExpense = (
     id: uuidv4(),
     description,
     relevance,
-    priority,
+    important,
     noteDecscription,
-    createdAt,
+    datesToFinish,
     calenderFocused, 
     relevance, 
     categorie,

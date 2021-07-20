@@ -9,9 +9,12 @@ import ShowEditNotes from './ShowEditNotes'
 
 
 class NotesList extends React.Component {
-  
-        state= {
+    constructor (props) {
+        super(props)
+        this.state= {
             id: this.props.expenses.id ? this.props.expenses.id : "pups", 
+            // description: 
+            // allExpenses: this.props.expenses ? this.props.expenses.sort((a,b) => (a.sRelevance > b.sRelevance) ? 1: -1) :"",
             activeNote: "", 
             allExpenses: this.props.expenses,
             activeCategorie: "",
@@ -20,11 +23,13 @@ class NotesList extends React.Component {
             description: "", 
             noteDecscription:"",
             relevance:"", 
-            priority:"", 
-            createdAt:"", 
+            important:"", 
+            datesToFinish:"", 
             categorie:"", 
         }
 
+        }
+    
 
     handelRemoveNote = () => {
         this.props.removeExpense ({id: this.state.activeNote.id})
@@ -35,21 +40,21 @@ class NotesList extends React.Component {
         this.setState({description : expense.description})
         this.setState({noteDecscription : expense.noteDecscription})
         this.setState({relevance : expense.relevance})
-        this.setState({priority : expense.priority})
-        this.setState({createdAt : expense.createdAt})
+        this.setState({important : expense.important})
+        this.setState({datesToFinish : expense.datesToFinish})
         this.setState({categorie : expense.categorie})
 
 
-        console.log("Active Note: " , this.state.activeNote.description)
+        console.log("Active Note: " , this.state.activeNote.description , this.state.activeNote)
     }
 
-    DisplyFilterExpensesByCate = (expenses ) => {
+    DisplyFilterExpensesByCate = (expenses = this.props.expenses) => {
        const filteExp =  expenses.filter( expense => expense.categorie === this.state.activeCategorie.id)
        this.setState({filteredExp : filteExp })
     console.log(filteExp);
 
     //    console.log("FIltered expenses", this.state.filteredExp)
-    //    this.displayLinkedNotes(filteExp)
+       this.displayLinkedNotes(filteExp)
     }
 
 
@@ -61,7 +66,7 @@ class NotesList extends React.Component {
         key={expense.id}  
         onClick ={() => this.setActiveNote(expense)}
         > 
-        {expense.sRelevance}{" - "} {expense.description} 
+        {Math.round( expense.prio)}{" - "} {expense.description} 
         </li>
     ), 
     console.log("expense on DisplLinkNodtes", expenses)
@@ -102,46 +107,44 @@ setActiveCategorie = (categorie) => {
 onSubmitChanges = () => {
     const description = this.state.description 
     const relevance= this.state.relevance
-    const priority= this.state.priority
+    const important= this.state.important
     const noteDecscription= this.state.noteDecscription
 
-    const updates =  {description, relevance, priority, noteDecscription}
-
-
+    const updates =  {description, relevance, important, noteDecscription}
 
     this.props.editExpense(this.state.activeNote.id, updates)
     console.log("edit Expense: ", this.state.activeNote.id, updates);
    
 }
 
-onDescriptionChange = (e) =>{
-    const description = e.target.value
-    this.setState(()=>({description}))
-}
-onNoteDescriptionChange = (e) =>{
-    const noteDecscription = e.target.value
-    this.setState(()=>({noteDecscription}))
-}
-onRelevanveChange = (e) =>{
-    const relevance = e.target.value
-    this.setState(()=>({relevance}))
-}
-onPriorityChange = (e) =>{
-    const priority = e.target.value
-    this.setState(()=>({priority}))
-}
-onDateChange = (createdAt) => {
-    this.setState(()=> ({createdAt}))
-}
+// onDescriptionChange = (e) =>{
+//     const description = e.target.value
+//     this.setState(()=>({description}))
+// }
+// onNoteDescriptionChange = (e) =>{
+//     const noteDecscription = e.target.value
+//     this.setState(()=>({noteDecscription}))
+// }
+// onRelevanveChange = (e) =>{
+//     const relevance = e.target.value
+//     this.setState(()=>({relevance}))
+// }
+// onimportantChange = (e) =>{
+//     const important = e.target.value
+//     this.setState(()=>({important}))
+// }
+// onDateChange = (datesToFinish) => {
+//     this.setState(()=> ({datesToFinish}))
+// }
 
-onCategorieChange = (e) => {
-    const categorie = e.target.value
-    this.setState(()=>({categorie}))
-}
+// onCategorieChange = (e) => {
+//     const categorie = e.target.value
+//     this.setState(()=>({categorie}))
+// }
 
 displayMetaData = () => {
     
-    const {activeNote, description, noteDecscription, priority, relevance } = this.state
+    const {activeNote, description, noteDecscription, important, relevance } = this.state
         return (
             <div>
                 <div>
@@ -162,9 +165,9 @@ displayMetaData = () => {
                     /> 
                      <input
                     type="text"
-                   placeholder="Priority"
-                   value= {priority}
-                   onChange={this.onPriorityChange}
+                   placeholder="important"
+                   value= {important}
+                   onChange={this.onimportantChange}
                    />
                    <textarea 
                    placeholder= "NoteDescription"
@@ -184,7 +187,7 @@ displayMetaData = () => {
 
 
     render (){
-        const {filteredExp} = this.state
+        const {filteredExp, description, relevance,important, noteDecscription, activeNote, datesToFinish} = this.state
         const {expenses, categories} = this.props
         return (
      
@@ -208,15 +211,29 @@ displayMetaData = () => {
                     remove
                 </button>
                 <div>
-                    {this.displayLinkedNotes(filteredExp ? filteredExp : expenses )}
+
+                    {/* {this.displayLinkedNotes(this.state.filteredExp.sort((a,b) => (a.sRelevance > b.sRelevance) ? -1: 1)) } */}
+
+                    {this.displayLinkedNotes(expenses)}
+
+                   {/* { this.displayLinkedNotes(expenses.sort((a,b) => (a.sRelevance > b.sRelevance) ? -1: 1)) } */}
+
+
                 </div>
 
                 <div>
-                        {/* <ShowEditNotes 
-                        activeNote = {this.state.activeNote}
+                        <ShowEditNotes 
+                        activeNote ={activeNote}
+                        relevance = {relevance}
+                        important = {important}
+                        noteDecscription = {noteDecscription}
+                       description = {description}
+                       datesToFinish = {datesToFinish}
+
+
                         editExpense = {this.props.editExpense}
-                        /> */}
-                        {this.displayMetaData()}
+                        />
+                        {/* {this.displayMetaData()} */}
 
 
                 </div>
@@ -225,9 +242,10 @@ displayMetaData = () => {
     } 
 }
 
+
 const mapStateToProps = (state)=>{
     return{
-        expenses : getAllExpenses(state).sort((a,b) => (a.sRelevance > b.sRelevance) ? -1: 1), 
+        expenses : getAllExpenses(state).sort((a,b) => (a.prio > b.prio) ? -1: 1), 
         categories: getAllCategories(state), 
         
     }
