@@ -4,7 +4,6 @@ import {setCategorie} from '../actions/categorie'
 import { getAllCategories } from "../selectors/categories";
 
 import { Menu, Icon, Modal, Form, Input, Button } from "semantic-ui-react";
-import 'semantic-ui-css/semantic.min.css'
 
 class Categories extends React.Component {
     state = {

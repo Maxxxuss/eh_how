@@ -1,7 +1,6 @@
 import React from 'react'
 import moment from 'moment'
 // import {SingleDatePicker} from "react-dates"
-import 'react-dates/lib/css/_datepicker.css';
 import 'react-dates/initialize';
 import { parse } from 'uuid';
 import { locCache, setLocalStorageState} from '../store/configureStore';
@@ -130,6 +129,11 @@ export default class AddNotes extends React.Component {
         const {datesToFinish} = this.state
         return (
             <div>
+                <h1>
+
+                    asd  ss !!  sqwwww  Nice
+                </h1>
+
                 <div>
                     <div>
                     <input type="file" className="file"/>
