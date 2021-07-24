@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect  } from 'react-redux' 
 import { setCategorie } from '../actions/categorie'
-import {removeExpense, addExpense, editExpense} from '../actions/notes'
+import {removeExpense, addExpense, editExpense, changeStatus} from '../actions/notes'
 import { getAllCategories } from '../selectors/categories'
 import { getAllExpenses } from '../selectors/notes'
 import AddNotes from './AddNotes'
@@ -26,6 +26,8 @@ class NotesList extends React.Component {
             important:"", 
             datesToFinish:"", 
             categorie:"", 
+            doneDate:"", 
+            noteStatus: this.props.expenses ? "closed" : "open"
         }
 
         }
@@ -58,10 +60,8 @@ class NotesList extends React.Component {
     }
 
 
-    displayLinkedNotes = (expenses) => 
-    // {
-    // const exp = expenses.sort((a,b) => (a.sRelevance > b.sRelevance) ? -1: 1)
-    expenses.map(expense => (
+    displayLinkedNotes = (expenses ) => 
+        expenses.map(expense => (
     <li
         key={expense.id}  
         onClick ={() => this.setActiveNote(expense)}
@@ -117,38 +117,11 @@ onSubmitChanges = () => {
    
 }
 
-// onDescriptionChange = (e) =>{
-//     const description = e.target.value
-//     this.setState(()=>({description}))
-// }
-// onNoteDescriptionChange = (e) =>{
-//     const noteDecscription = e.target.value
-//     this.setState(()=>({noteDecscription}))
-// }
-// onRelevanveChange = (e) =>{
-//     const relevance = e.target.value
-//     this.setState(()=>({relevance}))
-// }
-// onimportantChange = (e) =>{
-//     const important = e.target.value
-//     this.setState(()=>({important}))
-// }
-// onDateChange = (datesToFinish) => {
-//     this.setState(()=> ({datesToFinish}))
-// }
-
-// onCategorieChange = (e) => {
-//     const categorie = e.target.value
-//     this.setState(()=>({categorie}))
-// }
-
 displayMetaData = () => {
     
     const {activeNote, description, noteDecscription, important, relevance } = this.state
         return (
-            <div>
-                <div>
-                    {/* <form onSubmit={this.onSubmit} > */}
+                <div >
                   <input
                      type="text"
                     placeholder=  "Beschreibung"
@@ -177,12 +150,30 @@ displayMetaData = () => {
                    <button
                    onClick = {this.onSubmitChanges}
                    >Take Changes</button>
-                   {/* </form> */}
+
+                   
 
                 </div>
-            </div>
         )
     }
+
+    statusChange = () => {
+        const noteStatus = "closed"
+        const updates = {noteStatus}
+
+        this.props.editExpense (this.state.activeNote.id, updates)
+
+    }
+
+    changDisplayNotesOnStateus = () => {
+        if (this.state.noteStatus === "open") {
+            this.setState(()=>({noteStatus:"closed"}))
+
+        } else {
+            this.setState(()=>({noteStatus:"open"})) 
+        }
+    }
+
 
 
 
@@ -192,9 +183,7 @@ displayMetaData = () => {
         return (
      
             <div>
-                <div>
-                    {this.displayCategories(categories)}
-                </div>
+
 
                 <div>
                     <AddNotes 
@@ -205,38 +194,54 @@ displayMetaData = () => {
 
                     />
                 </div>
-                <button
-                onClick= {this.handelRemoveNote}
-                >
-                    remove
-                </button>
                 <div>
-
-                    {/* {this.displayLinkedNotes(this.state.filteredExp.sort((a,b) => (a.sRelevance > b.sRelevance) ? -1: 1)) } */}
-
-                    {this.displayLinkedNotes(expenses)}
-
-                   {/* { this.displayLinkedNotes(expenses.sort((a,b) => (a.sRelevance > b.sRelevance) ? -1: 1)) } */}
-
-
+                    <button
+                    onClick = {this.changDisplayNotesOnStateus}
+                    >
+                        show:  {this.state.noteStatus}
+                    </button>
                 </div>
 
-                <div>
-                        <ShowEditNotes 
-                        activeNote ={activeNote}
-                        relevance = {relevance}
-                        important = {important}
-                        noteDecscription = {noteDecscription}
-                       description = {description}
-                       datesToFinish = {datesToFinish}
-
-
-                        editExpense = {this.props.editExpense}
-                        />
-                        {/* {this.displayMetaData()} */}
-
-
+                <div className = "categorie" >
+                    {this.displayCategories(categories)}
                 </div>
+
+               
+                <div>
+                    <div className="box">
+
+                        {this.displayLinkedNotes(expenses.filter(expense => expense.noteStatus === this.state.noteStatus))}
+
+                    </div>
+
+                    <div className="box">
+                            <ShowEditNotes 
+                            
+                            activeNote ={activeNote}
+                            relevance = {relevance}
+                            important = {important}
+                            noteDecscription = {noteDecscription}
+                        description = {description}
+                        datesToFinish = {datesToFinish}
+
+
+                            editExpense = {this.props.editExpense}
+                            />
+                    </div>
+                    
+                </div>
+                    <button
+                        onClick= {this.handelRemoveNote}
+                        >
+                            remove Note
+                        </button>
+                <div>
+                    <button
+                    onClick = {this.statusChange}
+                    >
+                        change Status 
+                    </button>
+            </div>
             </div>
         )
     } 
@@ -256,6 +261,7 @@ const mapDispatchToProps =(dispatch) =>({
     addExpense: (expense) => dispatch(addExpense(expense)),
     setCategorie: (categorie) => dispatch(setCategorie(categorie)),
     editExpense: (id, updates) => dispatch(editExpense(id, updates)), 
+    changeStatus: (id, updates) => dispatch(changeStatus(id, updates)), 
 
 
 }) 

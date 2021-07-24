@@ -10,6 +10,8 @@
     "css-loader": "^6.2.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "moment": "^2.29.1",
+    "node-sass": "^6.0.1",
+    "normalize.css": "^8.0.1",
     "react": "^17.0.2",
     "react-addons-shallow-compare": "^15.6.3",
     "react-dates": "^21.8.0",

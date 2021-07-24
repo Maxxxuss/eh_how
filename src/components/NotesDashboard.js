@@ -8,7 +8,6 @@ import Categorie from './Categorie'
 
 const NotesDashboardPage = (props) => (
     <div>
-        <Categorie/>
         <NotesList/>
         <NoteListFilter/>
 

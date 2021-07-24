@@ -4,6 +4,7 @@ import moment from 'moment'
 import 'react-dates/initialize';
 import { parse } from 'uuid';
 import { locCache, setLocalStorageState} from '../store/configureStore';
+import { Header } from 'semantic-ui-react';
 
 
 
@@ -106,33 +107,14 @@ export default class AddNotes extends React.Component {
 
 }
     }
-//     impLocStora = () => {
-//         document.querySelector('.sbm').addEventListener('click', () => {
 
-//             let fileReader = new FileReader();
-//             fileReader.onload = function () {
-//                 let parsedJSON = JSON.parse(fileReader.result);
-//                 lssave(parsedJSON);                 
-//             }
-//             fileReader.readAsText(document.querySelector('.file').files[0]);
-            
-//         }) 
-//             function lssave(json) {
-//                 console.log(json)
-
-// }
-//     }
-    
     
 
     render () {
         const {datesToFinish} = this.state
         return (
-            <div>
-                <h1>
+            <div className="header">
 
-                    asd  ss !!  sqwwww  Nice
-                </h1>
 
                 <div>
                     <div>
@@ -203,13 +185,6 @@ export default class AddNotes extends React.Component {
                        datesToFinish:  {moment(datesToFinish).format("ddd - DD.MM.YY")}
                    </p>
               
-                    {/* <SingleDatePicker
-                    date={this.state.datesToFinish}
-                    onDateChange={this.onDateChange}
-                    focused={this.state.calenderFocused}
-                    onFocusChange={this.onFucusChange}
-                    // id="seqwe2e1n"
-                    />  */}
 
                    <textarea 
                    placeholder= "NoteDescription"

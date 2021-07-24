@@ -11,6 +11,7 @@ export const addExpense = (
     datesToFinish,
     calenderFocused,
     categorie, 
+    noteStatus, 
  
   } = {}
 ) => ({
@@ -25,6 +26,7 @@ export const addExpense = (
     calenderFocused, 
     relevance, 
     categorie,
+    noteStatus, 
 }
 });
 
@@ -52,3 +54,10 @@ export const editExpense = (id, updates) =>
   updates, 
 }
 );
+
+export const changeStatus = (id, updates) =>
+({
+  type: 'CHANGE_STATUS',
+  id,
+  updates, 
+});

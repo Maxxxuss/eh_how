@@ -7,6 +7,8 @@ export const getAllExpenses = createSelector(
   getExpenses, 
   expenses => expenses.map(expense => ({
     id: expense.id,
+    doneDate: expense.doneDate ? expense.doneDate :"",
+    noteStatus: expense.noteStatus ? expense.noteStatus: "open", 
     description: expense.description ? expense.description: "" ,
     prio: calculatePrio(expense.relevance, expense.relevance, expense.datesToFinish),
     datesToFinish: expense.datesToFinish ? expense.datesToFinish : "",
@@ -17,7 +19,7 @@ export const getAllExpenses = createSelector(
     noteDecscription: expense.noteDecscription? expense.noteDecscription: "" ,
     datesToFinish: expense.datesToFinish? expense.datesToFinish: "" ,
     // calenderFocused: expense.calenderFocused? expense.calenderFocused: "" ,
-    date: randomDate(),
+
   
   })), 
 )
@@ -53,12 +55,6 @@ function calculatePrio(important, relevance, datesToFinish) {
   
   var calc = important * relevance 
   var faktor =  (3-days)*0.8
-
-
-  console.log(days);
-  console.log("_________");
-  console.log("3+ Days:", faktor);
-
 
   if ( days < 0 ) {
     return calc * (3-days)
