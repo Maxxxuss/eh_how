@@ -90,68 +90,35 @@ export default class AddNotes extends React.Component {
             a.click();
           }
 
-    impLocStora = () => {
-
-            let fileReader = new FileReader();
-            fileReader.onload = function () {
-                let parsedJSON = JSON.parse(fileReader.result);
-                lssave(parsedJSON);                 
-            }
-            fileReader.readAsText(document.querySelector('.file').files[0]);
-            
-
-            function lssave(jsone) {
-                setLocalStorageState(JSON.stringify(jsone))
-    
-
-
-}
-    }
-
-    
 
     render () {
         const {datesToFinish} = this.state
         return (
-            <div className="header">
+            <div className="addNotesComponent">
 
 
-                <div>
-                    <div>
-                    <input type="file" className="file"/>
-                    <button onClick= {this.impLocStora}
+
+                <div
+                className="addCategorie"
+
+                >
                     
-                    >Submit</button>
-                    </div>
+                  <input
+ 
+                    tpye= "text"
+                    placeholder = "categorie"
+                    value= {this.state.categorie}
+                    onChange = {this.onCategorieChange}
+                    />
 
-                    <button 
-                    onClick = {this.impLocStora}
-                    > 
-                    Import
+
+                    <button
+                    onClick = {this.onCategorieSubmit}
+                    >Add Categorie
                     </button>
-     
-
-                </div>
-
-                <div>
-                    
-                  <input 
-                   tpye= "text"
-                   placeholder = "categorie"
-                   value= {this.state.categorie}
-                   onChange = {this.onCategorieChange}
-                   />
-                   <button
-                //    onClick = {this.onCategorieSubmit}
-                onClick = {this.onLocalStorage}
-                   >Export LocalSt</button>
-
-                <button
-                   onClick = {this.onCategorieSubmit}
-                   >Add Categorie</button>
                 </div>
         
-            <div>
+            <div className="addNotes">
                 <form onSubmit={this.onSubmit}>
                     <input
                      type="text"
@@ -162,6 +129,7 @@ export default class AddNotes extends React.Component {
 
                     />
                       <input
+                      className= "addInput"
                      type="text"
                     placeholder="Relevance"
                     
@@ -181,9 +149,16 @@ export default class AddNotes extends React.Component {
                 //    value = {this.state.datesToFinish}
                    onChange = {this.onDateChange}
                    />
+
                    <p>
                        datesToFinish:  {moment(datesToFinish).format("ddd - DD.MM.YY")}
                    </p>
+
+                   <input 
+                   type = "text"
+                   placeholder = "Categorie"
+
+                   />
               
 
                    <textarea 
@@ -198,6 +173,10 @@ export default class AddNotes extends React.Component {
 
 
                 </form>
+
+
+
+
                 </div>
             </div>
 

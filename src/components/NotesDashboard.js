@@ -4,12 +4,14 @@ import NoteListFilter from './NoteListFilter'
 import { connect } from 'react-redux'
 import store from '../store/configureStore'
 import Categorie from './Categorie'
+import ImpExpData from './ImpExpData'
 
 
 const NotesDashboardPage = (props) => (
     <div>
         <NotesList/>
         <NoteListFilter/>
+        <ImpExpData/>
 
     </div>
 )

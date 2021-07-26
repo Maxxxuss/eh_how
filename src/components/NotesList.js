@@ -5,6 +5,7 @@ import {removeExpense, addExpense, editExpense, changeStatus} from '../actions/n
 import { getAllCategories } from '../selectors/categories'
 import { getAllExpenses } from '../selectors/notes'
 import AddNotes from './AddNotes'
+import DropDownCategorie from './DropDownCategorie'
 import ShowEditNotes from './ShowEditNotes'
 
 
@@ -27,7 +28,7 @@ class NotesList extends React.Component {
             datesToFinish:"", 
             categorie:"", 
             doneDate:"", 
-            noteStatus: this.props.expenses ? "closed" : "open"
+            noteStatus: this.props.expenses ? "open" : "closed"
         }
 
         }
@@ -215,6 +216,11 @@ displayMetaData = () => {
                     </div>
 
                     <div className="box">
+                        <DropDownCategorie
+                           activeNote ={activeNote}
+
+                        />
+
                             <ShowEditNotes 
                             
                             activeNote ={activeNote}

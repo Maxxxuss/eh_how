@@ -4,6 +4,7 @@ import { isNextDay } from "react-dates"
 import { connect  } from 'react-redux' 
 import { editExpense } from "../actions/notes"
 import { getAllExpenses } from "../selectors/notes"
+import DropDownCategorie from "./DropDownCategorie"
 
 export default class ShowEditNotes extends React.Component {
         
@@ -117,24 +118,14 @@ export default class ShowEditNotes extends React.Component {
                    {/* </form> */}
 
                 </div>
+                <div>
+                    {/* <DropDownCategorie
+                    activeNote ={this.props.activeNote} 
+                    /> */}
+
+                </div>
             </div>
         )
     }
 
 }
-
-
-// const mapStateToProps = (state)=>{
-//     return{
-//         expenses : getAllExpenses(state).sort((a,b) => (a.sRelevance > b.sRelevance) ? -1: 1),
-//         activeNote : getAllExpenses(state)
-        
-//     }
-// }
-
-// const mapDispatchToProps =(dispatch) =>({
-//     editExpense: (id, updates) => dispatch(editExpense(id, updates)), 
-
-
-// }) 
-
