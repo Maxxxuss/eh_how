@@ -202,17 +202,13 @@ const ControllerButton = styled('button')({
 const onAttention = '&:hover, &:focus'
 const Input = styled('input')(
   {
-    width: '100%', // full width - icon width/2 - border
+    width: '60%', // full width - icon width/2 - border
     fontSize: 14,
     wordWrap: 'break-word',
-    lineHeight: '1em',
     outline: 0,
     whiteSpace: 'normal',
-    minHeight: '2em',
     background: '#fff',
     display: 'inline-block',
-    padding: '1em 2em 1em 1em',
-    color: 'rgba(0,0,0,.87)',
     boxShadow: 'none',
     border: '1px solid rgba(34,36,38,.15)',
     borderRadius: '.30rem',
