@@ -7,8 +7,9 @@ import { getAllExpenses } from '../selectors/notes'
 import AddCategorie from './AddCategorie'
 import DropDownCategorie from './DropDownCategorie'
 import ShowEditNotes from './ShowEditNotes'
-import moment from "moment"
-
+import moment, { relativeTimeRounding } from "moment"
+import { colors, TextField } from '@material-ui/core'
+import { yellow } from '@material-ui/core/colors'
 
 
 class NotesList extends React.Component {
@@ -32,8 +33,8 @@ class NotesList extends React.Component {
             doneDate: "",
             noteStatus: this.props.expenses ? "open" : "closed"
         }
-
     }
+
 
     clearShowEditNotes = () => {
         this.setState({
@@ -43,7 +44,8 @@ class NotesList extends React.Component {
             noteDecscription: "",
             categorie: "",
             datesToFinish: "",
-            activeNote: ""
+            activeNote: "",
+            categorie:""
         })
     }
 
@@ -70,6 +72,7 @@ class NotesList extends React.Component {
     displayLinkedNotes = (expenses) =>
         expenses.map(expense => (
             <li
+                className={"selected" ? "selected" : ""}
                 key={expense.id}
                 onClick={() => this.setActiveNote(expense)}
             >
@@ -80,12 +83,14 @@ class NotesList extends React.Component {
         )
     displayCategories = (categories) =>
         categories.map(categorie => (
+
             <li
                 key={categorie.id}
                 onClick={() => this.setActiveCategorie(categorie)}
             >
                 {categorie.catName}
             </li>
+
         )
         )
 
@@ -117,6 +122,14 @@ class NotesList extends React.Component {
         ),
             console.log("expense on DisplLinkNodtes", expenses)
         )
+
+    clearCategorie = () => {
+        console.log("categorie State: ", this.state.categorie);
+        this.setState({ filteredExp: "" })
+        this.displayLinkedNotes(this.props.expenses)
+    }
+
+
 
 
     onSubmitChanges = () => {
@@ -250,161 +263,204 @@ class NotesList extends React.Component {
         if (activeNote === "") {
             return (
                 <button
-                onClick={this.onSubmitAddNote}
-            > Add Note </button>
+                    onClick={this.onSubmitAddNote}
+                > Add Note </button>
             )
         } else {
             return (
                 <button
-                onClick={this.onSubmitChanges}
-            >Take Changes</button>
+                    onClick={this.onSubmitChanges}
+                >Take Changes</button>
             )
-            
+
         }
     }
 
 
+    render() {
+        const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish } = this.state
+        const { expenses, categories } = this.props
+        // const  classes = useStyles()
 
-
-render() {
-    const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish } = this.state
-    const { expenses, categories } = this.props
-    return (
-
-        <div>
-            <div>
-                <AddCategorie
-                    categories={this.props.categories}
-                    setCategorie={this.props.setCategorie}
-                    activeCategorie={this.state.activeCategorie}
-                />
-            </div>
-            <div>
-                <button
-                    onClick={this.changDisplayNotesOnStateus}
-                >
-                    show:  {this.state.noteStatus}
-                </button>
-            </div>
-
-            <div className="categorie" >
-                {this.displayCategories(categories)}
-            </div>
+        return (
 
             <div>
-                <div className="box">
-                    {filteredExp ? this.displayLinkedNotes(filteredExp) : this.displayLinkedNotes(expenses)}
-                </div>
-
-                <div className="box">
-                    {this.buttonAddTakeChanges()}
-
-
-                    <button
-                        onClick={this.clearShowEditNotes}
-                    > Clear</button>
-
-                    <DropDownCategorie
-                        activeNote={activeNote}
+                <div>
+                    <AddCategorie
+                        categories={this.props.categories}
+                        setCategorie={this.props.setCategorie}
+                        activeCategorie={this.state.activeCategorie}
                     />
-
-
-                    <div>
-                        <div>
-
-                            <label
-                                for="description"
-                            > Title </label>
-                            <input
-                                id="description"
-                                type="text"
-                                placeholder="Beschreibung"
-                                value={description}
-                                onChange={this.onDescriptionChange}
-
-                            />
-                        </div>
-                        <div>
-                            <label
-                                for="relevance"
-                            > Relevanz </label>
-
-                            <input
-                                id="relevance"
-
-                                type="text"
-                                placeholder="Relevance"
-                                value={relevance}
-
-                                onChange={this.onRelevanveChange}
-                            />
-                        </div>
-                        <div>
-
-                            <label
-                                for="important"
-                            > Wichtigkeit </label>
-                            <input
-                                id="important"
-                                type="text"
-                                placeholder="important"
-                                value={important}
-                                onChange={this.onimportantChange}
-                            />
-
-                        </div>
-
-                        <div>
-                            <label
-                                for="FinishTill"
-                            > Done Till </label>
-                            <input
-                                id="FinishTill"
-                                type="text"
-                                placeholder="Finish Till"
-                                value={datesToFinish ? moment(datesToFinish).format("ddd - DD.MM.YY") : ""}
-                                onChange={this.onDateChange}
-                            />
-                        </div>
-
-                        <div>
-                            <label
-                                for="NoteDEscription^"
-                            > Beschreibung </label>
-
-                            <textarea
-                                className="seTextarea"
-                                id="NoteDEscription"
-                                placeholder="NoteDescription"
-                                value={noteDecscription}
-
-                                onChange={this.onNoteDescriptionChange}
-                            />
-                        </div>
-                        <p>
-                            datesToFinish:  {moment(datesToFinish).format("ddd - DD.MM.YY")}
-                        </p>
-
-
-                    </div>
+                </div>
+                <div>
+                    <button
+                        onClick={this.changDisplayNotesOnStateus}
+                    >
+                        show:  {this.state.noteStatus}
+                    </button>
                 </div>
 
-            </div>
-            <button
-                onClick={this.handelRemoveNote}
-            >
-                remove Note
-            </button>
-            <div>
+                <div>
+
+                    <li
+                        onClick={this.clearCategorie}
+                    >
+                        All
+                    </li>
+
+                    <div className="categorie" >
+                        {this.displayCategories(categories)}
+                    </div>
+
+
+                </div>
+
+
+                <div>
+                    <div className="box">
+                        {filteredExp ? this.displayLinkedNotes(filteredExp) : this.displayLinkedNotes(expenses)}
+                    </div>
+
+                    <div className="box">
+                        {this.buttonAddTakeChanges()}
+
+
+                        <button
+                            onClick={this.clearShowEditNotes}
+                        > Clear</button>
+
+                        <DropDownCategorie
+                            activeNote={activeNote}
+                        />
+
+
+                        <div>
+                            <div
+                            >
+                                <div
+                                >
+
+                                    <TextField
+                                        id="filled-basic"
+                                        label="Titel"
+                                        variant="filled"
+                                        value={description}
+                                        onChange={this.onDescriptionChange}
+                                        // margin="dense"
+                                        width="300"
+                                        inputProps={{
+                                            style: { fontSize: 16 }
+                                        }}
+
+                                    />
+                                </div>
+                                <div>
+
+                                    <TextField
+                                        id="filled-basic"
+                                        label="Relevance"
+                                        variant="filled"
+                                        value={relevance}
+                                        onChange={this.onRelevanveChange}
+                                        margin="dense"
+                                        inputProps={{
+                                            style: { fontSize: 16 }
+                                        }}
+                                    />
+                                </div>
+
+                                <div>
+                                    <TextField
+                                        id="filled-basic"
+                                        label="Wichtig"
+                                        variant="filled"
+                                        value={important}
+                                        onChange={this.onimportantChange}
+                                        margin="dense"
+                                        inputProps={{
+                                            style: {
+                                                fontSize: 16,
+                                                // backgroundColor: 'yellow'
+                                            },
+
+
+                                        }}
+                                    />
+                                </div>
+
+                                <div>
+
+                                    <TextField
+                                        id="filled-basic"
+                                        label="FinishTill"
+                                        variant="filled"
+                                        value={datesToFinish ? moment(datesToFinish).format("ddd - DD.MM.YY") : ""}
+                                        onChange={this.onDateChange}
+                                        margin="dense"
+                                        inputProps={{
+                                            style: { fontSize: 16 }
+                                        }}
+
+                                    />
+                                </div>
+
+                                <div>
+                                    <TextField
+                                        id="filled-basic"
+                                        label="Note Description"
+                                        variant="outlined"
+                                        value={noteDecscription}
+                                        onChange={this.onNoteDescriptionChange}
+                                        margin="normal"
+
+                                        minRows="10"
+
+                                        // rowsMax
+                                        multiline
+                                        fullWidth
+
+
+                                        inputProps={{
+                                            style: {
+                                                fontSize: 16,
+                                                padding: 2,
+                                                height: 200,
+                                                lineHeight: 1.2
+                                            }
+                                        }}
+
+
+
+
+                                    />
+                                </div>
+                            </div>
+
+
+                            <p>
+                                datesToFinish:  {moment(datesToFinish).format("ddd - DD.MM.YY")}
+                            </p>
+
+
+                        </div>
+                    </div>
+
+                </div>
                 <button
-                    onClick={this.statusChange}
+                    onClick={this.handelRemoveNote}
                 >
-                    change Status
+                    remove Note
                 </button>
+                <div>
+                    <button
+                        onClick={this.statusChange}
+                    >
+                        change Status
+                    </button>
+                </div>
             </div>
-        </div>
-    )
-}
+        )
+    }
 }
 
 
