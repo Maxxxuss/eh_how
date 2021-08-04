@@ -10,6 +10,7 @@ import ShowEditNotes from './ShowEditNotes'
 import moment, { relativeTimeRounding } from "moment"
 import { colors, TextField } from '@material-ui/core'
 import { yellow } from '@material-ui/core/colors'
+import DropDownCat from './DopDownCatMat'
 
 
 class NotesList extends React.Component {
@@ -45,7 +46,7 @@ class NotesList extends React.Component {
             categorie: "",
             datesToFinish: "",
             activeNote: "",
-            categorie:""
+            categorie: ""
         })
     }
 
@@ -329,9 +330,20 @@ class NotesList extends React.Component {
                             onClick={this.clearShowEditNotes}
                         > Clear</button>
 
-                        <DropDownCategorie
+                        {/* <DropDownCategorie
                             activeNote={activeNote}
-                        />
+                        /> */}
+
+                        <div>
+                            <DropDownCat 
+                            activeNote={activeNote}
+                            categories = {categories}
+                            
+                            
+                            />
+                        </div>
+
+
 
 
                         <div>
