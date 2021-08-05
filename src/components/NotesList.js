@@ -353,7 +353,6 @@ class NotesList extends React.Component {
                                 >
 
                                     <TextField
-                                        id="filled-basic"
                                         label="Titel"
                                         variant="filled"
                                         value={description}
@@ -369,7 +368,6 @@ class NotesList extends React.Component {
                                 <div>
 
                                     <TextField
-                                        id="filled-basic"
                                         label="Relevance"
                                         variant="filled"
                                         value={relevance}
@@ -383,7 +381,6 @@ class NotesList extends React.Component {
 
                                 <div>
                                     <TextField
-                                        id="filled-basic"
                                         label="Wichtig"
                                         variant="filled"
                                         value={important}
@@ -403,7 +400,6 @@ class NotesList extends React.Component {
                                 <div>
 
                                     <TextField
-                                        id="filled-basic"
                                         label="FinishTill"
                                         variant="filled"
                                         value={datesToFinish ? moment(datesToFinish).format("ddd - DD.MM.YY") : ""}
@@ -418,7 +414,6 @@ class NotesList extends React.Component {
 
                                 <div>
                                     <TextField
-                                        id="filled-basic"
                                         label="Note Description"
                                         variant="outlined"
                                         value={noteDecscription}
