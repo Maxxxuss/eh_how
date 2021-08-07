@@ -8,9 +8,22 @@ import AddCategorie from './AddCategorie'
 import DropDownCategorie from './DropDownCategorie'
 import ShowEditNotes from './ShowEditNotes'
 import moment, { relativeTimeRounding } from "moment"
-import { colors, TextField } from '@material-ui/core'
+import {
+    colors,
+    TextField,
+    Button,
+    Box,
+    makeStyles,
+    ButtonGroup,
+    AppBar,
+    Tabs,
+    Tab,
+
+} from '@material-ui/core'
 import { yellow } from '@material-ui/core/colors'
 import DropDownCat from './DopDownCatMat'
+import { Autocomplete } from '@material-ui/lab';
+
 
 
 class NotesList extends React.Component {
@@ -32,7 +45,8 @@ class NotesList extends React.Component {
             datesToFinish: "",
             categorie: "",
             doneDate: "",
-            noteStatus: this.props.expenses ? "open" : "closed"
+            noteStatus: this.props.expenses ? "open" : "closed",
+            tabCategorie: 0
         }
     }
 
@@ -53,6 +67,7 @@ class NotesList extends React.Component {
 
     handelRemoveNote = () => {
         this.props.removeExpense({ id: this.state.activeNote.id })
+        this.clearShowEditNotes()
     }
 
     setActiveNote = (expense) => {
@@ -188,10 +203,18 @@ class NotesList extends React.Component {
         console.log(this.state.datesToFinish);
     }
 
-    onCategorieChange = (e) => {
+    onCateChange = (e) => {
         const categorie = e.target.value
         this.setState(() => ({ categorie }))
+        console.log(this.state.categorie);
     }
+
+    onTabChange = (e, newValue) => {
+        const tabCategorie = newValue
+        this.setState(() => ({ tabCategorie }))
+        console.log("Tab categorei: ", this.state.tabCategorie);
+    }
+
 
 
     onSubmitChanges = (e) => {
@@ -203,11 +226,12 @@ class NotesList extends React.Component {
         const relevance = this.state.relevance
         const important = this.state.important
         const notDes = this.state.noteDecscription
+        const categorie = this.state.categorie
         // const noteDecscription =(timeStamp.concat("\n", notDes, "\n"))
         // const noteDecscription =(timeStamp.concat( "\n", notDes, "\n"))
         const noteDecscription = (space.concat(space, timeStamp, space, notDes, space,))
 
-        const updates = { description, relevance, important, noteDecscription }
+        const updates = { description, relevance, important, noteDecscription, categorie }
 
         this.props.editExpense(this.state.activeNote.id, updates)
         console.log("edit Expense: ", this.state.activeNote.id, updates);
@@ -228,8 +252,9 @@ class NotesList extends React.Component {
             noteDecscription: (space.concat(space, timeStamp, space, this.state.noteDecscription)),
 
             // datesToFinish: this.state.datesToFinish.valueOf(),
-            categorie: this.props.activeCategorie ? this.props.activeCategorie.id : undefined,
-            datesToFinish: this.state.datesToFinish
+            // categorie: this.props.activeCategorie ? this.props.activeCategorie.id : undefined,
+            datesToFinish: this.state.datesToFinish,
+            categorie: this.state.categorie
         })
         this.clearShowEditNotes()
     }
@@ -263,58 +288,149 @@ class NotesList extends React.Component {
 
         if (activeNote === "") {
             return (
-                <button
+                <Button
+                    variant="contained"
+                    color="primary"
                     onClick={this.onSubmitAddNote}
-                > Add Note </button>
+                > Add Note </Button>
             )
         } else {
             return (
-                <button
+                <Button
+                    variant="contained"
+                    color="primary"
                     onClick={this.onSubmitChanges}
-                >Take Changes</button>
+                >Take Changes</Button>
             )
 
         }
     }
 
 
+    useStyles = makeStyles((theme) => ({
+        root: {
+            display: 'flex',
+            flexWrap: 'wrap',
+        },
+        textField: {
+            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(1),
+            width: '25ch',
+        },
+    }));
+
+    useStyles = makeStyles((theme) => ({
+        root: {
+            display: 'flex',
+            flexWrap: 'wrap',
+        },
+        textField: {
+            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(1),
+            width: '25ch',
+        },
+    }));
+
+    a11yProps(index) {
+        return {
+            id: `action-tab-${index}`,
+            "aria-controls": `action-tabpanel-${index}`
+        };
+    }
+
+
+    ProjectTab = (categories) =>
+        categories.map(categorie => (
+
+
+
+            <Tab
+                key={categorie.id}
+                label={categorie.catName}
+                onClick={() => this.setActiveCategorie(categorie)}
+
+            >
+            </Tab>
+
+        ))
+
+
+
+
+
+
+
     render() {
-        const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish } = this.state
+        const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie } = this.state
         const { expenses, categories } = this.props
-        // const  classes = useStyles()
+        const { children, value, index, ...other } = this.props;
+
+
 
         return (
 
-            <div>
-                <div>
+            <div >
+                <Box>
                     <AddCategorie
                         categories={this.props.categories}
                         setCategorie={this.props.setCategorie}
                         activeCategorie={this.state.activeCategorie}
                     />
-                </div>
-                <div>
-                    <button
+                </Box>
+                <Box
+                    ml={2}
+                >
+                    <Button
+                        variant="contained"
                         onClick={this.changDisplayNotesOnStateus}
                     >
                         show:  {this.state.noteStatus}
-                    </button>
-                </div>
+                    </Button>
+                </Box>
 
-                <div>
+                <Box
+                    ml={2}
+                    mt={1}
+                    mb={1}
 
-                    <li
-                        onClick={this.clearCategorie}
-                    >
-                        All
-                    </li>
-
-                    <div className="categorie" >
-                        {this.displayCategories(categories)}
-                    </div>
+                >
 
 
-                </div>
+
+
+                </Box>
+
+                <Box
+                    mb={2}
+                    mr={2}
+                    ml={2}
+
+
+                >
+
+                    <AppBar position="static" color="default">
+                        <Tabs
+                            value={tabCategorie}
+                            onChange={this.onTabChange}
+                            indicatorColor="secondary"
+                            textColor="primary"
+                            variant="fullWidth"
+                            aria-label="action tabs example"
+                            // centered
+                        >
+                
+                            <Tab
+                                label="ALL"
+                                onClick={this.clearCategorie}
+                                color="primary"
+                            >
+
+                            </Tab>
+                            {this.ProjectTab(categories)}
+                        </Tabs>
+                    </AppBar>
+
+                </Box>
 
 
                 <div>
@@ -323,24 +439,85 @@ class NotesList extends React.Component {
                     </div>
 
                     <div className="box">
-                        {this.buttonAddTakeChanges()}
+
+                        <Box
+                            mb={2}
+
+                        >
+                            <ButtonGroup
+                                color="primary"
+                                variant="text"
+                                size="large"
+                                fullWidth
+
+                            >
+                                {this.buttonAddTakeChanges()}
 
 
-                        <button
-                            onClick={this.clearShowEditNotes}
-                        > Clear</button>
+                                <Button
+                                    // variant="contained"
+                                    // color="primary"
+                                    onClick={this.clearShowEditNotes}
 
-                        {/* <DropDownCategorie
-                            activeNote={activeNote}
-                        /> */}
+
+                                > Clear</Button>
+
+
+
+
+
+
+                                <Button
+                                    // variant="contained"
+                                    // color="primary"
+                                    onClick={this.statusChange}
+                                >
+                                    change Status
+                                </Button>
+
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={this.handelRemoveNote}
+                                >
+                                    remove
+                                </Button>
+
+                            </ButtonGroup>
+
+
+                        </Box>
+
+
+
 
                         <div>
-                            <DropDownCat 
-                            activeNote={activeNote}
-                            categories = {categories}
-                            
-                            
-                            />
+
+
+                            <div>
+
+                                <Autocomplete
+                                    id="combo-box-demo"
+                                    options={categories}
+
+                                    getOptionLabel={(option) => (option ? option.catName : [])}
+                                    inputValue={categorie.toString()}
+                                    onInputChange={(event, categorie) => {
+                                        this.setState({ categorie })
+                                    }}
+                                    onChange={this.onCateChange}
+
+                                    renderInput={(params) =>
+                                        <TextField {...params}
+                                            label="Project"
+                                            variant="outlined"
+                                            autoFocus
+
+
+                                        />}
+
+                                />
+                            </div>
                         </div>
 
 
@@ -353,12 +530,11 @@ class NotesList extends React.Component {
                                 >
 
                                     <TextField
-                                        id="filled-basic"
                                         label="Titel"
                                         variant="filled"
                                         value={description}
                                         onChange={this.onDescriptionChange}
-                                        // margin="dense"
+                                        margin="dense"
                                         width="300"
                                         inputProps={{
                                             style: { fontSize: 16 }
@@ -366,24 +542,27 @@ class NotesList extends React.Component {
 
                                     />
                                 </div>
-                                <div>
-
+                                <div className="box_relprio">
                                     <TextField
-                                        id="filled-basic"
                                         label="Relevance"
                                         variant="filled"
                                         value={relevance}
                                         onChange={this.onRelevanveChange}
                                         margin="dense"
+
                                         inputProps={{
-                                            style: { fontSize: 16 }
+                                            style: {
+                                                width: 50,
+                                                fontSize: 16
+
+
+                                            }
                                         }}
                                     />
-                                </div>
 
-                                <div>
+
+
                                     <TextField
-                                        id="filled-basic"
                                         label="Wichtig"
                                         variant="filled"
                                         value={important}
@@ -391,19 +570,16 @@ class NotesList extends React.Component {
                                         margin="dense"
                                         inputProps={{
                                             style: {
+                                                width: 50,
                                                 fontSize: 16,
-                                                // backgroundColor: 'yellow'
+
                                             },
 
 
                                         }}
                                     />
-                                </div>
-
-                                <div>
 
                                     <TextField
-                                        id="filled-basic"
                                         label="FinishTill"
                                         variant="filled"
                                         value={datesToFinish ? moment(datesToFinish).format("ddd - DD.MM.YY") : ""}
@@ -412,13 +588,17 @@ class NotesList extends React.Component {
                                         inputProps={{
                                             style: { fontSize: 16 }
                                         }}
-
                                     />
+
+                                </div>
+
+                                <div >
+
+
                                 </div>
 
                                 <div>
                                     <TextField
-                                        id="filled-basic"
                                         label="Note Description"
                                         variant="outlined"
                                         value={noteDecscription}
@@ -430,6 +610,7 @@ class NotesList extends React.Component {
                                         // rowsMax
                                         multiline
                                         fullWidth
+
 
 
                                         inputProps={{
@@ -449,26 +630,19 @@ class NotesList extends React.Component {
                             </div>
 
 
-                            <p>
-                                datesToFinish:  {moment(datesToFinish).format("ddd - DD.MM.YY")}
-                            </p>
+
 
 
                         </div>
                     </div>
 
                 </div>
-                <button
-                    onClick={this.handelRemoveNote}
-                >
-                    remove Note
-                </button>
+
                 <div>
-                    <button
-                        onClick={this.statusChange}
-                    >
-                        change Status
-                    </button>
+                    <div>
+
+
+                    </div>
                 </div>
             </div>
         )

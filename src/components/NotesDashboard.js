@@ -10,7 +10,7 @@ import ImpExpData from './ImpExpData'
 const NotesDashboardPage = (props) => (
     <div>
         <NotesList/>
-        <NoteListFilter/>
+        {/* <NoteListFilter/> */}
         <ImpExpData/>
 
     </div>

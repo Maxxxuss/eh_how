@@ -17,7 +17,7 @@ export const getAllExpenses = createSelector(
     relevance: expense.relevance? expense.relevance: "" ,
     important: expense.important? expense.important: "" ,
     noteDecscription: expense.noteDecscription? expense.noteDecscription: "" ,
-    datesToFinish: expense.datesToFinish? expense.datesToFinish: moment().format() ,
+    datesToFinish: expense.datesToFinish? expense.datesToFinish: moment().add(1, 'days')
     // calenderFocused: expense.calenderFocused? expense.calenderFocused: "" ,
 
   
