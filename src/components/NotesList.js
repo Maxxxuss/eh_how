@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { setCategorie } from '../actions/categorie'
+import { setCategorie, removeCategorie } from '../actions/categorie'
 import { removeExpense, addExpense, editExpense, changeStatus } from '../actions/notes'
 import { getAllCategories } from '../selectors/categories'
 import { getAllExpenses } from '../selectors/notes'
@@ -18,6 +18,10 @@ import {
     AppBar,
     Tabs,
     Tab,
+    FormControlLabel,
+    Switch,
+    Grid,
+
 
 } from '@material-ui/core'
 import { yellow } from '@material-ui/core/colors'
@@ -31,13 +35,10 @@ class NotesList extends React.Component {
         super(props)
         this.state = {
             id: this.props.expenses.id ? this.props.expenses.id : "pups",
-            // description: 
-            // allExpenses: this.props.expenses ? this.props.expenses.sort((a,b) => (a.sRelevance > b.sRelevance) ? 1: -1) :"",
             activeNote: "",
             allExpenses: this.props.expenses,
             activeCategorie: "",
-            filteredExp: "",
-            // description: this.activeNote ? this.activeNote.description : this.description, 
+            filteredExp:  "", 
             description: "",
             noteDecscription: "",
             relevance: "",
@@ -45,8 +46,10 @@ class NotesList extends React.Component {
             datesToFinish: "",
             categorie: "",
             doneDate: "",
-            noteStatus: this.props.expenses ? "open" : "closed",
-            tabCategorie: 0
+            noteStatus: "open",
+            tabCategorie: 0,
+            information: "",
+            activeNoteStatus: ""
         }
     }
 
@@ -57,11 +60,13 @@ class NotesList extends React.Component {
             relevance: "",
             important: "",
             noteDecscription: "",
-            categorie: "",
             datesToFinish: "",
             activeNote: "",
-            categorie: ""
+            categorie: "", 
+            activeCategorie: this.state.activeCategorie,
         })
+
+
     }
 
 
@@ -83,9 +88,7 @@ class NotesList extends React.Component {
     }
 
 
-
-
-    displayLinkedNotes = (expenses) =>
+    displayNotes = (expenses) =>
         expenses.map(expense => (
             <li
                 className={"selected" ? "selected" : ""}
@@ -95,8 +98,11 @@ class NotesList extends React.Component {
                 {Math.round(expense.prio)}{" - "} {expense.description}
             </li>
         ),
-            console.log("expense on DisplLinkNodtes", expenses)
+            console.log("Notes on DisplNotes", expenses)
         )
+
+
+
     displayCategories = (categories) =>
         categories.map(categorie => (
 
@@ -114,67 +120,68 @@ class NotesList extends React.Component {
 
         this.setState({ activeCategorie: categorie })
         console.log("active Kategoei", this.state.activeCategorie.catName)
-        this.DisplyFilterExpensesByCate(this.props.expenses)
+        this.DisplyFilterExpensesByCate()
     }
 
-    DisplyFilterExpensesByCate = (expenses = this.props.expenses) => {
-        const filteExp = expenses.filter(expense => expense.categorie === this.state.activeCategorie.catName)
-        this.setState({ filteredExp: filteExp })
-        console.log(filteExp);
+    DisplyFilterExpensesByCate = () => {
 
-        this.displayLinkedNotes(filteExp)
-        this.setState({ filteredExp: filteExp })
+        const filteExp = this.props.expenses.filter(expense => expense.categorie === this.state.activeCategorie.catName)
+       const catFilteExp = filteExp.filter(catExp => catExp.noteStatus ==="open")
+       
+        this.setState({ filteredExp: catFilteExp })
 
     }
 
-    mapExpensesForDisplay = (expenses) =>
-        expenses.map(expense => (
-            <li
-                key={expense.id}
-                onClick={() => this.setActiveNote(expense)}
-            >
-                # {expense.sRelevance} {"--"} {expense.description}
-            </li>
-        ),
-            console.log("expense on DisplLinkNodtes", expenses)
-        )
 
     clearCategorie = () => {
         console.log("categorie State: ", this.state.categorie);
-        this.setState({ filteredExp: "" })
-        this.displayLinkedNotes(this.props.expenses)
+        this.setState({ filteredExp: this.props.expenses.filter(expense => expense.noteStatus === "open") })
+        this.displayNotes(this.props.expenses)
+        this.setState(()=>({activeCategorie: ""}))
     }
 
-
-
-
-    onSubmitChanges = () => {
-        const description = this.state.description
-        const relevance = this.state.relevance
-        const important = this.state.important
-        const noteDecscription = this.state.noteDecscription
-
-        const updates = { description, relevance, important, noteDecscription }
-
-        this.props.editExpense(this.state.activeNote.id, updates)
-        console.log("edit Expense: ", this.state.activeNote.id, updates);
-
-    }
 
     statusChange = () => {
-        const noteStatus = "closed"
-        const updates = { noteStatus }
 
-        this.props.editExpense(this.state.activeNote.id, updates)
+
+        if (this.state.activeNote.noteStatus === "open") {
+
+            this.setState(() => ({ noteStatus: "closed" }))
+
+            const updates = { noteStatus: "closed" }
+            this.props.editExpense(this.state.activeNote.id, updates)
+
+        } else {
+
+            this.setState(() => ({ noteStatus: "open" }))
+
+            const updates = { noteStatus: "open" }
+            this.props.editExpense(this.state.activeNote.id, updates)
+
+        }
+
 
     }
 
     changDisplayNotesOnStateus = () => {
-        if (this.state.noteStatus === "open") {
+        const expenses = this.props.expenses
+        const noteStatus = this.state.noteStatus
+
+        if (noteStatus === "open") {
+
             this.setState(() => ({ noteStatus: "closed" }))
+
+            const filteredExpOPEN = this.props.expenses.filter(expense => expense.noteStatus === "closed")
+
+            this.setState(() => ({ filteredExp: filteredExpOPEN }))
 
         } else {
             this.setState(() => ({ noteStatus: "open" }))
+
+            const filteredExpCLOSED = this.props.expenses.filter(expense => expense.noteStatus === "open")
+
+            this.setState(() => ({ filteredExp: filteredExpCLOSED }))
+
         }
     }
 
@@ -227,16 +234,13 @@ class NotesList extends React.Component {
         const important = this.state.important
         const notDes = this.state.noteDecscription
         const categorie = this.state.categorie
-        // const noteDecscription =(timeStamp.concat("\n", notDes, "\n"))
-        // const noteDecscription =(timeStamp.concat( "\n", notDes, "\n"))
         const noteDecscription = (space.concat(space, timeStamp, space, notDes, space,))
+        const datesToFinish = this.state.datesToFinish
 
-        const updates = { description, relevance, important, noteDecscription, categorie }
+        const updates = { description, relevance, important, noteDecscription, categorie, datesToFinish }
 
         this.props.editExpense(this.state.activeNote.id, updates)
         console.log("edit Expense: ", this.state.activeNote.id, updates);
-
-        console.log("noteDes", noteDecscription);
 
         this.clearShowEditNotes()
     }
@@ -245,29 +249,37 @@ class NotesList extends React.Component {
         const space = "\n"
         const timeStamp = moment().format("ddd - DD.MM.YY")
         e.preventDefault()
+
+        if (this.state.activeCategorie != "") {
+
+            
+        } else {
+            
+        }
         this.props.addExpense({
             description: this.state.description,
             relevance: this.state.relevance,
             important: this.state.important,
             noteDecscription: (space.concat(space, timeStamp, space, this.state.noteDecscription)),
-
-            // datesToFinish: this.state.datesToFinish.valueOf(),
-            // categorie: this.props.activeCategorie ? this.props.activeCategorie.id : undefined,
             datesToFinish: this.state.datesToFinish,
-            categorie: this.state.categorie
+            categorie: this.state.activeCategorie.catName
         })
+
+
         this.clearShowEditNotes()
+
+
+
+
     }
 
     dateFormater = (datesToFinish) => {
 
-        // const date = moment(datesToFinish).format("ddd - DD.MM.YY")
         const date = moment(datesToFinish).endOf('day').fromNow()
+
 
         return date
     }
-
-
 
     dateVAlue = () => {
         const dates = this.state.datesToFinish
@@ -342,70 +354,31 @@ class NotesList extends React.Component {
     ProjectTab = (categories) =>
         categories.map(categorie => (
 
-
-
             <Tab
                 key={categorie.id}
                 label={categorie.catName}
                 onClick={() => this.setActiveCategorie(categorie)}
-
             >
             </Tab>
 
         ))
 
-
-
-
-
-
-
     render() {
-        const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie } = this.state
+        const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie, activeCategorie } = this.state
         const { expenses, categories } = this.props
         const { children, value, index, ...other } = this.props;
 
 
-
         return (
 
-            <div >
-                <Box>
-                    <AddCategorie
-                        categories={this.props.categories}
-                        setCategorie={this.props.setCategorie}
-                        activeCategorie={this.state.activeCategorie}
-                    />
-                </Box>
+            <div
+                className=""
+            >
                 <Box
-                    ml={2}
-                >
-                    <Button
-                        variant="contained"
-                        onClick={this.changDisplayNotesOnStateus}
-                    >
-                        show:  {this.state.noteStatus}
-                    </Button>
-                </Box>
-
-                <Box
-                    ml={2}
-                    mt={1}
-                    mb={1}
-
-                >
-
-
-
-
-                </Box>
-
-                <Box
+                    mt={2}
                     mb={2}
                     mr={2}
                     ml={2}
-
-
                 >
 
                     <AppBar position="static" color="default">
@@ -416,9 +389,8 @@ class NotesList extends React.Component {
                             textColor="primary"
                             variant="fullWidth"
                             aria-label="action tabs example"
-                            // centered
                         >
-                
+
                             <Tab
                                 label="ALL"
                                 onClick={this.clearCategorie}
@@ -427,22 +399,69 @@ class NotesList extends React.Component {
 
                             </Tab>
                             {this.ProjectTab(categories)}
+
                         </Tabs>
                     </AppBar>
+
+                </Box>
+
+                <Box
+                    ml={2}
+                    component="div"
+
+                >
+
+                    <Box
+                        component="div"
+                        display="inline"
+                    >
+
+                    </Box>
+
+                    <Grid
+                        container
+                        direction="row"
+                        alignItems="center"
+                    >
+
+                        <Grid item> Note Status:  {this.state.noteStatus}
+                        </Grid>
+                        <Grid item>
+                            <Switch onChange={this.changDisplayNotesOnStateus} />
+                        </Grid>
+
+                        <Grid
+                            mr={10}
+                        >
+                            <AddCategorie
+                                categories={this.props.categories}
+                                setCategorie={this.props.setCategorie}
+                                activeCategorie={this.state.activeCategorie}
+                                removeCategorie={this.props.removeCategorie}
+                            />
+                        </Grid>
+                    </Grid>
 
                 </Box>
 
 
                 <div>
                     <div className="box">
-                        {filteredExp ? this.displayLinkedNotes(filteredExp) : this.displayLinkedNotes(expenses)}
+                        { filteredExp != "" ?
+                         this.displayNotes(filteredExp) :  
+                         this.displayNotes(
+                            this.props.expenses.filter(expense => expense.noteStatus === "open") 
+                         )}
+                        {/* {
+                            this.displayNotes(filteredExp)} */}
                     </div>
+
+
 
                     <div className="box">
 
                         <Box
                             mb={2}
-
                         >
                             <ButtonGroup
                                 color="primary"
@@ -455,25 +474,17 @@ class NotesList extends React.Component {
 
 
                                 <Button
-                                    // variant="contained"
-                                    // color="primary"
                                     onClick={this.clearShowEditNotes}
 
-
-                                > Clear</Button>
-
-
-
-
-
+                                > CLEAR </Button>
 
                                 <Button
-                                    // variant="contained"
-                                    // color="primary"
                                     onClick={this.statusChange}
                                 >
-                                    change Status
+                                    Set Status:  {this.state.activeNote.noteStatus === "open" ? "closed" : "open"}
                                 </Button>
+
+
 
                                 <Button
                                     variant="contained"
@@ -484,16 +495,9 @@ class NotesList extends React.Component {
                                 </Button>
 
                             </ButtonGroup>
-
-
                         </Box>
 
-
-
-
                         <div>
-
-
                             <div>
 
                                 <Autocomplete
@@ -509,19 +513,13 @@ class NotesList extends React.Component {
 
                                     renderInput={(params) =>
                                         <TextField {...params}
-                                            label="Project"
+                                            label={activeCategorie.catName ? activeCategorie.catName : "Project"}
                                             variant="outlined"
                                             autoFocus
-
-
                                         />}
-
                                 />
                             </div>
                         </div>
-
-
-
 
                         <div>
                             <div
@@ -554,14 +552,9 @@ class NotesList extends React.Component {
                                             style: {
                                                 width: 50,
                                                 fontSize: 16
-
-
                                             }
                                         }}
                                     />
-
-
-
                                     <TextField
                                         label="Wichtig"
                                         variant="filled"
@@ -572,10 +565,7 @@ class NotesList extends React.Component {
                                             style: {
                                                 width: 50,
                                                 fontSize: 16,
-
                                             },
-
-
                                         }}
                                     />
 
@@ -592,11 +582,6 @@ class NotesList extends React.Component {
 
                                 </div>
 
-                                <div >
-
-
-                                </div>
-
                                 <div>
                                     <TextField
                                         label="Note Description"
@@ -606,13 +591,8 @@ class NotesList extends React.Component {
                                         margin="normal"
 
                                         minRows="10"
-
-                                        // rowsMax
                                         multiline
                                         fullWidth
-
-
-
                                         inputProps={{
                                             style: {
                                                 fontSize: 16,
@@ -621,27 +601,10 @@ class NotesList extends React.Component {
                                                 lineHeight: 1.2
                                             }
                                         }}
-
-
-
-
                                     />
                                 </div>
                             </div>
-
-
-
-
-
                         </div>
-                    </div>
-
-                </div>
-
-                <div>
-                    <div>
-
-
                     </div>
                 </div>
             </div>
@@ -653,6 +616,8 @@ class NotesList extends React.Component {
 const mapStateToProps = (state) => {
     return {
         expenses: getAllExpenses(state).sort((a, b) => (a.prio > b.prio) ? -1 : 1),
+        openExpenses: (getAllExpenses(state).sort((a, b) => (a.prio > b.prio) ? -1 : 1)).filter(expense =>expense.noteStatus ==="open"),
+
         categories: getAllCategories(state),
     }
 }
@@ -663,6 +628,8 @@ const mapDispatchToProps = (dispatch) => ({
     setCategorie: (categorie) => dispatch(setCategorie(categorie)),
     editExpense: (id, updates) => dispatch(editExpense(id, updates)),
     changeStatus: (id, updates) => dispatch(changeStatus(id, updates)),
+    removeCategorie: (id) => dispatch(removeCategorie(id)),
+
 })
 
 export default connect(

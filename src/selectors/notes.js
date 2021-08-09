@@ -39,8 +39,8 @@ function calculatePrio(important, relevance, datesToFinish) {
   var calc = important * relevance 
   var faktor =  (3-days)*0.8
 
-  if ( days < 0 ) {
-    return calc * (3-days)
+  if ( days <= 0 ) {
+    return calc * faktor
     
   }
   if (days < 1) {
