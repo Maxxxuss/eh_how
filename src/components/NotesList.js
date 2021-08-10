@@ -95,7 +95,8 @@ class NotesList extends React.Component {
                 key={expense.id}
                 onClick={() => this.setActiveNote(expense)}
             >
-                {Math.round(expense.prio)}{" - "} {expense.description}
+                {Math.round(expense.prio)} -- {expense.categorie}  - {expense.description} - 
+                <p>  {expense.noteDecscription.substr(16,80)} </p> 
             </li>
         ),
             console.log("Notes on DisplNotes", expenses)
