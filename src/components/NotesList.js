@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { setCategorie, removeCategorie } from '../actions/categorie'
 import { removeExpense, addExpense, editExpense, changeStatus } from '../actions/notes'
-import { getAllCategories } from '../selectors/categories'
+import { getAllCategories, getCategories } from '../selectors/categories'
 import { getAllExpenses } from '../selectors/notes'
 import AddCategorie from './AddCategorie'
 import DropDownCategorie from './DropDownCategorie'
@@ -38,7 +38,7 @@ class NotesList extends React.Component {
             activeNote: "",
             allExpenses: this.props.expenses,
             activeCategorie: "",
-            filteredExp:  "", 
+            filteredExp: "",
             description: "",
             noteDecscription: "",
             relevance: "",
@@ -62,7 +62,7 @@ class NotesList extends React.Component {
             noteDecscription: "",
             datesToFinish: "",
             activeNote: "",
-            categorie: "", 
+            categorie: "",
             activeCategorie: this.state.activeCategorie,
         })
 
@@ -103,32 +103,25 @@ class NotesList extends React.Component {
 
 
 
-    displayCategories = (categories) =>
-        categories.map(categorie => (
-
-            <li
-                key={categorie.id}
-                onClick={() => this.setActiveCategorie(categorie)}
-            >
-                {categorie.catName}
-            </li>
-
-        )
-        )
-
     setActiveCategorie = (categorie) => {
 
-        this.setState({ activeCategorie: categorie })
-        console.log("active Kategoei", this.state.activeCategorie.catName)
-        this.DisplyFilterExpensesByCate()
-    }
-
-    DisplyFilterExpensesByCate = () => {
 
         const filteExp = this.props.expenses.filter(expense => expense.categorie === this.state.activeCategorie.catName)
-       const catFilteExp = filteExp.filter(catExp => catExp.noteStatus ==="open")
-       
-        this.setState({ filteredExp: catFilteExp })
+        const catFilteExp = filteExp.filter(catExp => catExp.noteStatus === "open")
+        
+        this.setState({ activeCategorie: categorie })
+
+        this.setState({ filteredExp: catFilteExp})
+
+        console.log("setActiveCategorie: ", catFilteExp);
+        console.log("setActiveCategorie Satete FilteExp: ", [this.state.filteredExp]);
+
+        
+        // this.setState({ filteredExp: this.props.expenses.filter(expense => expense.noteStatus === "closed") })
+
+        
+        // console.log("active Kategoei", this.state.activeCategorie.catName)
+
 
     }
 
@@ -137,7 +130,7 @@ class NotesList extends React.Component {
         console.log("categorie State: ", this.state.categorie);
         this.setState({ filteredExp: this.props.expenses.filter(expense => expense.noteStatus === "open") })
         this.displayNotes(this.props.expenses)
-        this.setState(()=>({activeCategorie: ""}))
+        this.setState(() => ({ activeCategorie: "" }))
     }
 
 
@@ -217,6 +210,7 @@ class NotesList extends React.Component {
     }
 
     onTabChange = (e, newValue) => {
+        const categories = this.props.categories
         const tabCategorie = newValue
         this.setState(() => ({ tabCategorie }))
         console.log("Tab categorei: ", this.state.tabCategorie);
@@ -252,9 +246,9 @@ class NotesList extends React.Component {
 
         if (this.state.activeCategorie != "") {
 
-            
+
         } else {
-            
+
         }
         this.props.addExpense({
             description: this.state.description,
@@ -447,11 +441,11 @@ class NotesList extends React.Component {
 
                 <div>
                     <div className="box">
-                        { filteredExp != "" ?
-                         this.displayNotes(filteredExp) :  
-                         this.displayNotes(
-                            this.props.expenses.filter(expense => expense.noteStatus === "open") 
-                         )}
+                        {filteredExp != "" ?
+                            this.displayNotes(filteredExp) :
+                            this.displayNotes(
+                                this.props.expenses.filter(expense => expense.noteStatus === "open")
+                            )}
                         {/* {
                             this.displayNotes(filteredExp)} */}
                     </div>
@@ -616,7 +610,7 @@ class NotesList extends React.Component {
 const mapStateToProps = (state) => {
     return {
         expenses: getAllExpenses(state).sort((a, b) => (a.prio > b.prio) ? -1 : 1),
-        openExpenses: (getAllExpenses(state).sort((a, b) => (a.prio > b.prio) ? -1 : 1)).filter(expense =>expense.noteStatus ==="open"),
+        openExpenses: (getAllExpenses(state).sort((a, b) => (a.prio > b.prio) ? -1 : 1)).filter(expense => expense.noteStatus === "open"),
 
         categories: getAllCategories(state),
     }
