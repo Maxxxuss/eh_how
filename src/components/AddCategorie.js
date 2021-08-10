@@ -1,58 +1,169 @@
+
+
+
 import React from 'react'
-import moment from 'moment'
-// import {SingleDatePicker} from "react-dates"
 import 'react-dates/initialize';
-import { parse } from 'uuid';
-import { locCache, setLocalStorageState} from '../store/configureStore';
-import { Header } from 'semantic-ui-react';
+import { Modal, Grid, Box, TextField, Button } from '@material-ui/core';
+
 
 
 
 export default class AddCategorie extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
-    this.state = {
-         categorie: "",
-    }}
+        this.state = {
+            categorie: "",
+            setOpen: false,
+        }
+    }
 
 
     onCategorieChange = (e) => {
         const categorie = e.target.value
-        this.setState(()=>({categorie}))
+        this.setState(() => ({ categorie }))
     }
 
 
-    onCategorieSubmit = (categorie) =>{
+    onCategorieSubmit = (categorie) => {
         categorie.preventDefault()
-        this.props.setCategorie ({
-            catName: this.state.categorie, 
+        this.props.setCategorie({
+            catName: this.state.categorie,
             details: ""
-            
+
         })
+        this.setState(() => ({ setOpen: false }))
         console.log("Submit pressed ", this.state.categorie);
     }
 
 
+    handleClose = () => {
+        const setOpen = false
+        this.setState(() => ({ setOpen }))
+    };
 
-    render () {
+    deleteCategorieOnSubmit = () => {
+        const removeCategorie = this.props.removeCategorie
+        const activeCategorie = this.props.activeCategorie.id
+
+        removeCategorie({
+            id: activeCategorie
+        })
+
+    }
+
+    onOpenModal = () => {
+        this.setState(() => ({ setOpen: true }))
+    }
+
+
+    render() {
+        const { setOpen } = this.state
         return (
-                <div
-                className="addCategorie"
-                >
-                    
-                  <input
-                    tpye= "text"
-                    placeholder = "categorie"
-                    value= {this.state.categorie}
-                    onChange = {this.onCategorieChange}
-                    />
+            <Grid
+            
+            >
+                <Button
+                variant="outlined"
+                // color= "secondary"
+                    onClick={this.onCategorieSubmit}
 
-                    <button
-                    onClick = {this.onCategorieSubmit}
-                    >Add Categorie
-                    </button>
-                </div>
+                >
+                    Start New Project
+
+                </Button>
+
+                <TextField
+                
+                    tpye="text"
+                    placeholder="Project Name"
+                    value={this.state.categorie}
+                    onChange={this.onCategorieChange}>
+                </TextField>
+            </Grid>
 
         )
     }
+
+
+
+    // Modal Matierl UI from 09.08
+    //     return (
+
+    //         <div
+    //             className="addCategorie"
+    //         >
+    //             <button
+    //                 onClick={this.onOpenModal}
+    //             >Start new Project
+    //             </button>
+    //             <Modal
+    //                 open={setOpen}
+    //                 onClose={this.handleClose}
+    //                 aria-labelledby="simple-modal-title"
+    //                 aria-describedby="simple-modal-description"
+
+    //             >
+    //                 {
+
+    //                     <div>
+
+    //                         <Box
+    //                             display="flex"
+    //                             bgcolor="background.paper"
+    //                             justifyContent="center"
+    //                             alignItems="center"
+    //                             m={10}
+    //                             mr={50}
+    //                             ml={50}
+
+    //                         >
+    //                             <Box
+    //                                 justifySelf="center"
+    //                             >
+    //                                    <h1>
+    //                             Start a new Project
+    //                         </h1>
+
+    //                             </Box>
+
+    //                             <Box
+    //                             component="span"
+    //                             display="block"
+    //                             >
+    //                                 <input
+    //                                     tpye="text"
+    //                                     placeholder="categorie"
+    //                                     value={this.state.categorie}
+    //                                     onChange={this.onCategorieChange}
+
+    //                                 />
+
+    //                                 <button
+    //                                     onClick={this.onCategorieSubmit}
+    //                                 >
+    //                                     Start Project
+    //                                 </button>
+    //                             </Box>
+
+
+    //                         </Box>
+    //                     </div>
+
+    //                 }
+    //             </Modal>
+
+    //             <div>
+    //                 <button
+    //                     onClick={this.deleteCategorieOnSubmit}
+    //                 >
+
+    //                     Delete Categorie
+    //                 </button>
+    //             </div>
+
+
+    //         </div >
+
+    //     )
+    // }
 }

@@ -15,3 +15,14 @@ export const setCategorie = (
         details
     }
 })
+
+export const removeCategorie = ({ id } = {}) => {
+    return (dispatch) => {
+      dispatch(({ 
+        type: 'REMOVE_CATEGORIE',
+        id
+        
+       }));
+    }
+  }
+  
