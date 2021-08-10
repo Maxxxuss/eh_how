@@ -244,12 +244,7 @@ class NotesList extends React.Component {
         const timeStamp = moment().format("ddd - DD.MM.YY")
         e.preventDefault()
 
-        if (this.state.activeCategorie != "") {
-
-
-        } else {
-
-        }
+      
         this.props.addExpense({
             description: this.state.description,
             relevance: this.state.relevance,
