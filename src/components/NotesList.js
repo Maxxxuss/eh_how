@@ -46,10 +46,11 @@ class NotesList extends React.Component {
             datesToFinish: "",
             categorie: "",
             doneDate: "",
-            noteStatus: "open",
+            noteStatus: "",
             tabCategorie: 0,
             information: "",
-            activeNoteStatus: ""
+            activeNoteStatus: "",
+            noteListStatus: "open"
         }
     }
 
@@ -64,6 +65,9 @@ class NotesList extends React.Component {
             activeNote: "",
             categorie: "",
             activeCategorie: this.state.activeCategorie,
+
+            filteredExp: "",
+            noteListStatus: "open",
         })
 
 
@@ -95,8 +99,8 @@ class NotesList extends React.Component {
                 key={expense.id}
                 onClick={() => this.setActiveNote(expense)}
             >
-                {Math.round(expense.prio)} -- {expense.categorie}  - {expense.description} - 
-                <p>  {expense.noteDecscription.substr(16,80)} </p> 
+                {Math.round(expense.prio)} -- {expense.categorie}  - {expense.description} -
+                <p>  {expense.noteDecscription.substr(16, 80)} </p>
             </li>
         ),
             console.log("Notes on DisplNotes", expenses)
@@ -105,25 +109,10 @@ class NotesList extends React.Component {
 
 
     setActiveCategorie = (categorie) => {
-
-
-        const filteExp = this.props.expenses.filter(expense => expense.categorie === this.state.activeCategorie.catName)
+        const filteExp = this.props.expenses.filter(expense => expense.categorie === categorie.catName)
         const catFilteExp = filteExp.filter(catExp => catExp.noteStatus === "open")
-        
-        this.setState({ activeCategorie: categorie })
 
-        this.setState({ filteredExp: catFilteExp})
-
-        console.log("setActiveCategorie: ", catFilteExp);
-        console.log("setActiveCategorie Satete FilteExp: ", [this.state.filteredExp]);
-
-        
-        // this.setState({ filteredExp: this.props.expenses.filter(expense => expense.noteStatus === "closed") })
-
-        
-        // console.log("active Kategoei", this.state.activeCategorie.catName)
-
-
+        this.setState({ filteredExp: catFilteExp })
     }
 
 
@@ -145,12 +134,15 @@ class NotesList extends React.Component {
             const updates = { noteStatus: "closed" }
             this.props.editExpense(this.state.activeNote.id, updates)
 
+
         } else {
 
             this.setState(() => ({ noteStatus: "open" }))
 
             const updates = { noteStatus: "open" }
             this.props.editExpense(this.state.activeNote.id, updates)
+            this.clearShowEditNotes()
+
 
         }
 
@@ -159,22 +151,26 @@ class NotesList extends React.Component {
 
     changDisplayNotesOnStateus = () => {
         const expenses = this.props.expenses
-        const noteStatus = this.state.noteStatus
+        const noteListStatus = this.state.noteListStatus
 
-        if (noteStatus === "open") {
+        if (noteListStatus === "open") {
 
-            this.setState(() => ({ noteStatus: "closed" }))
+            this.setState(() => ({ noteListStatus: "closed" }))
 
-            const filteredExpOPEN = this.props.expenses.filter(expense => expense.noteStatus === "closed")
+            const filteredExpOPEN = expenses.filter(expense => expense.noteStatus === "closed")
 
             this.setState(() => ({ filteredExp: filteredExpOPEN }))
 
-        } else {
-            this.setState(() => ({ noteStatus: "open" }))
 
-            const filteredExpCLOSED = this.props.expenses.filter(expense => expense.noteStatus === "open")
+        } else {
+            this.setState(() => ({ noteListStatus: "open" }))
+
+            const filteredExpCLOSED = expenses.filter(expense => expense.noteStatus === "open")
+
 
             this.setState(() => ({ filteredExp: filteredExpCLOSED }))
+
+
 
         }
     }
@@ -245,7 +241,7 @@ class NotesList extends React.Component {
         const timeStamp = moment().format("ddd - DD.MM.YY")
         e.preventDefault()
 
-      
+
         this.props.addExpense({
             description: this.state.description,
             relevance: this.state.relevance,
@@ -254,19 +250,13 @@ class NotesList extends React.Component {
             datesToFinish: this.state.datesToFinish,
             categorie: this.state.activeCategorie.catName
         })
-
-
         this.clearShowEditNotes()
-
-
-
 
     }
 
     dateFormater = (datesToFinish) => {
 
         const date = moment(datesToFinish).endOf('day').fromNow()
-
 
         return date
     }
@@ -414,7 +404,7 @@ class NotesList extends React.Component {
                         alignItems="center"
                     >
 
-                        <Grid item> Note Status:  {this.state.noteStatus}
+                        <Grid item> Note Status:  {this.state.noteListStatus}
                         </Grid>
                         <Grid item>
                             <Switch onChange={this.changDisplayNotesOnStateus} />
@@ -471,7 +461,7 @@ class NotesList extends React.Component {
                                 <Button
                                     onClick={this.statusChange}
                                 >
-                                    Set Status:  {this.state.activeNote.noteStatus === "open" ? "closed" : "open"}
+                                    Set Status:  {this.state.activeNote.noteStatus === "closed" ? "open" : "closed"}
                                 </Button>
 
 
@@ -532,7 +522,7 @@ class NotesList extends React.Component {
                                 </div>
                                 <div className="box_relprio">
                                     <TextField
-                                        label="Relevance"
+                                        label="Dringlich"
                                         variant="filled"
                                         value={relevance}
                                         onChange={this.onRelevanveChange}
