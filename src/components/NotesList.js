@@ -21,13 +21,10 @@ import {
     FormControlLabel,
     Switch,
     Grid,
-
-
 } from '@material-ui/core'
 import { yellow } from '@material-ui/core/colors'
 import DropDownCat from './DopDownCatMat'
 import { Autocomplete } from '@material-ui/lab';
-
 
 
 class NotesList extends React.Component {
@@ -69,10 +66,7 @@ class NotesList extends React.Component {
             filteredExp: "",
             noteListStatus: "open",
         })
-
-
     }
-
 
     handelRemoveNote = () => {
         this.props.removeExpense({ id: this.state.activeNote.id })
@@ -106,15 +100,13 @@ class NotesList extends React.Component {
             console.log("Notes on DisplNotes", expenses)
         )
 
-
-
     setActiveCategorie = (categorie) => {
         const filteExp = this.props.expenses.filter(expense => expense.categorie === categorie.catName)
         const catFilteExp = filteExp.filter(catExp => catExp.noteStatus === "open")
 
         this.setState({ filteredExp: catFilteExp })
+        this.setState({ activeCategorie: categorie.catName })
     }
-
 
     clearCategorie = () => {
         console.log("categorie State: ", this.state.categorie);
@@ -123,30 +115,49 @@ class NotesList extends React.Component {
         this.setState(() => ({ activeCategorie: "" }))
     }
 
+    updateFilteExp = (noteStatus) => {
+        const { activeCategorie } = this.state
+
+        this.setState({ noteStatus: noteStatus }, () => {
+            const filteExp = this.props.expenses.filter(expense => expense.categorie === activeCategorie)
+            const catFilteExp = filteExp.filter(catExp => catExp.noteStatus === noteStatus)
+            this.setState({ filteredExp: catFilteExp })
+
+            console.log("Upodate Filte Exp: ",filteExp);
+        })
+
+    }
 
     statusChange = () => {
+        const { activeCategorie } = this.state
+
+        console.log("Status Change activeCategorie:", activeCategorie);
 
 
         if (this.state.activeNote.noteStatus === "open") {
+            const noteStatus ="closed"
+            const updates = { noteStatus}
 
-            this.setState(() => ({ noteStatus: "closed" }))
-
-            const updates = { noteStatus: "closed" }
             this.props.editExpense(this.state.activeNote.id, updates)
+
+            this.updateFilteExp("open")
+
+            console.log("Status Change NoteStatus:", this.state.noteStatus);
 
 
         } else {
+            const noteStatus ="open"
+            const updates = { noteStatus}
 
-            this.setState(() => ({ noteStatus: "open" }))
-
-            const updates = { noteStatus: "open" }
             this.props.editExpense(this.state.activeNote.id, updates)
-            this.clearShowEditNotes()
+
+            this.updateFilteExp("closed")
 
 
+            console.log("Else Note Status : ", this.state.noteStatus);
+
+            
         }
-
-
     }
 
     changDisplayNotesOnStateus = () => {
@@ -154,9 +165,7 @@ class NotesList extends React.Component {
         const noteListStatus = this.state.noteListStatus
 
         if (noteListStatus === "open") {
-
             this.setState(() => ({ noteListStatus: "closed" }))
-
             const filteredExpOPEN = expenses.filter(expense => expense.noteStatus === "closed")
 
             this.setState(() => ({ filteredExp: filteredExpOPEN }))
@@ -344,7 +353,7 @@ class NotesList extends React.Component {
         ))
 
     render() {
-        const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie, activeCategorie } = this.state
+        const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie, activeCategorie, noteStatus } = this.state
         const { expenses, categories } = this.props
         const { children, value, index, ...other } = this.props;
 
@@ -432,12 +441,8 @@ class NotesList extends React.Component {
                             this.displayNotes(
                                 this.props.expenses.filter(expense => expense.noteStatus === "open")
                             )}
-                        {/* {
-                            this.displayNotes(filteredExp)} */}
+
                     </div>
-
-
-
                     <div className="box">
 
                         <Box
@@ -463,8 +468,6 @@ class NotesList extends React.Component {
                                 >
                                     Set Status:  {this.state.activeNote.noteStatus === "closed" ? "open" : "closed"}
                                 </Button>
-
-
 
                                 <Button
                                     variant="contained"
