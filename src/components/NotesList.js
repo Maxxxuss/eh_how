@@ -34,7 +34,7 @@ class NotesList extends React.Component {
             id: this.props.expenses.id ? this.props.expenses.id : "pups",
             activeNote: "",
             allExpenses: this.props.expenses,
-            activeCategorie: "",
+            activeCategorieCatName: "",
             filteredExp: "",
             description: "",
             noteDecscription: "",
@@ -47,7 +47,8 @@ class NotesList extends React.Component {
             tabCategorie: 0,
             information: "",
             activeNoteStatus: "",
-            noteListStatus: "open"
+            noteListStatus: "open",
+            activeCategorieID:"", 
         }
     }
 
@@ -61,10 +62,7 @@ class NotesList extends React.Component {
             datesToFinish: "",
             activeNote: "",
             categorie: "",
-            activeCategorie: this.state.activeCategorie,
-
-            filteredExp: "",
-            noteListStatus: "open",
+            activeCategorieCatName: "", 
         })
     }
 
@@ -105,21 +103,24 @@ class NotesList extends React.Component {
         const catFilteExp = filteExp.filter(catExp => catExp.noteStatus === "open")
 
         this.setState({ filteredExp: catFilteExp })
-        this.setState({ activeCategorie: categorie.catName })
+        this.setState({ activeCategorieCatName: categorie.catName })
+        this.setState({ activeCategorieID: categorie.id })
+
     }
 
     clearCategorie = () => {
         console.log("categorie State: ", this.state.categorie);
         this.setState({ filteredExp: this.props.expenses.filter(expense => expense.noteStatus === "open") })
         this.displayNotes(this.props.expenses)
-        this.setState(() => ({ activeCategorie: "" }))
+        this.setState(() => ({ activeCategorieCatName: "" }))
     }
 
     updateFilteExp = (noteStatus) => {
-        const { activeCategorie } = this.state
+        const { activeCategorieCatName } = this.state
+        console.log("UpdateFilExp Active Kategorie:", activeCategorieCatName);
 
         this.setState({ noteStatus: noteStatus }, () => {
-            const filteExp = this.props.expenses.filter(expense => expense.categorie === activeCategorie)
+            const filteExp = this.props.expenses.filter(expense => expense.categorie === activeCategorieCatName)
             const catFilteExp = filteExp.filter(catExp => catExp.noteStatus === noteStatus)
             this.setState({ filteredExp: catFilteExp })
 
@@ -129,9 +130,9 @@ class NotesList extends React.Component {
     }
 
     statusChange = () => {
-        const { activeCategorie } = this.state
+        const { activeCategorieCatName } = this.state
 
-        console.log("Status Change activeCategorie:", activeCategorie);
+        console.log("Status Change activeCategorieCatName:", activeCategorieCatName);
 
 
         if (this.state.activeNote.noteStatus === "open") {
@@ -144,6 +145,8 @@ class NotesList extends React.Component {
 
             console.log("Status Change NoteStatus:", this.state.noteStatus);
 
+            this.clearShowEditNotes()
+
 
         } else {
             const noteStatus ="open"
@@ -155,6 +158,7 @@ class NotesList extends React.Component {
 
 
             console.log("Else Note Status : ", this.state.noteStatus);
+
 
             
         }
@@ -240,9 +244,13 @@ class NotesList extends React.Component {
         const updates = { description, relevance, important, noteDecscription, categorie, datesToFinish }
 
         this.props.editExpense(this.state.activeNote.id, updates)
+
+
+        const activeNoteStatus = this.state.activeNote.noteStatus
+
+        this.updateFilteExp(activeNoteStatus)
         console.log("edit Expense: ", this.state.activeNote.id, updates);
 
-        this.clearShowEditNotes()
     }
 
     onSubmitAddNote = (e) => {
@@ -257,7 +265,7 @@ class NotesList extends React.Component {
             important: this.state.important,
             noteDecscription: (space.concat(space, timeStamp, space, this.state.noteDecscription)),
             datesToFinish: this.state.datesToFinish,
-            categorie: this.state.activeCategorie.catName
+            categorie: this.state.activeCategorieCatName.catName
         })
         this.clearShowEditNotes()
 
@@ -353,7 +361,7 @@ class NotesList extends React.Component {
         ))
 
     render() {
-        const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie, activeCategorie, noteStatus } = this.state
+        const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie, activeCategorieCatName, noteStatus } = this.state
         const { expenses, categories } = this.props
         const { children, value, index, ...other } = this.props;
 
@@ -425,7 +433,7 @@ class NotesList extends React.Component {
                             <AddCategorie
                                 categories={this.props.categories}
                                 setCategorie={this.props.setCategorie}
-                                activeCategorie={this.state.activeCategorie}
+                                activeCategorieID={this.state.activeCategorieID}
                                 removeCategorie={this.props.removeCategorie}
                             />
                         </Grid>
@@ -496,7 +504,7 @@ class NotesList extends React.Component {
 
                                     renderInput={(params) =>
                                         <TextField {...params}
-                                            label={activeCategorie.catName ? activeCategorie.catName : "Project"}
+                                            label={activeCategorieCatName.catName ? activeCategorieCatName.catName : "Project"}
                                             variant="outlined"
                                             autoFocus
                                         />}

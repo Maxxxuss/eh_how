@@ -42,11 +42,11 @@ export default class AddCategorie extends React.Component {
     };
 
     deleteCategorieOnSubmit = () => {
-        const removeCategorie = this.props.removeCategorie
-        const activeCategorie = this.props.activeCategorie.id
+        const activeCategorieID = this.props.activeCategorieID
 
-        removeCategorie({
-            id: activeCategorie
+
+        this.props.removeCategorie({
+            id: activeCategorieID
         })
 
     }
@@ -60,11 +60,11 @@ export default class AddCategorie extends React.Component {
         const { setOpen } = this.state
         return (
             <Grid
-            
+
             >
                 <Button
-                variant="outlined"
-                // color= "secondary"
+                    variant="outlined"
+                    // color= "secondary"
                     onClick={this.onCategorieSubmit}
 
                 >
@@ -73,12 +73,21 @@ export default class AddCategorie extends React.Component {
                 </Button>
 
                 <TextField
-                
                     tpye="text"
                     placeholder="Project Name"
                     value={this.state.categorie}
                     onChange={this.onCategorieChange}>
                 </TextField>
+
+                <Button
+                    onClick={this.deleteCategorieOnSubmit}
+                    variant="outlined"
+                    color="secondary"
+    
+                >
+
+                    Delete Categorie
+                </Button>
             </Grid>
 
         )
