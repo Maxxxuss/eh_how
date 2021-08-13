@@ -66,6 +66,7 @@ class NotesList extends React.Component {
         })
     }
 
+
     handelRemoveNote = () => {
         this.props.removeExpense({ id: this.state.activeNote.id })
         this.clearShowEditNotes()
@@ -79,8 +80,11 @@ class NotesList extends React.Component {
         this.setState({ important: expense.important })
         this.setState({ datesToFinish: expense.datesToFinish })
         this.setState({ categorie: expense.categorie })
+        this.setState({ activeNoteStatus: expense.noteStatus })
+
 
         console.log("Active Note: ", this.state.activeNote.description, this.state.activeNote)
+        console.log("setActiveNote Status:", this.state.activeNoteStatus);
     }
 
 
@@ -214,8 +218,8 @@ class NotesList extends React.Component {
     }
 
     onCateChange = (e) => {
-        const categorie = e.target.value
-        this.setState(() => ({ categorie }))
+        const activeCategorieCatName = e.target.value
+        this.setState(() => ({ activeCategorieCatName }))
         console.log(this.state.categorie);
     }
 
@@ -224,6 +228,8 @@ class NotesList extends React.Component {
         const tabCategorie = newValue
         this.setState(() => ({ tabCategorie }))
         console.log("Tab categorei: ", this.state.tabCategorie);
+        this.clearShowEditNotes()
+
     }
 
 
@@ -265,9 +271,10 @@ class NotesList extends React.Component {
             important: this.state.important,
             noteDecscription: (space.concat(space, timeStamp, space, this.state.noteDecscription)),
             datesToFinish: this.state.datesToFinish,
-            categorie: this.state.activeCategorieCatName.catName
+            categorie: this.state.activeCategorieCatName
         })
-        this.clearShowEditNotes()
+        this.updateFilteExp(this.state.noteListStatus)
+        
 
     }
 
@@ -504,7 +511,7 @@ class NotesList extends React.Component {
 
                                     renderInput={(params) =>
                                         <TextField {...params}
-                                            label={activeCategorieCatName.catName ? activeCategorieCatName.catName : "Project"}
+                                            label={activeCategorieCatName ? activeCategorieCatName : "Project"}
                                             variant="outlined"
                                             autoFocus
                                         />}

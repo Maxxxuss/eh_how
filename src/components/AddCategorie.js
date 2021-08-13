@@ -83,10 +83,9 @@ export default class AddCategorie extends React.Component {
                     onClick={this.deleteCategorieOnSubmit}
                     variant="outlined"
                     color="secondary"
-    
                 >
 
-                    Delete Categorie
+                    Delete Project
                 </Button>
             </Grid>
 
