@@ -9,15 +9,17 @@
 
 }
 
-.box_relprio {
-    float:left;
+// .box_relprio {
+//     float:left;
 
-}
+// }
 
 .box li{
     color: black;
-    padding-right: 20px;
-    padding-left: 20px;   
+    padding:1%;
+    // padding-right: 20px;
+    // padding-left: 20px;   
+    list-style-type: none;
 }
 
 .box li:hover {
@@ -28,6 +30,30 @@
     color:red;
     
 }
+
+// .boxNoteList{
+//     // float: left;
+//     // width: 3%;
+//     // margin-right: 3.33333%;
+//     padding: 2px;
+//     box-sizing: border-box;
+
+// }
+
+.noteListStylInt {
+    float: left;
+    margin-left: 2%;
+    padding-left: 2.5%;
+    width: 90%;
+    background-color: rgba(220, 220, 220, 0.426)
+}
+
+
+// .noteListStylIntNoteDes {
+//     float: left;
+//     margin-left: 2%;
+
+// }
 
 
 

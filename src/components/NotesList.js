@@ -22,7 +22,7 @@ import {
     Switch,
     Grid,
 } from '@material-ui/core'
-import { yellow } from '@material-ui/core/colors'
+import { red, yellow } from '@material-ui/core/colors'
 import DropDownCat from './DopDownCatMat'
 import { Autocomplete } from '@material-ui/lab';
 
@@ -48,7 +48,7 @@ class NotesList extends React.Component {
             information: "",
             activeNoteStatus: "",
             noteListStatus: "open",
-            activeCategorieID:"", 
+            activeCategorieID: "",
         }
     }
 
@@ -62,7 +62,7 @@ class NotesList extends React.Component {
             datesToFinish: "",
             activeNote: "",
             categorie: "",
-            activeCategorieCatName: "", 
+            activeCategorieCatName: "",
         })
     }
 
@@ -87,17 +87,81 @@ class NotesList extends React.Component {
         console.log("setActiveNote Status:", this.state.activeNoteStatus);
     }
 
+    showHintForTimedNotes = (expense) => {
+        const datesToFinish = expense.datesToFinish
+
+        var b = moment()
+        var a = datesToFinish
+
+        const difference = moment(a).diff(b)
+        const days = moment.duration(difference).asDays()
+        const daySubStrin = parseInt(days)
+
+        if (days > -1 && days < 0) {
+            return (
+
+                <p
+                    style={{
+                        fontSize: "large",
+                        color: "Green",
+                        backgroundColor: "ghostWhite"
+                    }}
+                >
+                    Do-Today
+                </p>
+            )
+        }
+        if (days < -1) {
+            return (
+                <p
+                    style={{
+                        color: "DarkRed",
+                        backgroundColor: "Orange"
+                    }}
+                >
+                    "Done till "{daySubStrin} Days
+                </p>
+            )
+        }
+
+        else {
+            return (
+                <p>
+                </p>
+            )
+
+        }
+    }
+
+
+
+
+
 
     displayNotes = (expenses) =>
         expenses.map(expense => (
+
             <li
-                className={"selected" ? "selected" : ""}
+                className="noteListStylInt"
                 key={expense.id}
                 onClick={() => this.setActiveNote(expense)}
             >
-                {Math.round(expense.prio)} -- {expense.categorie}  - {expense.description} -
-                <p>  {expense.noteDecscription.substr(16, 80)} </p>
+                <div
+                    className="noteListStylInt"
+                >
+                    {Math.round(expense.prio)} {expense.categorie} - {expense.description} - {this.showHintForTimedNotes(expense)}
+
+                    <p>
+                        {expense.noteDecscription.substr(16, 80)}
+
+                    </p>
+
+                </div>
+
             </li>
+
+
+
         ),
             console.log("Notes on DisplNotes", expenses)
         )
@@ -128,7 +192,7 @@ class NotesList extends React.Component {
             const catFilteExp = filteExp.filter(catExp => catExp.noteStatus === noteStatus)
             this.setState({ filteredExp: catFilteExp })
 
-            console.log("Upodate Filte Exp: ",filteExp);
+            console.log("Upodate Filte Exp: ", filteExp);
         })
 
     }
@@ -140,8 +204,8 @@ class NotesList extends React.Component {
 
 
         if (this.state.activeNote.noteStatus === "open") {
-            const noteStatus ="closed"
-            const updates = { noteStatus}
+            const noteStatus = "closed"
+            const updates = { noteStatus }
 
             this.props.editExpense(this.state.activeNote.id, updates)
 
@@ -153,8 +217,8 @@ class NotesList extends React.Component {
 
 
         } else {
-            const noteStatus ="open"
-            const updates = { noteStatus}
+            const noteStatus = "open"
+            const updates = { noteStatus }
 
             this.props.editExpense(this.state.activeNote.id, updates)
 
@@ -164,7 +228,7 @@ class NotesList extends React.Component {
             console.log("Else Note Status : ", this.state.noteStatus);
 
 
-            
+
         }
     }
 
@@ -274,7 +338,7 @@ class NotesList extends React.Component {
             categorie: this.state.activeCategorieCatName
         })
         this.updateFilteExp(this.state.noteListStatus)
-        
+
 
     }
 
@@ -445,7 +509,6 @@ class NotesList extends React.Component {
                             />
                         </Grid>
                     </Grid>
-
                 </Box>
 
 
