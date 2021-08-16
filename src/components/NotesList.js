@@ -62,7 +62,7 @@ class NotesList extends React.Component {
             noteDecscription: "",
             datesToFinish: "",
             activeNote: "",
-            // categorie: "",
+            categorie: "",
             // activeCategorieCatName: "",
             nextStep: "",
         })
