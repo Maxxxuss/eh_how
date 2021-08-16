@@ -3,9 +3,9 @@
 
 import React from 'react'
 import 'react-dates/initialize';
-import { Modal, Grid, Box, TextField, Button } from '@material-ui/core';
-
-
+import { Modal, Grid, Box, TextField, Button, IconButton } from '@material-ui/core';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import { Height } from '@material-ui/icons';
 
 
 export default class AddCategorie extends React.Component {
@@ -55,38 +55,71 @@ export default class AddCategorie extends React.Component {
         this.setState(() => ({ setOpen: true }))
     }
 
+    AddButton = () =>
+        <IconButton>
+            <AddCircleOutlineIcon />
+        </IconButton>
+
+
 
     render() {
         const { setOpen } = this.state
         return (
             <Grid
+                container spacing={2} alignItems="stretch"
+                style={{
+                    backgroundColor: "rgba(238, 238, 238, 0.405)",
+                    
 
+                }}
             >
-                <Button
-                    variant="outlined"
-                    // color= "secondary"
-                    onClick={this.onCategorieSubmit}
+                <Grid item >
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.onCategorieSubmit}
 
-                >
-                    Start New Project
 
-                </Button>
+                    >
+                        Start New Project
 
-                <TextField
-                    tpye="text"
-                    placeholder="Project Name"
-                    value={this.state.categorie}
-                    onChange={this.onCategorieChange}>
-                </TextField>
+                    </Button>
 
-                <Button
-                    onClick={this.deleteCategorieOnSubmit}
-                    variant="outlined"
-                    color="secondary"
-                >
+                </Grid>
+                <Grid item >
 
-                    Delete Project
-                </Button>
+
+                    <TextField
+                        tpye="text"
+                        placeholder="Project Name"
+                        value={this.state.categorie}
+                        onChange={this.onCategorieChange}
+
+
+                        style={{
+                            color: "Green",
+                            backgroundColor: "rgba(238, 238, 238, 0.405)",
+
+                            width: 200,
+
+
+                        }}
+
+                    >
+                    </TextField>
+                </Grid>
+                <Grid item >
+
+
+                    <Button
+                        onClick={this.deleteCategorieOnSubmit}
+                        variant="contained"
+                        color="secondary"
+                    >
+
+                        Delete Project
+                    </Button>
+                </Grid>
             </Grid>
 
         )

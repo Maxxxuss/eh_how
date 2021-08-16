@@ -49,6 +49,7 @@ class NotesList extends React.Component {
             activeNoteStatus: "",
             noteListStatus: "open",
             activeCategorieID: "",
+            nextStep: "",
         }
     }
 
@@ -61,8 +62,9 @@ class NotesList extends React.Component {
             noteDecscription: "",
             datesToFinish: "",
             activeNote: "",
-            categorie: "",
-            activeCategorieCatName: "",
+            // categorie: "",
+            // activeCategorieCatName: "",
+            nextStep: "",
         })
     }
 
@@ -81,6 +83,7 @@ class NotesList extends React.Component {
         this.setState({ datesToFinish: expense.datesToFinish })
         this.setState({ categorie: expense.categorie })
         this.setState({ activeNoteStatus: expense.noteStatus })
+        this.setState({ nextStep : expense.nextStep})
 
 
         console.log("Active Note: ", this.state.activeNote.description, this.state.activeNote)
@@ -123,7 +126,6 @@ class NotesList extends React.Component {
                 </p>
             )
         }
-
         else {
             return (
                 <p>
@@ -132,10 +134,6 @@ class NotesList extends React.Component {
 
         }
     }
-
-
-
-
 
 
     displayNotes = (expenses) =>
@@ -296,6 +294,13 @@ class NotesList extends React.Component {
 
     }
 
+    onNoteNextStepChange = (e) => {
+        const nextStep = e.target.value
+        this.setState(() => ({ nextStep }))
+        console.log(this.state.nextStep);
+
+    }
+
 
 
     onSubmitChanges = (e) => {
@@ -310,8 +315,9 @@ class NotesList extends React.Component {
         const categorie = this.state.categorie
         const noteDecscription = (space.concat(space, timeStamp, space, notDes, space,))
         const datesToFinish = this.state.datesToFinish
+        const nextStep = this.state.nextStep
 
-        const updates = { description, relevance, important, noteDecscription, categorie, datesToFinish }
+        const updates = { description, relevance, important, noteDecscription, categorie, datesToFinish, nextStep }
 
         this.props.editExpense(this.state.activeNote.id, updates)
 
@@ -335,9 +341,12 @@ class NotesList extends React.Component {
             important: this.state.important,
             noteDecscription: (space.concat(space, timeStamp, space, this.state.noteDecscription)),
             datesToFinish: this.state.datesToFinish,
-            categorie: this.state.activeCategorieCatName
+            categorie: this.state.activeCategorieCatName,
+            nextStep: this.state.nextStep
+
         })
         this.updateFilteExp(this.state.noteListStatus)
+        this.clearShowEditNotes()
 
 
     }
@@ -426,13 +435,16 @@ class NotesList extends React.Component {
                 key={categorie.id}
                 label={categorie.catName}
                 onClick={() => this.setActiveCategorie(categorie)}
+                style={{
+                    fontSize:16,
+                  }}
             >
             </Tab>
 
         ))
 
     render() {
-        const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie, activeCategorieCatName, noteStatus } = this.state
+        const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie, activeCategorieCatName, noteStatus, nextStep } = this.state
         const { expenses, categories } = this.props
         const { children, value, index, ...other } = this.props;
 
@@ -455,14 +467,19 @@ class NotesList extends React.Component {
                             onChange={this.onTabChange}
                             indicatorColor="secondary"
                             textColor="primary"
-                            variant="fullWidth"
+                            variant="scrollable"
+                            scrollButtons="auto"
+
                             aria-label="action tabs example"
+                      
                         >
 
                             <Tab
                                 label="ALL"
                                 onClick={this.clearCategorie}
-                                color="primary"
+                                style={{
+                                    fontSize:14,
+                                }}
                             >
 
                             </Tab>
@@ -476,7 +493,6 @@ class NotesList extends React.Component {
                 <Box
                     ml={2}
                     component="div"
-
                 >
 
                     <Box
@@ -583,10 +599,8 @@ class NotesList extends React.Component {
                         </div>
 
                         <div>
-                            <div
-                            >
-                                <div
-                                >
+                            <div>
+                                <div  >
 
                                     <TextField
                                         label="Titel"
@@ -594,9 +608,13 @@ class NotesList extends React.Component {
                                         value={description}
                                         onChange={this.onDescriptionChange}
                                         margin="dense"
-                                        width="300"
+                                        fullWidth
                                         inputProps={{
-                                            style: { fontSize: 16 }
+                                            style: {
+                                                fontSize: 16,
+
+
+                                            }
                                         }}
 
                                     />
@@ -663,6 +681,24 @@ class NotesList extends React.Component {
                                             }
                                         }}
                                     />
+
+                                    <div>
+                                        <TextField
+                                            label="Next Step"
+                                            variant="filled"
+                                            value={nextStep}
+                                            onChange={this.onNoteNextStepChange}
+                                            margin="normal"
+                                            fullWidth
+                                            inputProps={{
+                                                style: {
+                                                    fontSize: 16,
+                                                }
+                                            }}
+                                        >
+
+                                        </TextField>
+                                    </div>
                                 </div>
                             </div>
                         </div>

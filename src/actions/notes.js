@@ -12,6 +12,7 @@ export const addExpense = (
     calenderFocused,
     categorie, 
     noteStatus, 
+    nextStep
  
   } = {}
 ) => ({
@@ -26,7 +27,8 @@ export const addExpense = (
     calenderFocused, 
     relevance, 
     categorie,
-    noteStatus, 
+    noteStatus,
+    nextStep 
 }
 });
 
