@@ -5,8 +5,6 @@ import { removeExpense, addExpense, editExpense, changeStatus } from '../actions
 import { getAllCategories, getCategories } from '../selectors/categories'
 import { getAllExpenses } from '../selectors/notes'
 import AddCategorie from './AddCategorie'
-import DropDownCategorie from './DropDownCategorie'
-import ShowEditNotes from './ShowEditNotes'
 import moment, { relativeTimeRounding } from "moment"
 import {
     colors,
@@ -21,6 +19,7 @@ import {
     FormControlLabel,
     Switch,
     Grid,
+    Link,
 } from '@material-ui/core'
 import { red, yellow } from '@material-ui/core/colors'
 import DropDownCat from './DopDownCatMat'
@@ -83,7 +82,7 @@ class NotesList extends React.Component {
         this.setState({ datesToFinish: expense.datesToFinish })
         this.setState({ categorie: expense.categorie })
         this.setState({ activeNoteStatus: expense.noteStatus })
-        this.setState({ nextStep : expense.nextStep})
+        this.setState({ nextStep: expense.nextStep })
 
 
         console.log("Active Note: ", this.state.activeNote.description, this.state.activeNote)
@@ -105,7 +104,7 @@ class NotesList extends React.Component {
 
                 <p
                     style={{
-                        fontSize: "large",
+                        // fontSize: "large",
                         color: "Green",
                         backgroundColor: "ghostWhite"
                     }}
@@ -221,11 +220,7 @@ class NotesList extends React.Component {
             this.props.editExpense(this.state.activeNote.id, updates)
 
             this.updateFilteExp("closed")
-
-
             console.log("Else Note Status : ", this.state.noteStatus);
-
-
 
         }
     }
@@ -243,14 +238,8 @@ class NotesList extends React.Component {
 
         } else {
             this.setState(() => ({ noteListStatus: "open" }))
-
             const filteredExpCLOSED = expenses.filter(expense => expense.noteStatus === "open")
-
-
             this.setState(() => ({ filteredExp: filteredExpCLOSED }))
-
-
-
         }
     }
 
@@ -436,8 +425,8 @@ class NotesList extends React.Component {
                 label={categorie.catName}
                 onClick={() => this.setActiveCategorie(categorie)}
                 style={{
-                    fontSize:16,
-                  }}
+                    fontSize: 16,
+                }}
             >
             </Tab>
 
@@ -452,8 +441,25 @@ class NotesList extends React.Component {
         return (
 
             <div
-                className=""
             >
+                <Link
+                    href="/proDash"
+
+                    // component="button"
+
+
+                    style={{
+                        // fontSize: 16,
+                        backgroundColor: "yellow",
+                        padding: "20",
+
+
+                    }}
+                >
+                    Project Dashboard
+                </Link>
+
+
                 <Box
                     mt={2}
                     mb={2}
@@ -471,14 +477,14 @@ class NotesList extends React.Component {
                             scrollButtons="auto"
 
                             aria-label="action tabs example"
-                      
+
                         >
 
                             <Tab
                                 label="ALL"
                                 onClick={this.clearCategorie}
                                 style={{
-                                    fontSize:14,
+                                    fontSize: 14,
                                 }}
                             >
 
@@ -523,7 +529,9 @@ class NotesList extends React.Component {
                                 activeCategorieID={this.state.activeCategorieID}
                                 removeCategorie={this.props.removeCategorie}
                             />
+
                         </Grid>
+
                     </Grid>
                 </Box>
 
@@ -545,7 +553,7 @@ class NotesList extends React.Component {
                             <ButtonGroup
                                 color="primary"
                                 variant="text"
-                                size="large"
+                                size="small"
                                 fullWidth
 
                             >
@@ -609,13 +617,11 @@ class NotesList extends React.Component {
                                         onChange={this.onDescriptionChange}
                                         margin="dense"
                                         fullWidth
-                                        inputProps={{
-                                            style: {
-                                                fontSize: 16,
-
-
-                                            }
-                                        }}
+                                    // inputProps={{
+                                    //     style: {
+                                    //         fontSize: 16,
+                                    //     }
+                                    // }}
 
                                     />
                                 </div>
@@ -627,12 +633,12 @@ class NotesList extends React.Component {
                                         onChange={this.onRelevanveChange}
                                         margin="dense"
 
-                                        inputProps={{
-                                            style: {
-                                                width: 50,
-                                                fontSize: 16
-                                            }
-                                        }}
+                                    // inputProps={{
+                                    //     style: {
+                                    //         width: 50,
+                                    //         fontSize: 16
+                                    //     }
+                                    // }}
                                     />
                                     <TextField
                                         label="Wichtig"
@@ -640,12 +646,12 @@ class NotesList extends React.Component {
                                         value={important}
                                         onChange={this.onimportantChange}
                                         margin="dense"
-                                        inputProps={{
-                                            style: {
-                                                width: 50,
-                                                fontSize: 16,
-                                            },
-                                        }}
+                                    // inputProps={{
+                                    //     style: {
+                                    //         width: 50,
+                                    //         fontSize: 16,
+                                    //     },
+                                    // }}
                                     />
 
                                     <TextField
@@ -654,9 +660,9 @@ class NotesList extends React.Component {
                                         value={datesToFinish ? moment(datesToFinish).format("ddd - DD.MM.YY") : ""}
                                         onChange={this.onDateChange}
                                         margin="dense"
-                                        inputProps={{
-                                            style: { fontSize: 16 }
-                                        }}
+                                    // inputProps={{
+                                    //     style: { fontSize: 16 }
+                                    // }}
                                     />
 
                                 </div>
@@ -672,14 +678,14 @@ class NotesList extends React.Component {
                                         minRows="10"
                                         multiline
                                         fullWidth
-                                        inputProps={{
-                                            style: {
-                                                fontSize: 16,
-                                                padding: 2,
-                                                height: 200,
-                                                lineHeight: 1.2
-                                            }
-                                        }}
+                                    // inputProps={{
+                                    //     style: {
+                                    //         fontSize: 16,
+                                    //         padding: 2,
+                                    //         height: 200,
+                                    //         lineHeight: 1.2
+                                    //     }
+                                    // }}
                                     />
 
                                     <div>
@@ -690,11 +696,11 @@ class NotesList extends React.Component {
                                             onChange={this.onNoteNextStepChange}
                                             margin="normal"
                                             fullWidth
-                                            inputProps={{
-                                                style: {
-                                                    fontSize: 16,
-                                                }
-                                            }}
+                                        // inputProps={{
+                                        //     style: {
+                                        //         fontSize: 16,
+                                        //     }
+                                        // }}
                                         >
 
                                         </TextField>

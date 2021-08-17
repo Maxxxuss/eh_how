@@ -66,7 +66,7 @@ export default class AddCategorie extends React.Component {
         const { setOpen } = this.state
         return (
             <Grid
-                container spacing={2} alignItems="stretch"
+                container spacing={2} alignItems="center"
                 style={{
                     backgroundColor: "rgba(238, 238, 238, 0.405)",
                     
@@ -91,15 +91,15 @@ export default class AddCategorie extends React.Component {
 
                     <TextField
                         tpye="text"
-                        placeholder="Project Name"
+                        label="Project Name"
                         value={this.state.categorie}
                         onChange={this.onCategorieChange}
+                        variant="outlined"
 
 
                         style={{
                             color: "Green",
                             backgroundColor: "rgba(238, 238, 238, 0.405)",
-
                             width: 200,
 
 

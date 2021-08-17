@@ -6,13 +6,31 @@ export const setCategorie = (
     {
         catName, 
         details,
+        catID,
+        m1,
+        m2,
+        m3,
+        m4,
+        aktStand,
+        nextSteps,
+        challenges,
+        journal,
     } = {}
 ) => ({
     type: 'SET_CATEGORIE', 
     categorie: {
         id: uuidv4(), 
         catName, 
-        details
+        details,
+        catID,
+        m1,
+        m2,
+        m3,
+        m4,
+        aktStand,
+        nextSteps,
+        challenges,
+        journal,
     }
 })
 

@@ -7,19 +7,14 @@
     background: rgba(238, 238, 238, 0.405);
     box-sizing: border-box;
     margin-top: 2%;
+    font-size: 16px;
 
 }
-
-// .box_relprio {
-//     float:left;
-
-// }
 
 .box li{
     color: black;
     padding:1%;
-    // padding-right: 20px;
-    // padding-left: 20px;   
+
     list-style-type: none;
 }
 
@@ -32,14 +27,6 @@
     
 }
 
-// .boxNoteList{
-//     // float: left;
-//     // width: 3%;
-//     // margin-right: 3.33333%;
-//     padding: 2px;
-//     box-sizing: border-box;
-
-// }
 
 .noteListStylInt {
     float: left;
@@ -49,13 +36,40 @@
     background-color: rgba(220, 220, 220, 0.426)
 }
 
+// ProjectDashboard Style
 
-// .noteListStylIntNoteDes {
-//     float: left;
-//     margin-left: 2%;
 
-// }
 
+.boxProjectdDash {
+    margin: auto;
+    width: 90%;
+
+    background: rgba(238, 238, 238, 0.405);
+    box-sizing: border-box;
+    margin-top: 2%;
+
+
+}
+
+.noteListStylProjectDas {
+    float: left;
+    margin-left: 2%;
+    padding-left: 2.5%;
+    width: 90%;
+    background-color:rgba(238, 238, 238, 0.405);
+}
+.noteListStylProjectDetails {
+    float: center;
+    margin-left: 2%;
+    padding-left: 2.5%;
+    width: 90%;
+    background-color:rgba(238, 238, 238, 0.405);
+}
+
+.boxProjectdDash li:hover {
+    background-color:gainsboro;
+
+}
 
 
 
