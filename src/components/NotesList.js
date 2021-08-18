@@ -5,7 +5,7 @@ import { removeExpense, addExpense, editExpense, changeStatus } from '../actions
 import { getAllCategories, getCategories } from '../selectors/categories'
 import { getAllExpenses } from '../selectors/notes'
 import AddCategorie from './AddCategorie'
-import moment, { relativeTimeRounding } from "moment"
+import moment from "moment-timezone"
 import {
     colors,
     TextField,
@@ -99,7 +99,7 @@ class NotesList extends React.Component {
         const days = moment.duration(difference).asDays()
         const daySubStrin = parseInt(days)
 
-        if (days > -1 && days < 0) {
+        if (days > -0.4 && days < 0.4) {
             return (
 
                 <p
@@ -112,8 +112,11 @@ class NotesList extends React.Component {
                     Do-Today
                 </p>
             )
+            // ,console.log(days);
+
+
         }
-        if (days < -1) {
+        if (days < -0.4) {
             return (
                 <p
                     style={{
@@ -124,6 +127,8 @@ class NotesList extends React.Component {
                     "Done till "{daySubStrin} Days
                 </p>
             )
+            // ,console.log(b);
+
         }
         else {
             return (
@@ -680,12 +685,11 @@ class NotesList extends React.Component {
                                         fullWidth
                                     // inputProps={{
                                     //     style: {
-                                    //         fontSize: 16,
                                     //         padding: 2,
-                                    //         height: 200,
-                                    //         lineHeight: 1.2
+                                    //         height: 300,
+                                    //         lineHeight: 1.5
                                     //     }
-                                    // }}
+                                    // }}   
                                     />
 
                                     <div>

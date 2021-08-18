@@ -21,7 +21,8 @@ ReactDOM.render(
     <Router >
       <div>
         <Switch>
-          <Route path="/taskDash" component={NotesDashboardPage} />
+        <Route path="/" component={NotesDashboardPage} exact={true} />
+
           <Route path="/proDash" component={ProjectDashboard} />
           {/* <Route component={NotFoundPage} /> */}
         </Switch>

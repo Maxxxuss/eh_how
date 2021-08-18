@@ -8,6 +8,18 @@ const categorieReducer = (state = categorieDefaultState, action) => {
                 action.categorie
             ];
 
+        case 'EDIT_CATEGORIE':
+            return state.map((categorie) => {
+                if (categorie.id === action.id) {
+                    return {
+                        ...categorie,
+                        ...action.updates
+                    };
+                } else {
+                    return categorie;
+                };
+            });
+
         case 'REMOVE_CATEGORIE':
             return state.filter(({ id }) => id !== action.id);
         default:

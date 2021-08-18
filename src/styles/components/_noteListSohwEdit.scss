@@ -1,13 +1,46 @@
 .box {
     float: left;
-    width: 46%;
-    margin-right: 2%;
-    margin-left: 2%;
+    width: 48%;
+    margin-right: 1%;
+    margin-left: 1%;
     padding: 10px;
     background: rgba(238, 238, 238, 0.405);
     box-sizing: border-box;
     margin-top: 2%;
     font-size: 16px;
+
+}
+
+.proBox {
+    background: rgba(238, 238, 238, 0.405);
+    box-sizing: border-box;
+    margin-top: 0.5%;
+    font-size: 16px;
+
+}
+
+
+.proBoxItems {
+    float: left;
+    margin-right: 2%;
+    margin-left: 2%;
+    padding: 0.5%;
+    background: rgba(238, 238, 238, 0.405);
+    box-sizing: border-box;
+    margin-top: 0.5%;
+    font-size: 16px;
+
+}
+
+.proBoxItemsDetails {
+    margin-right: 2%;
+    margin-left: 2%;
+    // padding: 0.5%;
+    // background: rgba(238, 238, 238, 0.405);
+    // box-sizing: border-box;
+    // margin-top: 0.5%;
+    // font-size: 16px;
+    float: none;
 
 }
 
@@ -30,9 +63,9 @@
 
 .noteListStylInt {
     float: left;
-    margin-left: 2%;
-    padding-left: 2.5%;
-    width: 90%;
+    margin-left: 1%;
+    padding-left: 1%;
+    width: 96.5%;
     background-color: rgba(220, 220, 220, 0.426)
 }
 
@@ -43,7 +76,6 @@
 .boxProjectdDash {
     margin: auto;
     width: 90%;
-
     background: rgba(238, 238, 238, 0.405);
     box-sizing: border-box;
     margin-top: 2%;
@@ -53,9 +85,7 @@
 
 .noteListStylProjectDas {
     float: left;
-    margin-left: 2%;
-    padding-left: 2.5%;
-    width: 90%;
+    width: 99%;
     background-color:rgba(238, 238, 238, 0.405);
 }
 .noteListStylProjectDetails {

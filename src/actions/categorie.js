@@ -34,6 +34,16 @@ export const setCategorie = (
     }
 })
 
+export const editCategorie = (id, updates) =>
+({
+  type: 'EDIT_CATEGORIE',
+  id,
+  updates, 
+}
+);
+
+
+
 export const removeCategorie = ({ id } = {}) => {
     return (dispatch) => {
       dispatch(({ 
