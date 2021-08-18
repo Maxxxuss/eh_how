@@ -126,22 +126,31 @@ class ProjectDashboard extends React.Component {
 
     }
 
+    removeProject = () => {
+        const activeCategorie = this.state.activeCategorie
+
+        this.props.removeCategorie({
+            id: activeCategorie.id
+        })
+
+    }
+
     changeCategorieDetails = () => {
 
 
         const catName = this.state.catName
         const details = this.state.details
-        const catID= this.state.catID
-        const m1= this.state.m1
-        const m2= this.state.m2
-        const m3= this.state.m3
-        const m4= this.state.m4
-        const aktStand= this.state.aktStand
-        const nextSteps= this.state.nextSteps
-        const challenges= this.state.challenges
-        const journal= this.state.journal
+        const catID = this.state.catID
+        const m1 = this.state.m1
+        const m2 = this.state.m2
+        const m3 = this.state.m3
+        const m4 = this.state.m4
+        const aktStand = this.state.aktStand
+        const nextSteps = this.state.nextSteps
+        const challenges = this.state.challenges
+        const journal = this.state.journal
 
-        const updates = {catName, details,catID, m1,m2,m3,m4, aktStand, nextSteps, challenges, journal}
+        const updates = { catName, details, catID, m1, m2, m3, m4, aktStand, nextSteps, challenges, journal }
 
 
         this.props.editCategorie(this.state.activeCategorie.id, updates)
@@ -203,8 +212,8 @@ class ProjectDashboard extends React.Component {
                 >
                 </TextField>
                 <TextField
-                    label="Proj.- Details"
-                    value={categorie.details}
+                    label="Proj.- Journal"
+                    value={categorie.journal}
                 // onChange={this.onChange}
                 >
                 </TextField>
@@ -240,7 +249,7 @@ class ProjectDashboard extends React.Component {
                             Add
                         </Button>
                         <Button
-                        onClick={this.changeCategorieDetails}
+                            onClick={this.changeCategorieDetails}
                         >
                             Take Changes
                         </Button>
@@ -251,6 +260,8 @@ class ProjectDashboard extends React.Component {
                         </Button>
                         <Button
                             color="secondary"
+                            onClick={this.removeProject}
+
                         >
                             Remove
                         </Button>
@@ -326,23 +337,32 @@ class ProjectDashboard extends React.Component {
                                 onChange={this.onM4Cahnge}
                             >
                             </TextField>
-                            <TextField
-                                label="Proj.- Journal"
-                                value={journal}
-                                onChange={this.onJournalChange}
-                            // minRows="10"
-                            // multiline
+
+                            <div>
+                                <TextField
+                                    variant="outlined"
+                                    label="Project Journal"
+                                    value={journal}
+                                    onChange={this.onJournalChange}
+                                    margin="dense"
+                                    multiline
+                                    fullWidth
 
 
-                            // inputProps={{
-                            //     style: {
-                            //         padding: 2,
-                            //         height: 300,
-                            //         lineHeight: 1.5,
-                            //     }
-                            // }}   
-                            >
-                            </TextField>
+                                    inputProps={{
+                                        style: {
+                                            marginTop: 20,
+                                            padding: 2,
+                                            height: 200,
+                                            width: 300,
+
+                                            lineHeight: 1.5,
+                                        }
+                                    }}
+                                >
+                                </TextField>
+                            </div>
+
                         </div>
 
                     </div>

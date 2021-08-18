@@ -12,7 +12,9 @@ export const addExpense = (
     calenderFocused,
     categorie, 
     noteStatus, 
-    nextStep
+    nextStep,
+    riskAuswirkung, 
+    riskWahrscheinlichkeit,
  
   } = {}
 ) => ({
@@ -28,7 +30,9 @@ export const addExpense = (
     relevance, 
     categorie,
     noteStatus,
-    nextStep 
+    nextStep, 
+    riskAuswirkung, 
+    riskWahrscheinlichkeit,
 }
 });
 

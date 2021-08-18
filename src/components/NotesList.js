@@ -24,6 +24,8 @@ import {
 import { red, yellow } from '@material-ui/core/colors'
 import DropDownCat from './DopDownCatMat'
 import { Autocomplete } from '@material-ui/lab';
+import SetRisk from './riskButton'
+import AddDeleteProject from './AddDeleteProject'
 
 
 class NotesList extends React.Component {
@@ -528,11 +530,18 @@ class NotesList extends React.Component {
                         <Grid
                             mr={10}
                         >
-                            <AddCategorie
+                            {/* <AddCategorie
                                 categories={this.props.categories}
                                 setCategorie={this.props.setCategorie}
                                 activeCategorieID={this.state.activeCategorieID}
                                 removeCategorie={this.props.removeCategorie}
+                            /> */}
+
+                            <AddDeleteProject
+                                setCategorie={this.props.setCategorie}
+                                removeCategorie={this.props.removeCategorie}
+
+
                             />
 
                         </Grid>
@@ -615,6 +624,7 @@ class NotesList extends React.Component {
                             <div>
                                 <div  >
 
+
                                     <TextField
                                         label="Titel"
                                         variant="filled"
@@ -669,8 +679,14 @@ class NotesList extends React.Component {
                                     //     style: { fontSize: 16 }
                                     // }}
                                     />
+                                    <SetRisk
+                                        editExpense={this.props.editExpense}
+                                        activeNote={this.state.activeNote.id}
 
+                                    />
                                 </div>
+
+
 
                                 <div>
                                     <TextField
