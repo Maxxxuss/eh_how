@@ -15,6 +15,7 @@ export const addExpense = (
     nextStep,
     riskAuswirkung, 
     riskWahrscheinlichkeit,
+    infoNote,
  
   } = {}
 ) => ({
@@ -33,6 +34,8 @@ export const addExpense = (
     nextStep, 
     riskAuswirkung, 
     riskWahrscheinlichkeit,
+    infoNote,
+
 }
 });
 

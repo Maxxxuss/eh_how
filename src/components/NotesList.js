@@ -20,12 +20,14 @@ import {
     Switch,
     Grid,
     Link,
+    FormGroup,
 } from '@material-ui/core'
-import { red, yellow } from '@material-ui/core/colors'
+import { blueGrey, red, yellow } from '@material-ui/core/colors'
 import DropDownCat from './DopDownCatMat'
 import { Autocomplete } from '@material-ui/lab';
 import SetRisk from './riskButton'
 import AddDeleteProject from './AddDeleteProject'
+import { CenterFocusStrong } from '@material-ui/icons'
 
 
 class NotesList extends React.Component {
@@ -51,6 +53,8 @@ class NotesList extends React.Component {
             noteListStatus: "open",
             activeCategorieID: "",
             nextStep: "",
+
+            infoNote: false
         }
     }
 
@@ -66,6 +70,7 @@ class NotesList extends React.Component {
             categorie: "",
             // activeCategorieCatName: "",
             nextStep: "",
+            infoNote: false
         })
     }
 
@@ -85,6 +90,8 @@ class NotesList extends React.Component {
         this.setState({ categorie: expense.categorie })
         this.setState({ activeNoteStatus: expense.noteStatus })
         this.setState({ nextStep: expense.nextStep })
+        this.setState({ infoNote: expense.infoNote })
+
 
 
         console.log("Active Note: ", this.state.activeNote.description, this.state.activeNote)
@@ -153,7 +160,25 @@ class NotesList extends React.Component {
                 <div
                     className="noteListStylInt"
                 >
-                    {Math.round(expense.prio)} {expense.categorie} - {expense.description} - {this.showHintForTimedNotes(expense)}
+                    {Math.round(expense.prio)} {expense.categorie} - {expense.description} - 
+                     {expense.infoNote === true ? <span
+                        style={{
+                            color: 'red',
+                            backgroundColor: 'yellow',
+                            // width:300,
+                            // textAlign: "right"
+                        }}     >info</span> : ""} -
+
+                    {expense.riskAuswirkung !="" || expense.riskWahrscheinlichkeit != "" ? <span
+                        style={{
+                            color: 'yellow',
+                            backgroundColor: 'red',
+                            // width:300,
+                            // textAlign: "right"
+                        }}     >Risk</span> : ""} -
+
+                    {this.showHintForTimedNotes(expense)}
+
 
                     <p>
                         {expense.noteDecscription.substr(16, 80)}
@@ -297,6 +322,12 @@ class NotesList extends React.Component {
 
     }
 
+    onInfoNoteChange = () => {
+
+        const infoNote = this.state.infoNote ? false : true
+        this.setState(() => ({ infoNote }))
+    }
+
 
 
     onSubmitChanges = (e) => {
@@ -312,8 +343,9 @@ class NotesList extends React.Component {
         const noteDecscription = (space.concat(space, timeStamp, space, notDes, space,))
         const datesToFinish = this.state.datesToFinish
         const nextStep = this.state.nextStep
+        const infoNote = this.state.infoNote
 
-        const updates = { description, relevance, important, noteDecscription, categorie, datesToFinish, nextStep }
+        const updates = { description, relevance, important, noteDecscription, categorie, datesToFinish, nextStep, infoNote }
 
         this.props.editExpense(this.state.activeNote.id, updates)
 
@@ -338,7 +370,8 @@ class NotesList extends React.Component {
             noteDecscription: (space.concat(space, timeStamp, space, this.state.noteDecscription)),
             datesToFinish: this.state.datesToFinish,
             categorie: this.state.activeCategorieCatName,
-            nextStep: this.state.nextStep
+            nextStep: this.state.nextStep,
+            infoNote: this.state.infoNote
 
         })
         this.updateFilteExp(this.state.noteListStatus)
@@ -440,7 +473,7 @@ class NotesList extends React.Component {
         ))
 
     render() {
-        const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie, activeCategorieCatName, noteStatus, nextStep } = this.state
+        const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie, activeCategorieCatName, noteStatus, nextStep, infoNote } = this.state
         const { expenses, categories } = this.props
         const { children, value, index, ...other } = this.props;
 
@@ -598,25 +631,60 @@ class NotesList extends React.Component {
 
                         <div>
                             <div>
+                                <FormGroup row>
+                                    <Box
 
-                                <Autocomplete
-                                    id="combo-box-demo"
-                                    options={categories}
+                                        width="25%"
+                                    >
 
-                                    getOptionLabel={(option) => (option ? option.catName : [])}
-                                    inputValue={categorie.toString()}
-                                    onInputChange={(event, categorie) => {
-                                        this.setState({ categorie })
-                                    }}
-                                    onChange={this.onCateChange}
+                                        <Autocomplete
+                                            id="combo-box-demo"
+                                            options={categories}
 
-                                    renderInput={(params) =>
-                                        <TextField {...params}
-                                            label={activeCategorieCatName ? activeCategorieCatName : "Project"}
-                                            variant="outlined"
-                                            autoFocus
-                                        />}
-                                />
+                                            getOptionLabel={(option) => (option ? option.catName : [])}
+                                            inputValue={categorie.toString()}
+                                            onInputChange={(event, categorie) => {
+                                                this.setState({ categorie })
+                                            }}
+                                            onChange={this.onCateChange}
+
+                                            renderInput={(params) =>
+                                                <TextField {...params}
+                                                    label={activeCategorieCatName ? activeCategorieCatName : "Project"}
+                                                    variant="outlined"
+                                                    autoFocus
+
+
+                                                />}
+
+                                        />
+                                    </Box>
+                                    <Box
+                                        marginLeft="4%"
+                                    >
+                                        <FormControlLabel
+                                            control={
+                                                <Switch
+                                                    checked={infoNote}
+                                                    onChange={this.onInfoNoteChange}
+                                                    name="Info Note"
+                                                // color=
+
+                                                />
+                                            }
+                                            label="Info-Note"
+                                        />
+
+                                    </Box>
+                                    <Box>
+                                        <SetRisk
+                                            editExpense={this.props.editExpense}
+                                            activeNote={this.state.activeNote.id}
+
+                                        />
+                                    </Box>
+                                </FormGroup>
+
                             </div>
                         </div>
 
@@ -679,11 +747,7 @@ class NotesList extends React.Component {
                                     //     style: { fontSize: 16 }
                                     // }}
                                     />
-                                    <SetRisk
-                                        editExpense={this.props.editExpense}
-                                        activeNote={this.state.activeNote.id}
 
-                                    />
                                 </div>
 
 

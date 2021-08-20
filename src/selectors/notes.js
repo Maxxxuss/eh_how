@@ -21,6 +21,7 @@ export const getAllExpenses = createSelector(
     nextStep: expense.nextStep ? expense.nextStep : "", 
     riskAuswirkung: expense.riskAuswirkung ? expense.riskAuswirkung : "", 
     riskWahrscheinlichkeit: expense.riskWahrscheinlichkeit ? expense.riskWahrscheinlichkeit :"", 
+    infoNote: expense.infoNote ? expense.infoNote : false
   
   })), 
 )
