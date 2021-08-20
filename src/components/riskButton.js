@@ -49,6 +49,8 @@ export default function SetRisk(props) {
     };
 
     const handleClose = () => {
+        setAuswirkung("")
+        setOccurence("")
         setOpen(false);
     };
 
@@ -64,6 +66,7 @@ export default function SetRisk(props) {
         handleClose()
 
     }
+    
 
     return (
         <div>
@@ -88,9 +91,9 @@ export default function SetRisk(props) {
                                 input={<Input id="demo-dialog-native" />}
                             >
                                 <option aria-label="None" value="" />
-                                <option value={10}>Hoch</option>
-                                <option value={20}>Mittel</option>
-                                <option value={30}>Niedrig</option>
+                                <option value={120}>Hoch</option>
+                                <option value={113}>Mittel</option>
+                                <option value={105}>Niedrig</option>
                             </Select>
                         </FormControl>
                         <FormControl className={classes.formControl}>
@@ -105,9 +108,9 @@ export default function SetRisk(props) {
                                 <MenuItem value="">
                                     <em>None</em>
                                 </MenuItem>
-                                <MenuItem value={10}>Hoch</MenuItem>
-                                <MenuItem value={20}>Mittel</MenuItem>
-                                <MenuItem value={30}>Niedrig</MenuItem>
+                                <MenuItem value={120}>Hoch</MenuItem>
+                                <MenuItem value={113}>Mittel</MenuItem>
+                                <MenuItem value={105}>Niedrig</MenuItem>
                             </Select>
                         </FormControl>
                     </form>

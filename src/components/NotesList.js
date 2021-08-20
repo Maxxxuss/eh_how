@@ -160,8 +160,8 @@ class NotesList extends React.Component {
                 <div
                     className="noteListStylInt"
                 >
-                    {Math.round(expense.prio)} {expense.categorie} - {expense.description} - 
-                     {expense.infoNote === true ? <span
+                    {Math.round(expense.prio)} {expense.categorie} - {expense.description} -
+                    {expense.infoNote === true ? <span
                         style={{
                             color: 'red',
                             backgroundColor: 'yellow',
@@ -169,7 +169,7 @@ class NotesList extends React.Component {
                             // textAlign: "right"
                         }}     >info</span> : ""} -
 
-                    {expense.riskAuswirkung !="" || expense.riskWahrscheinlichkeit != "" ? <span
+                    {expense.riskAuswirkung != "" || expense.riskWahrscheinlichkeit != "" ? <span
                         style={{
                             color: 'yellow',
                             backgroundColor: 'red',
@@ -326,6 +326,9 @@ class NotesList extends React.Component {
 
         const infoNote = this.state.infoNote ? false : true
         this.setState(() => ({ infoNote }))
+
+        const updates = { infoNote }
+        this.props.editExpense(this.state.activeNote.id, updates)
     }
 
 
@@ -471,6 +474,33 @@ class NotesList extends React.Component {
             </Tab>
 
         ))
+
+    showRiskDetails = () => {
+        const riskAus = this.state.activeNote.riskAuswirkung
+        const riskWar = this.state.activeNote.riskWahrscheinlichkeit
+
+        if (riskAus != "" || riskWar != "") {
+            return (
+                <div>
+                    <span>
+                        Risk Auswirkung
+                        {this.state.activeNote.riskAuswirkung}
+                    </span>
+                    <span>
+                        Riks riskWahrscheinlichkeit
+                        {this.state.activeNote.riskWahrscheinlichkeit}
+
+                    </span>
+                </div>
+            )
+
+        } else {
+            return <div>
+                
+            </div>
+
+        }
+    }
 
     render() {
         const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie, activeCategorieCatName, noteStatus, nextStep, infoNote } = this.state
@@ -682,6 +712,9 @@ class NotesList extends React.Component {
                                             activeNote={this.state.activeNote.id}
 
                                         />
+
+                                        <this.showRiskDetails/>
+
                                     </Box>
                                 </FormGroup>
 

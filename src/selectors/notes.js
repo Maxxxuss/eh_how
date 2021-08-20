@@ -11,8 +11,8 @@ export const getAllExpenses = createSelector(
     doneDate: expense.doneDate ? expense.doneDate :"",
     noteStatus: expense.noteStatus ? expense.noteStatus: "open", 
     description: expense.description ? expense.description: "" ,
-    prio: calculatePrio(expense.relevance, expense.relevance, expense.datesToFinish),
-    datesToFinish: expense.datesToFinish ? expense.datesToFinish : "",
+    prio: calculatePrio(expense.important, expense.relevance, expense.datesToFinish, expense.riskAuswirkung, expense.riskWahrscheinlichkeit),
+    // datesToFinish: expense.datesToFinish ? expense.datesToFinish : "",
     sRelevance: expense.priority * expense.relevance ? expense.priority * expense.relevance : "",
     relevance: expense.relevance? expense.relevance: "" ,
     important: expense.important? expense.important: "" ,
@@ -30,27 +30,36 @@ export const getAllExpenses = createSelector(
  
 
 
-function calculatePrio(important, relevance, datesToFinish) {
+function calculatePrio(important, relevance, datesToFinish, riskAuswirkung, riskWahrscheinlichkeit) {
+
+  var rAuswi = (parseInt(riskAuswirkung,10))/100
+  var rWahr = (parseInt(riskWahrscheinlichkeit,10))/100
+
+  var rpz = rAuswi * rWahr >= 0 ? rAuswi * rWahr : 1
+
+  console.log("RPZ:", rpz);
+  console.log("Auswirkung:", parseInt(riskAuswirkung,10)/100)
 
   var b = moment()
   var a = datesToFinish
 
   const difference = moment(a).diff(b)
   const days = moment.duration(difference).asDays()
+
   
-  var calc = important * relevance 
-  var faktor =  (3-days)*0.8
+  var calc = (important * relevance)+important*1.15
+  var faktor =  Math.abs((3-days)*0.8)
 
   if ( days <= 0 ) {
-    return calc * faktor
+    return calc * faktor * rpz 
     
   }
   if (days < 1) {
 
-    return calc * 1.5*faktor
+    return calc * 1.3*faktor *rpz 
   
   } if (days <= 2) {
-    return calc *faktor *1.5
+    return calc *faktor *1.5 *rpz
   } 
   else {
     return calc
