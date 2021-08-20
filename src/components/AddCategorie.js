@@ -168,7 +168,7 @@ export default class AddCategorie extends React.Component {
     //                             </Box>
 
     //                             <Box
-    //                             component="span"
+    //                             component="p"
     //                             display="block"
     //                             >
     //                                 <input

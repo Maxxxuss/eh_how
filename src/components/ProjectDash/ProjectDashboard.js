@@ -11,6 +11,7 @@ import {
     Link,
 
 } from "@material-ui/core"
+import ProjectTabPanelDetails from "./ProjectTapPanelDetails"
 
 class ProjectDashboard extends React.Component {
     constructor(props) {
@@ -81,80 +82,12 @@ class ProjectDashboard extends React.Component {
 
             activeCategorie: categorie,
 
-        })
+        }), 
+        console.log("ProjectDAshboar - SetActCategorie", this.state.activeCategorie);
     }
 
 
-
-
-
-    addCategorie = () => {
-        this.props.setCategorie({
-
-
-            catName: this.state.catName,
-            details: this.state.details,
-            catID: this.state.catID,
-            m1: this.state.m1,
-            m2: this.state.m2,
-            m3: this.state.m3,
-            m4: this.state.m4,
-            aktStand: this.state.aktStand,
-            nextSteps: this.state.nextSteps,
-            challenges: this.state.challenges,
-            journal: this.state.journal,
-
-
-        })
-        console.log("categorie added");
-
-    }
-    clearProjDetails = () => {
-        this.setState({
-            catName: "",
-            details: "",
-            catID: "",
-            m1: "",
-            m2: "",
-            m3: "",
-            m4: "",
-            aktStand: "",
-            nextSteps: "",
-            challenges: "",
-            journal: "",
-        })
-
-    }
-
-    removeProject = () => {
-        const activeCategorie = this.state.activeCategorie
-
-        this.props.removeCategorie({
-            id: activeCategorie.id
-        })
-
-    }
-
-    changeCategorieDetails = () => {
-
-
-        const catName = this.state.catName
-        const details = this.state.details
-        const catID = this.state.catID
-        const m1 = this.state.m1
-        const m2 = this.state.m2
-        const m3 = this.state.m3
-        const m4 = this.state.m4
-        const aktStand = this.state.aktStand
-        const nextSteps = this.state.nextSteps
-        const challenges = this.state.challenges
-        const journal = this.state.journal
-
-        const updates = { catName, details, catID, m1, m2, m3, m4, aktStand, nextSteps, challenges, journal }
-
-
-        this.props.editCategorie(this.state.activeCategorie.id, updates)
-    }
+   
 
 
 
@@ -238,7 +171,7 @@ class ProjectDashboard extends React.Component {
                 <div>
 
                     <h1>Project Dashboard</h1>
-                    <ButtonGroup
+                    {/* <ButtonGroup
                         variant="contained"
                         size="small"
                     >
@@ -265,7 +198,7 @@ class ProjectDashboard extends React.Component {
                         >
                             Remove
                         </Button>
-                    </ButtonGroup>
+                    </ButtonGroup> */}
 
                 </div>
 
@@ -293,7 +226,17 @@ class ProjectDashboard extends React.Component {
                         <h3>
                             Project Details
                         </h3>
-                        <div>
+
+                        <ProjectTabPanelDetails
+                        activeCategorie={this.state.activeCategorie}
+                        setCategorie={this.props.setCategorie}
+                        editCategorie={this.props.editCategorie}
+                        removeCategorie={this.props.removeCategorie}
+
+
+                        />
+
+                        {/* <div>
 
                             <TextField
 
@@ -363,7 +306,7 @@ class ProjectDashboard extends React.Component {
                                 </TextField>
                             </div>
 
-                        </div>
+                        </div> */}
 
                     </div>
                 </div>

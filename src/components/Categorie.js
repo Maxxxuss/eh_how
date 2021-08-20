@@ -125,9 +125,9 @@ class Categories extends React.Component {
         <React.Fragment>
           <Menu.Menu style={{ paddingBottom: "2em" }}>
             <Menu.Item>
-              <span>
+              <p>
                 <Icon name="exchange" /> CategorieS
-              </span>{" "}
+              </p>{" "}
               ({categorie.length}) <Icon name= "add" onClick={this.openModal} />
             </Menu.Item>
             {this.displayCategories(categorie)}
