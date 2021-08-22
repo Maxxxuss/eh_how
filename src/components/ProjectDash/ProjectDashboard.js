@@ -82,12 +82,12 @@ class ProjectDashboard extends React.Component {
 
             activeCategorie: categorie,
 
-        }), 
-        console.log("ProjectDAshboar - SetActCategorie", this.state.activeCategorie);
+        }),
+            console.log("ProjectDAshboar - SetActCategorie", this.state.activeCategorie);
     }
 
 
-   
+
 
 
 
@@ -97,6 +97,9 @@ class ProjectDashboard extends React.Component {
                 className="noteListStylProjectDas"
                 key={categorie.id}
                 onClick={() => this.setActiveCategorie(categorie)}
+                style={{
+                    listStyleType: "none"
+                }}
             >
 
                 <TextField
@@ -228,10 +231,10 @@ class ProjectDashboard extends React.Component {
                         </h3>
 
                         <ProjectTabPanelDetails
-                        activeCategorie={this.state.activeCategorie}
-                        setCategorie={this.props.setCategorie}
-                        editCategorie={this.props.editCategorie}
-                        removeCategorie={this.props.removeCategorie}
+                            activeCategorie={this.state.activeCategorie}
+                            setCategorie={this.props.setCategorie}
+                            editCategorie={this.props.editCategorie}
+                            removeCategorie={this.props.removeCategorie}
 
 
                         />

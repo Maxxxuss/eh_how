@@ -157,6 +157,9 @@ class NotesList extends React.Component {
                 className="noteListStylInt"
                 key={expense.id}
                 onClick={() => this.setActiveNote(expense)}
+                style={{
+                    marginBottom:"8px",
+                }}
             >
                 <div
                     className="noteListStylInt"
@@ -627,14 +630,7 @@ class NotesList extends React.Component {
                     </Grid>
                 </Box>
 
-
-
-
                 <div>
-
-
-
-
                     <div className="box">
 
                         <div
@@ -645,10 +641,15 @@ class NotesList extends React.Component {
                                     this.setState(filteredExp);
                                     console.log(filteredExp);
                                 }}
+                                
 
                                 options={filteredExp ? filteredExp : this.props.expenses}
-                                getOptionLabel={(filteredExp) => filteredExp.description ? filteredExp.description + "  -  " + filteredExp.noteDecscription.substr(5, 85)+ "..." : ""}
-                                style={{ width: 300 }}
+                                getOptionLabel={(filteredExp) => filteredExp.description ? filteredExp.description + "  -  " + filteredExp.noteDecscription.substr(5, 185) : ""}
+                                style={{ 
+                                    marginBottom:"10px",    
+                                    background: "rgba(238, 238, 238, 0.405)"
+                                }}
+                                fullWidth
                                 renderInput={(params) => <TextField {...params} label="Search Note" variant="outlined" />}
                             />
                         </div>
@@ -721,8 +722,6 @@ class NotesList extends React.Component {
                                                     label={activeCategorieCatName ? activeCategorieCatName : "Project"}
                                                     variant="outlined"
                                                     autoFocus
-
-
                                                 />}
 
                                         />
@@ -742,15 +741,12 @@ class NotesList extends React.Component {
                                             }
                                             label="Info-Note"
                                         />
-
                                     </Box>
                                     <Box>
                                         <SetRisk
                                             editExpense={this.props.editExpense}
                                             activeNote={this.state.activeNote.id}
-
                                         />
-
                                         <this.showRiskDetails />
 
                                     </Box>
@@ -762,8 +758,6 @@ class NotesList extends React.Component {
                         <div>
                             <div>
                                 <div  >
-
-
                                     <TextField
                                         label="Titel"
                                         variant="filled"
@@ -840,7 +834,7 @@ class NotesList extends React.Component {
                                     //         height: 300,
                                     //         lineHeight: 1.5
                                     //     }
-                                    // }}   
+                                    // }}  
                                     />
 
                                     <div>
