@@ -53,8 +53,9 @@ class NotesList extends React.Component {
             noteListStatus: "open",
             activeCategorieID: "",
             nextStep: "",
+            infoNote: false,
+            searchNotesInputValue: "",
 
-            infoNote: false
         }
     }
 
@@ -319,7 +320,6 @@ class NotesList extends React.Component {
         const nextStep = e.target.value
         this.setState(() => ({ nextStep }))
         console.log(this.state.nextStep);
-
     }
 
     onInfoNoteChange = () => {
@@ -329,6 +329,12 @@ class NotesList extends React.Component {
 
         const updates = { infoNote }
         this.props.editExpense(this.state.activeNote.id, updates)
+    }
+
+    onSearchNotesInputValueChange = (e) => {
+        const searchNotesInputValue = e.target.value
+        this.setState(() => ({ searchNotesInputValue }))
+        console.log(this.state.searchNotesInputValue);
     }
 
 
@@ -481,22 +487,29 @@ class NotesList extends React.Component {
 
         if (riskAus != "" || riskWar != "") {
             return (
-                <div>
-                    <span>
-                        Risk Auswirkung
-                        {this.state.activeNote.riskAuswirkung}
-                    </span>
-                    <span>
-                        Riks riskWahrscheinlichkeit
-                        {this.state.activeNote.riskWahrscheinlichkeit}
+                <Box
+                >
+                    <TextField
+                        label="Risiko Auswirkung"
+                        value={this.state.activeNote.riskAuswirkung}
+                    >
+                    </TextField>
 
-                    </span>
-                </div>
+                    <TextField
+                        label="Risiko Wahrs."
+                        value={this.state.activeNote.riskWahrscheinlichkeit}
+                        inputProps={{
+                            readOnly: true
+
+                        }}
+                    >
+                    </TextField>
+                </Box>
             )
 
         } else {
             return <div>
-                
+
             </div>
 
         }
@@ -603,7 +616,9 @@ class NotesList extends React.Component {
                             <AddDeleteProject
                                 setCategorie={this.props.setCategorie}
                                 removeCategorie={this.props.removeCategorie}
-
+                                onInputChange={(event, activeNote) => {
+                                    this.setState({ activeNote })
+                                }}
 
                             />
 
@@ -613,8 +628,31 @@ class NotesList extends React.Component {
                 </Box>
 
 
+
+
                 <div>
+
+
+
+
                     <div className="box">
+
+                        <div
+               
+                        >
+                            <Autocomplete
+                                onChange={(event, filteredExp) => {
+                                    this.setState(filteredExp);
+                                    console.log(filteredExp);
+                                }}
+
+                                options={filteredExp ? filteredExp : this.props.expenses}
+                                getOptionLabel={(filteredExp) => filteredExp.description ? filteredExp.description + "  -  " + filteredExp.noteDecscription.substr(5, 85)+ "..." : ""}
+                                style={{ width: 300 }}
+                                renderInput={(params) => <TextField {...params} label="Search Note" variant="outlined" />}
+                            />
+                        </div>
+
                         {filteredExp != "" ?
                             this.displayNotes(filteredExp) :
                             this.displayNotes(
@@ -713,7 +751,7 @@ class NotesList extends React.Component {
 
                                         />
 
-                                        <this.showRiskDetails/>
+                                        <this.showRiskDetails />
 
                                     </Box>
                                 </FormGroup>

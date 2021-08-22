@@ -37,9 +37,6 @@ function calculatePrio(important, relevance, datesToFinish, riskAuswirkung, risk
 
   var rpz = rAuswi * rWahr >= 0 ? rAuswi * rWahr : 1
 
-  console.log("RPZ:", rpz);
-  console.log("Auswirkung:", parseInt(riskAuswirkung,10)/100)
-
   var b = moment()
   var a = datesToFinish
 
