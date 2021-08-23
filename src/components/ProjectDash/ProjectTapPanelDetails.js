@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import TabDetailsProDetails from './TabDetails/ProjectDetails';
+import ProjectJournal from './TabDetails/ProjectJournal';
 
 
 function TabPanel(props) {
@@ -22,7 +23,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-         <Typography component={'span'} variant={'body2'}>{children}</Typography>
+          <Typography component={'span'} variant={'body2'}>{children}</Typography>
         </Box>
       )}
     </div>
@@ -50,9 +51,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ProjectTabPanelDetails (props) {
+export default function ProjectTabPanelDetails(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(1);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -79,16 +80,21 @@ export default function ProjectTabPanelDetails (props) {
       <TabPanel value={value} index={0}>
 
         <TabDetailsProDetails
-        activeCategorie = {props.activeCategorie}
-        setCategorie={props.setCategorie}
-        editCategorie={props.editCategorie}
-        removeCategorie={props.removeCategorie}
+          activeCategorie={props.activeCategorie}
+          setCategorie={props.setCategorie}
+          editCategorie={props.editCategorie}
+          removeCategorie={props.removeCategorie}
 
-        />       
+        />
 
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Journal
+        <ProjectJournal
+          activeCategorie={props.activeCategorie}
+          journalExpenses={props.journalExpenses}
+
+
+        />
       </TabPanel>
       <TabPanel value={value} index={2}>
         Decisions

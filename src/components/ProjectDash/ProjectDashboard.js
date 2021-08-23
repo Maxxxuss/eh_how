@@ -3,6 +3,7 @@ import React from "react"
 import { connect } from 'react-redux'
 import { setCategorie, editCategorie, removeCategorie } from '../../actions/categorie'
 import { getAllCategories, getCategories } from '../../selectors/categories'
+import {getAllExpenses} from "../../selectors/notes"
 import {
     Button,
     ButtonGroup,
@@ -28,6 +29,7 @@ class ProjectDashboard extends React.Component {
             nextSteps: "",
             challenges: "",
             journal: "",
+            noteUpdateDate:"", 
 
             activeCategorie: "",
 
@@ -80,8 +82,8 @@ class ProjectDashboard extends React.Component {
             challenges: categorie.challenges,
             journal: categorie.journal,
 
-            activeCategorie: categorie,
 
+            activeCategorie: categorie,
         }),
             console.log("ProjectDAshboar - SetActCategorie", this.state.activeCategorie);
     }
@@ -170,34 +172,6 @@ class ProjectDashboard extends React.Component {
                 <div>
 
                     <h1>Project Dashboard</h1>
-                    {/* <ButtonGroup
-                        variant="contained"
-                        size="small"
-                    >
-                        <Button
-                            color="primary"
-                            onClick={this.addCategorie}
-                        >
-                            Add
-                        </Button>
-                        <Button
-                            onClick={this.changeCategorieDetails}
-                        >
-                            Take Changes
-                        </Button>
-                        <Button
-                            onClick={this.clearProjDetails}
-                        >
-                            clear
-                        </Button>
-                        <Button
-                            color="secondary"
-                            onClick={this.removeProject}
-
-                        >
-                            Remove
-                        </Button>
-                    </ButtonGroup> */}
 
                 </div>
 
@@ -217,8 +191,6 @@ class ProjectDashboard extends React.Component {
 
                     </div>
 
-
-
                     <div
                         className="proBoxItems"
                     >
@@ -231,81 +203,8 @@ class ProjectDashboard extends React.Component {
                             setCategorie={this.props.setCategorie}
                             editCategorie={this.props.editCategorie}
                             removeCategorie={this.props.removeCategorie}
-
-
+                            journalExpenses={this.props.journalExpenses}
                         />
-
-                        {/* <div>
-
-                            <TextField
-
-                                label="Project ID"
-                                value={catID}
-                                onChange={this.onCatIDChange}
-                            >
-                            </TextField>
-
-                            <TextField
-
-                                label="Projekt Name"
-                                value={catName}
-                                onChange={this.onCatNameChange}
-                            >
-                            </TextField>
-
-                            <TextField
-
-                                label="M1 - P.-Start"
-                                value={m1}
-                                onChange={this.onM1Cahnge}
-                            >
-                            </TextField>
-
-                            <TextField
-                                label="M2 - Start Rea."
-                                value={m2}
-                                onChange={this.onM2Cahnge}
-                            >
-                            </TextField>
-                            <TextField
-                                label="M3 - Ende Rea."
-                                value={m3}
-                                onChange={this.onM3Cahnge}
-                            >
-                            </TextField>
-                            <TextField
-                                label="M4 - P.- Ende"
-                                value={m4}
-                                onChange={this.onM4Cahnge}
-                            >
-                            </TextField>
-
-                            <div>
-                                <TextField
-                                    variant="outlined"
-                                    label="Project Journal"
-                                    value={journal}
-                                    onChange={this.onJournalChange}
-                                    margin="dense"
-                                    multiline
-                                    fullWidth
-
-
-                                    inputProps={{
-                                        style: {
-                                            marginTop: 20,
-                                            padding: 2,
-                                            height: 200,
-                                            width: 300,
-
-                                            lineHeight: 1.5,
-                                        }
-                                    }}
-                                >
-                                </TextField>
-                            </div>
-
-                        </div> */}
 
                     </div>
                 </div>
@@ -319,6 +218,8 @@ class ProjectDashboard extends React.Component {
 const mapStateToProps = (state) => {
     return {
         categories: getAllCategories(state),
+        journalExpenses: (getAllExpenses(state).sort((a, b) => (a.noteUpdateDate > b.noteUpdateDate) ? -1 : 1)).filter(expense => expense.journalNote === true),
+
     }
 }
 
@@ -326,6 +227,10 @@ const mapDispatchToProps = (dispatch) => ({
     setCategorie: (categorie) => dispatch(setCategorie(categorie)),
     removeCategorie: (id) => dispatch(removeCategorie(id)),
     editCategorie: (id, updates) => dispatch(editCategorie(id, updates)),
+
+    removeExpense: (id) => dispatch(removeExpense(id)),
+    addExpense: (expense) => dispatch(addExpense(expense)),
+    editExpense: (id, updates) => dispatch(editExpense(id, updates)),
 
 })
 

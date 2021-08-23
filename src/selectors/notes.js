@@ -8,7 +8,7 @@ export const getAllExpenses = createSelector(
   expenses => expenses.map(expense => ({
     id: expense.id,
     categorie: expense.categorie ? expense.categorie : "", 
-    doneDate: expense.doneDate ? expense.doneDate :"",
+    noteUpdateDate: expense.noteUpdateDate ? expense.noteUpdateDate :"",
     noteStatus: expense.noteStatus ? expense.noteStatus: "open", 
     description: expense.description ? expense.description: "" ,
     prio: calculatePrio(expense.important, expense.relevance, expense.datesToFinish, expense.riskAuswirkung, expense.riskWahrscheinlichkeit),
@@ -21,7 +21,8 @@ export const getAllExpenses = createSelector(
     nextStep: expense.nextStep ? expense.nextStep : "", 
     riskAuswirkung: expense.riskAuswirkung ? expense.riskAuswirkung : "", 
     riskWahrscheinlichkeit: expense.riskWahrscheinlichkeit ? expense.riskWahrscheinlichkeit :"", 
-    infoNote: expense.infoNote ? expense.infoNote : false
+    infoNote: expense.infoNote ? expense.infoNote : false, 
+    journalNote: expense.journalNote ? expense.journalNote : false
   
   })), 
 )

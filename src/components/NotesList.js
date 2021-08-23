@@ -55,6 +55,9 @@ class NotesList extends React.Component {
             nextStep: "",
             infoNote: false,
             searchNotesInputValue: "",
+            journalNote: false, 
+            noteUpdateDate: moment()._d
+
 
         }
     }
@@ -71,7 +74,9 @@ class NotesList extends React.Component {
             categorie: "",
             // activeCategorieCatName: "",
             nextStep: "",
-            infoNote: false
+            infoNote: false, 
+            journalNote: false, 
+
         })
     }
 
@@ -92,8 +97,11 @@ class NotesList extends React.Component {
         this.setState({ activeNoteStatus: expense.noteStatus })
         this.setState({ nextStep: expense.nextStep })
         this.setState({ infoNote: expense.infoNote })
+        this.setState({ journalNote: expense.journalNote })
+
 
         console.log("setActive Note : active Note State:", this.state.activeNoteStatus);
+        console.log("Date Time", this.state.noteUpdateDate);
     }
 
     showHintForTimedNotes = (expense) => {
@@ -155,7 +163,7 @@ class NotesList extends React.Component {
                 key={expense.id}
                 onClick={() => this.setActiveNote(expense)}
                 style={{
-                    marginBottom:"8px",
+                    marginBottom: "8px",
                 }}
             >
                 <div
@@ -225,14 +233,14 @@ class NotesList extends React.Component {
     }
 
     statusChange = () => {
-        const { activeCategorieCatName } = this.state
+        const { activeCategorieCatName, noteUpdateDate } = this.state
 
         console.log("Status Change activeCategorieCatName:", activeCategorieCatName);
 
 
         if (this.state.activeNote.noteStatus === "open") {
             const noteStatus = "closed"
-            const updates = { noteStatus }
+            const updates = { noteStatus, noteUpdateDate }
 
             this.props.editExpense(this.state.activeNote.id, updates)
 
@@ -245,7 +253,7 @@ class NotesList extends React.Component {
 
         } else {
             const noteStatus = "open"
-            const updates = { noteStatus }
+            const updates = { noteStatus, noteUpdateDate }
 
             this.props.editExpense(this.state.activeNote.id, updates)
 
@@ -295,13 +303,11 @@ class NotesList extends React.Component {
         const datesToFinish = new Date(new Date().getTime() + (e.target.value * 24 * 60 * 60 * 1000));
 
         this.setState(() => ({ datesToFinish }))
-        console.log(this.state.datesToFinish);
     }
 
     onCateChange = (e) => {
         const activeCategorieCatName = e.target.value
         this.setState(() => ({ activeCategorieCatName }))
-        console.log(this.state.categorie);
     }
 
     onTabChange = (e, newValue) => {
@@ -316,22 +322,39 @@ class NotesList extends React.Component {
     onNoteNextStepChange = (e) => {
         const nextStep = e.target.value
         this.setState(() => ({ nextStep }))
-        console.log(this.state.nextStep);
     }
 
     onInfoNoteChange = () => {
 
-        const infoNote = this.state.infoNote ? false : true
+        const {noteUpdateDate } = this.state
+
+        const infoNote = this.state.infoNote === true ? false : true
         this.setState(() => ({ infoNote }))
 
-        const updates = { infoNote }
+        const updates = { infoNote, noteUpdateDate }
         this.props.editExpense(this.state.activeNote.id, updates)
+
+        this.updateFilteExp(this.state.noteListStatus)
+
     }
 
     onSearchNotesInputValueChange = (e) => {
         const searchNotesInputValue = e.target.value
         this.setState(() => ({ searchNotesInputValue }))
         console.log(this.state.searchNotesInputValue);
+    }
+
+    onJournalNoteChange = () => {
+
+        const {noteUpdateDate } = this.state
+
+        const journalNote = this.state.journalNote === true ? false : true
+        this.setState(() => ({ journalNote }))
+
+        const updates = { journalNote, noteUpdateDate }
+        this.props.editExpense(this.state.activeNote.id, updates)
+        this.updateFilteExp(this.state.noteListStatus)
+
     }
 
 
@@ -350,8 +373,9 @@ class NotesList extends React.Component {
         const datesToFinish = this.state.datesToFinish
         const nextStep = this.state.nextStep
         const infoNote = this.state.infoNote
+        const noteUpdateDate = this.state.noteUpdateDate
 
-        const updates = { description, relevance, important, noteDecscription, categorie, datesToFinish, nextStep, infoNote }
+        const updates = { description, relevance, important, noteDecscription, categorie, datesToFinish, nextStep, infoNote, noteUpdateDate }
 
         this.props.editExpense(this.state.activeNote.id, updates)
 
@@ -513,7 +537,7 @@ class NotesList extends React.Component {
     }
 
     render() {
-        const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie, activeCategorieCatName, noteStatus, nextStep, infoNote } = this.state
+        const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie, activeCategorieCatName, noteStatus, nextStep, infoNote, journalNote } = this.state
         const { expenses, categories } = this.props
         const { children, value, index, ...other } = this.props;
 
@@ -628,17 +652,17 @@ class NotesList extends React.Component {
                     <div className="box">
 
                         <div
-               
+
                         >
                             <Autocomplete
                                 onChange={(event, expense) => {
-                                    expense !=null  ? this.setActiveNote(expense) : this.clearShowEditNotes()
+                                    expense != null ? this.setActiveNote(expense) : this.clearShowEditNotes()
                                 }}
-                            
+
                                 options={filteredExp ? filteredExp : this.props.expenses}
                                 getOptionLabel={(filteredExp) => filteredExp.description ? filteredExp.description + "  -  " + filteredExp.noteDecscription.substr(5, 185) : ""}
-                                style={{ 
-                                    marginBottom:"10px",    
+                                style={{
+                                    marginBottom: "10px",
                                     background: "rgba(238, 238, 238, 0.405)"
                                 }}
                                 fullWidth
@@ -741,6 +765,19 @@ class NotesList extends React.Component {
                                         />
                                         <this.showRiskDetails />
 
+                                    </Box>
+                                    
+                                    <Box>
+                                        <FormControlLabel
+                                            control={
+                                                <Switch
+                                                    checked={journalNote}
+                                                    onChange={this.onJournalNoteChange}
+                                                    // name="Set Journal"
+                                                />
+                                            }
+                                            label="Set to Journal"
+                                        />
                                     </Box>
                                 </FormGroup>
 

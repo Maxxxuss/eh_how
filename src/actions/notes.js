@@ -11,11 +11,13 @@ export const addExpense = (
     datesToFinish,
     calenderFocused,
     categorie, 
+    noteUpdateDate,
     noteStatus, 
     nextStep,
     riskAuswirkung, 
     riskWahrscheinlichkeit,
     infoNote,
+    journalNote,
  
   } = {}
 ) => ({
@@ -30,11 +32,13 @@ export const addExpense = (
     calenderFocused, 
     relevance, 
     categorie,
+    noteUpdateDate,
     noteStatus,
     nextStep, 
     riskAuswirkung, 
     riskWahrscheinlichkeit,
     infoNote,
+    journalNote,
 
 }
 });

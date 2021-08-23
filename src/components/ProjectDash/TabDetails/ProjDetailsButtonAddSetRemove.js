@@ -24,9 +24,6 @@ export default function PDetailsAddSetRemoveButton(props) {
 
     }
 
- 
-
-
     const clearProjDetails = () => {
         this.setState({
             catName: "",
