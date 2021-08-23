@@ -353,7 +353,6 @@ class NotesList extends React.Component {
 
         const updates = { journalNote, noteUpdateDate }
         this.props.editExpense(this.state.activeNote.id, updates)
-        this.updateFilteExp(this.state.noteListStatus)
 
     }
 

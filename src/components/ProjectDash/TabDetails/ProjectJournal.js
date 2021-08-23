@@ -1,3 +1,4 @@
+import { Grid, TextField } from "@material-ui/core"
 import React from "react"
 
 export default function ProjectJournal(props) {
@@ -10,9 +11,14 @@ export default function ProjectJournal(props) {
 
         var filteredNotes = journalExpenses.filter(expense => expense.categorie === catFilter.catName)
         console.log("Filter Notes By Cat Journal", filteredNotes);
-        return(
+        return (
             filteredNotes
         )
+
+    }
+
+    const setActiveNote = (expense) => {
+        setShowJournalNote(expense.noteDecscription)
 
     }
 
@@ -23,10 +29,14 @@ export default function ProjectJournal(props) {
             <li
                 className="noteListStylInt"
                 key={expense.id}
-                onClick={() => this.setActiveNote(expense)}
+                onClick={() => setActiveNote(expense)}
                 style={{
                     marginBottom: "8px",
+                    listStyleType: "none", 
+                    fontSize:"16px"
+                    
                 }}
+
             >
                 <div
                     className="noteListStylInt"
@@ -36,6 +46,7 @@ export default function ProjectJournal(props) {
                         style={{
                             color: 'red',
                             backgroundColor: 'yellow',
+                            
                             // width:300,
                             // textAlign: "right"
                         }}     >info</span> : ""} -
@@ -62,12 +73,59 @@ export default function ProjectJournal(props) {
         ),
         )
 
+    const displayNoteDetails = () => {
+
+
+        return (
+
+
+            <TextField
+                disabled
+                variant="outlined"
+                multiline
+                label="Project Journal"
+
+                value={showJournalNote}
+                inputProps={{
+                    style: {
+                        width: 550
+                    }
+                }}
+
+            >
+
+            </TextField>
+
+        )
+
+    }
+
     return (
         <div>
             <h3>Project Journal </h3>
             {console.log("Journal Expenes ProjektJournal", props.journalExpenses)
             }
-                {displayNotes()}
+
+            <Grid
+                container
+                justifyContent="center"
+
+                alignContent="center"
+
+            >
+
+
+                <Grid item>
+                    {displayNotes()}
+
+                </Grid>
+
+                <Grid item>
+                    {filteJournalNote() != "" ? displayNoteDetails() :""  }
+
+                </Grid>
+
+            </Grid>
 
         </div>
     )

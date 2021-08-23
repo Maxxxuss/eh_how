@@ -17,6 +17,7 @@ import { BrowserRouter as Router
 
 ReactDOM.render(
   <Provider store={store}>
+
     {/* <NotesDashboardPage/> */}
     <Router >
       <div>
