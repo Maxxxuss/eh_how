@@ -87,10 +87,6 @@ class ProjectDashboard extends React.Component {
     }
 
 
-
-
-
-
     displayCategories = (categories) =>
         categories.map(categorie => (
             <li

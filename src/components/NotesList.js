@@ -93,10 +93,7 @@ class NotesList extends React.Component {
         this.setState({ nextStep: expense.nextStep })
         this.setState({ infoNote: expense.infoNote })
 
-
-
-        console.log("Active Note: ", this.state.activeNote.description, this.state.activeNote)
-        console.log("setActiveNote Status:", this.state.activeNoteStatus);
+        console.log("setActive Note : active Note State:", this.state.activeNoteStatus);
     }
 
     showHintForTimedNotes = (expense) => {
@@ -183,7 +180,6 @@ class NotesList extends React.Component {
 
                     {this.showHintForTimedNotes(expense)}
 
-
                     <p>
                         {expense.noteDecscription.substr(16, 80)}
 
@@ -192,8 +188,6 @@ class NotesList extends React.Component {
                 </div>
 
             </li>
-
-
 
         ),
             console.log("Notes on DisplNotes", expenses)
@@ -637,12 +631,10 @@ class NotesList extends React.Component {
                
                         >
                             <Autocomplete
-                                onChange={(event, filteredExp) => {
-                                    this.setState(filteredExp);
-                                    console.log(filteredExp);
+                                onChange={(event, expense) => {
+                                    expense !=null  ? this.setActiveNote(expense) : this.clearShowEditNotes()
                                 }}
-                                
-
+                            
                                 options={filteredExp ? filteredExp : this.props.expenses}
                                 getOptionLabel={(filteredExp) => filteredExp.description ? filteredExp.description + "  -  " + filteredExp.noteDecscription.substr(5, 185) : ""}
                                 style={{ 
