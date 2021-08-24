@@ -55,7 +55,7 @@ class NotesList extends React.Component {
             nextStep: "",
             infoNote: false,
             searchNotesInputValue: "",
-            journalNote: false, 
+            journalNote: false,
             noteUpdateDate: moment()._d
 
 
@@ -74,8 +74,8 @@ class NotesList extends React.Component {
             categorie: "",
             // activeCategorieCatName: "",
             nextStep: "",
-            infoNote: false, 
-            journalNote: false, 
+            infoNote: false,
+            journalNote: false,
 
         })
     }
@@ -326,7 +326,7 @@ class NotesList extends React.Component {
 
     onInfoNoteChange = () => {
 
-        const {noteUpdateDate } = this.state
+        const { noteUpdateDate } = this.state
 
         const infoNote = this.state.infoNote === true ? false : true
         this.setState(() => ({ infoNote }))
@@ -346,7 +346,7 @@ class NotesList extends React.Component {
 
     onJournalNoteChange = () => {
 
-        const {noteUpdateDate } = this.state
+        const { noteUpdateDate } = this.state
 
         const journalNote = this.state.journalNote === true ? false : true
         this.setState(() => ({ journalNote }))
@@ -505,21 +505,50 @@ class NotesList extends React.Component {
         const riskAus = this.state.activeNote.riskAuswirkung
         const riskWar = this.state.activeNote.riskWahrscheinlichkeit
 
-        if (riskAus != "" || riskWar != "") {
+
+        const riskFormater = (x) => {
+            if (x === 120) {
+                return "Hoch"
+
+            } if (x === 113) {
+                return "Mittel"
+
+            }
+            if (x === 105) {
+                return "niedrig"
+            }
+            else {
+                return ""
+
+            }
+        }
+
+        if (riskAus !== "" || riskWar !== "") {
             return (
                 <Box
                 >
                     <TextField
                         label="Risiko Auswirkung"
-                        value={this.state.activeNote.riskAuswirkung}
+                        value={riskFormater(riskAus)}
+                        inputProps={{
+                            readOnly: true, 
+
+                            style: {
+                                textAlign: "center"
+                            }
+                        }}
                     >
                     </TextField>
 
                     <TextField
                         label="Risiko Wahrs."
-                        value={this.state.activeNote.riskWahrscheinlichkeit}
+                        value={riskFormater(riskWar)}
                         inputProps={{
-                            readOnly: true
+                            readOnly: true, 
+                            style: {
+                                textAlign: "center"
+                            }
+
 
                         }}
                     >
@@ -757,26 +786,28 @@ class NotesList extends React.Component {
                                             label="Info-Note"
                                         />
                                     </Box>
-                                    <Box>
-                                        <SetRisk
-                                            editExpense={this.props.editExpense}
-                                            activeNote={this.state.activeNote.id}
-                                        />
-                                        <this.showRiskDetails />
 
-                                    </Box>
-                                    
+
                                     <Box>
                                         <FormControlLabel
                                             control={
                                                 <Switch
                                                     checked={journalNote}
                                                     onChange={this.onJournalNoteChange}
-                                                    // name="Set Journal"
+                                                // name="Set Journal"
                                                 />
                                             }
                                             label="Set to Journal"
                                         />
+                                    </Box>
+
+                                    <Box>
+                                        <SetRisk
+                                            editExpense={this.props.editExpense}
+                                            activeNote={this.state.activeNote}
+                                        />
+                                        <this.showRiskDetails />
+
                                     </Box>
                                 </FormGroup>
 

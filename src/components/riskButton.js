@@ -36,6 +36,9 @@ export default function SetRisk(props) {
     const [auswirkung, setAuswirkung] = React.useState('');
     const [occurence, setOccurence] = React.useState("")
 
+    const propRiskAus = props.activeNote.riskAuswirkung ? props.activeNote.riskAuswirkung : ""
+    const propsRiskWahr = props.activeNote.riskWahrscheinlichkeit ? props.activeNote.riskWahrscheinlichkeit : ""
+
     const handelAuswirkungChange = (event) => {
         setAuswirkung(Number(event.target.value) || '');
     };
@@ -57,13 +60,21 @@ export default function SetRisk(props) {
     const handelAddRisk = () => {
 
         props.editExpense(
-            props.activeNote, {
+            props.activeNote.id, {
                 riskAuswirkung: auswirkung, 
                 riskWahrscheinlichkeit: occurence}
-    
-  
         )
         handleClose()
+
+    }
+
+    const showRisikButton = () => {
+        if (propRiskAus != "" ||  propsRiskWahr != "") {
+            return "Edit Risk"
+            
+        } else {
+            return "Set Risk"   
+        }
 
     }
     
@@ -77,7 +88,7 @@ export default function SetRisk(props) {
                 theme={theme}
              
            
-            >Set Risk</Button>
+            >{ showRisikButton()}</Button>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Fill the form</DialogTitle>
                 <DialogContent>
