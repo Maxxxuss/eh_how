@@ -21,6 +21,7 @@ import {
     Grid,
     Link,
     FormGroup,
+    Snackbar,
 } from '@material-ui/core'
 import { blueGrey, red, yellow } from '@material-ui/core/colors'
 import DropDownCat from './DopDownCatMat'
@@ -29,6 +30,7 @@ import SetRisk from './riskButton'
 import AddDeleteProject from './AddDeleteProject'
 import { CenterFocusStrong } from '@material-ui/icons'
 import DoubleCheckRemoveButton from './Button/DoubleCheckRemoveButton'
+import { Alert } from './Notification/NotificationBar'
 
 
 class NotesList extends React.Component {
@@ -57,9 +59,10 @@ class NotesList extends React.Component {
             infoNote: false,
             searchNotesInputValue: "",
             journalNote: false,
-            noteUpdateDate: moment()._d
-
-
+            noteUpdateDate: moment()._d,
+            notificationStatus: false,
+            snackbarServety:"", 
+            snackBarMessage:""
         }
     }
 
@@ -77,6 +80,7 @@ class NotesList extends React.Component {
             nextStep: "",
             infoNote: false,
             journalNote: false,
+
         })
     }
 
@@ -85,9 +89,28 @@ class NotesList extends React.Component {
         this.props.removeExpense({ id: this.state.activeNote.id })
         this.clearShowEditNotes()
         this.updateFilteExp(this.state.noteListStatus)
-
+        this.setState({ 
+            notificationStatus: true,
+            snackbarServety: "info",
+            snackBarMessage:"Note erfolgreich gelöscht"
         
+        })
+
     }
+
+    handelSnackAlert = (notMess) => {
+        <MuiAlert elevation={6} variant="filled" {...notMess} />
+
+    }
+    handleCloseSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        this.setState({ notificationStatus: false })
+    };
+
+
 
     setActiveNote = (expense) => {
         this.setState({ activeNote: expense })
@@ -248,6 +271,14 @@ class NotesList extends React.Component {
             this.props.editExpense(this.state.activeNote.id, updates)
 
             this.updateFilteExp("open")
+            this.setState({ 
+                notificationStatus: true,
+                snackbarServety: "info",
+                snackBarMessage:"Status Change erfolgreich"
+            
+            
+            })
+
 
             console.log("Status Change NoteStatus:", this.state.noteStatus);
 
@@ -262,8 +293,19 @@ class NotesList extends React.Component {
 
             this.updateFilteExp("closed")
             console.log("Else Note Status : ", this.state.noteStatus);
+   
+
 
         }
+    }
+
+    SnackBarForAddDeleteButton = () => {
+        this.setState({ 
+            notificationStatus: true,
+            snackbarServety: "success",
+            snackBarMessage:" Set new Project erfolgreich"
+        
+        })
     }
 
     changDisplayNotesOnStateus = () => {
@@ -387,12 +429,25 @@ class NotesList extends React.Component {
         this.updateFilteExp(activeNoteStatus)
         console.log("edit Expense: ", this.state.activeNote.id, updates);
 
+        this.setState({ 
+            notificationStatus: true,
+            snackbarServety: "success",
+            snackBarMessage:"Note Change erfolgreich"
+        
+        })
+
     }
 
     editNote = (noteId, update) => {
 
         this.props.editExpense(noteId, update)
         this.updateFilteExp(this.state.noteListStatus)
+        this.setState({ 
+            notificationStatus: true,
+            snackbarServety: "success",
+            snackBarMessage:"Risk erfolgreich hinzugefügt"
+        
+        })
 
 
     }
@@ -416,6 +471,12 @@ class NotesList extends React.Component {
         })
         this.updateFilteExp(this.state.noteListStatus)
         this.clearShowEditNotes()
+        this.setState({ 
+            notificationStatus: true,
+            snackbarServety: "success",
+            snackBarMessage:"Note erfolgreich hinzugefügt"
+        
+        })
 
 
     }
@@ -542,7 +603,7 @@ class NotesList extends React.Component {
                         label="Risiko Auswirkung"
                         value={riskFormater(riskAus)}
                         inputProps={{
-                            readOnly: true, 
+                            readOnly: true,
 
                             style: {
                                 textAlign: "center"
@@ -555,7 +616,7 @@ class NotesList extends React.Component {
                         label="Risiko Wahrs."
                         value={riskFormater(riskWar)}
                         inputProps={{
-                            readOnly: true, 
+                            readOnly: true,
                             style: {
                                 textAlign: "center"
                             }
@@ -673,6 +734,7 @@ class NotesList extends React.Component {
                                 onInputChange={(event, activeNote) => {
                                     this.setState({ activeNote })
                                 }}
+                                SnackBar= {this.SnackBarForAddDeleteButton}
 
                             />
 
@@ -728,20 +790,26 @@ class NotesList extends React.Component {
                                 <Button
                                     onClick={this.clearShowEditNotes}
 
-                                > CLEAR </Button>
+                                > CLEAR
+                                </Button>
 
                                 <Button
 
                                     onClick={this.statusChange}
                                 >
                                     Set Status:  {this.state.activeNote.noteStatus === "closed" ? "open" : "closed"}
+
+
+
+
                                 </Button>
 
-                                <DoubleCheckRemoveButton
-                                activeNote ={this.state.activeNote}
-                                handelRemoveNote= {this.handelRemoveNote}
 
-                                
+                                <DoubleCheckRemoveButton
+                                    activeNote={this.state.activeNote}
+                                    handelRemoveNote={this.handelRemoveNote}
+
+
                                 />
 
                             </ButtonGroup>
@@ -917,6 +985,15 @@ class NotesList extends React.Component {
                                         >
 
                                         </TextField>
+                                        <div>
+
+                                            <Snackbar open={this.state.notificationStatus} autoHideDuration={1500} onClose={this.handleCloseSnackbar}>
+                                                <Alert onClose={this.handleCloseSnackbar} severity={this.state.snackbarServety}>
+                                                    {this.state.snackBarMessage}
+                                                </Alert>
+                                            </Snackbar>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
