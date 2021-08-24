@@ -28,6 +28,7 @@ import { Autocomplete } from '@material-ui/lab';
 import SetRisk from './riskButton'
 import AddDeleteProject from './AddDeleteProject'
 import { CenterFocusStrong } from '@material-ui/icons'
+import DoubleCheckRemoveButton from './Button/DoubleCheckRemoveButton'
 
 
 class NotesList extends React.Component {
@@ -76,7 +77,6 @@ class NotesList extends React.Component {
             nextStep: "",
             infoNote: false,
             journalNote: false,
-
         })
     }
 
@@ -84,6 +84,9 @@ class NotesList extends React.Component {
     handelRemoveNote = () => {
         this.props.removeExpense({ id: this.state.activeNote.id })
         this.clearShowEditNotes()
+        this.updateFilteExp(this.state.noteListStatus)
+
+        
     }
 
     setActiveNote = (expense) => {
@@ -655,12 +658,6 @@ class NotesList extends React.Component {
                         <Grid
                             mr={10}
                         >
-                            {/* <AddCategorie
-                                categories={this.props.categories}
-                                setCategorie={this.props.setCategorie}
-                                activeCategorieID={this.state.activeCategorieID}
-                                removeCategorie={this.props.removeCategorie}
-                            /> */}
 
                             <AddDeleteProject
                                 setCategorie={this.props.setCategorie}
@@ -688,7 +685,7 @@ class NotesList extends React.Component {
                                 }}
 
                                 options={filteredExp ? filteredExp : this.props.expenses}
-                                getOptionLabel={(filteredExp) => filteredExp.description ? filteredExp.description + "  -  " + filteredExp.noteDecscription.substr(5, 185) : ""}
+                                getOptionLabel={(filteredExp) => filteredExp.description ? filteredExp.description + "  -  " + filteredExp.noteDecscription.substr(17, 235) : ""}
                                 style={{
                                     marginBottom: "10px",
                                     background: "rgba(238, 238, 238, 0.405)"
@@ -726,18 +723,18 @@ class NotesList extends React.Component {
                                 > CLEAR </Button>
 
                                 <Button
+
                                     onClick={this.statusChange}
                                 >
                                     Set Status:  {this.state.activeNote.noteStatus === "closed" ? "open" : "closed"}
                                 </Button>
 
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={this.handelRemoveNote}
-                                >
-                                    remove
-                                </Button>
+                                <DoubleCheckRemoveButton
+                                activeNote ={this.state.activeNote}
+                                handelRemoveNote= {this.handelRemoveNote}
+
+                                
+                                />
 
                             </ButtonGroup>
                         </Box>

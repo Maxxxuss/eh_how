@@ -140,8 +140,11 @@ export default function TabDetailsProDetails(props) {
                     value={journal}
                     onChange={onJournalChange}
                     margin="dense"
+                    minRows="10"
+
                     multiline
                     fullWidth
+
 
 
                     inputProps={{
