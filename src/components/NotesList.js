@@ -389,6 +389,14 @@ class NotesList extends React.Component {
 
     }
 
+    editNote = (noteId, update) => {
+
+        this.props.editExpense(noteId, update)
+        this.updateFilteExp(this.state.noteListStatus)
+
+
+    }
+
     onSubmitAddNote = (e) => {
         const space = "\n"
         const timeStamp = moment().format("ddd - DD.MM.YY")
@@ -800,7 +808,7 @@ class NotesList extends React.Component {
 
                                     <Box>
                                         <SetRisk
-                                            editExpense={this.props.editExpense}
+                                            editNote={this.editNote}
                                             activeNote={this.state.activeNote}
                                         />
                                         <this.showRiskDetails />

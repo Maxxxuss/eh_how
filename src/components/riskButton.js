@@ -21,14 +21,14 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         minWidth: 120,
     },
-    
+
 }));
 const theme = createTheme({
     palette: {
-      primary: green,
+        primary: green,
     },
-  });
-  
+});
+
 
 export default function SetRisk(props) {
     const classes = useStyles();
@@ -58,26 +58,29 @@ export default function SetRisk(props) {
     };
 
     const handelAddRisk = () => {
-
-        props.editExpense(
+        props.editNote(
             props.activeNote.id, {
-                riskAuswirkung: auswirkung, 
-                riskWahrscheinlichkeit: occurence}
+            riskAuswirkung: auswirkung,
+            riskWahrscheinlichkeit: occurence
+        }
+
         )
+
+
         handleClose()
 
     }
 
     const showRisikButton = () => {
-        if (propRiskAus != "" ||  propsRiskWahr != "") {
+        if (propRiskAus != "" || propsRiskWahr != "") {
             return "Edit Risk"
-            
+
         } else {
-            return "Set Risk"   
+            return "Set Risk"
         }
 
     }
-    
+
 
     return (
         <div>
@@ -86,9 +89,9 @@ export default function SetRisk(props) {
                 color="secondary"
                 variant="outlined"
                 theme={theme}
-             
-           
-            >{ showRisikButton()}</Button>
+
+
+            >{showRisikButton()}</Button>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Fill the form</DialogTitle>
                 <DialogContent>
