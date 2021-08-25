@@ -1,3 +1,4 @@
+import { Button, Grid } from '@material-ui/core';
 import React from 'react'
 import { locCache, setLocalStorageState } from '../store/configureStore';
 
@@ -32,19 +33,43 @@ export default class ImpExpData extends React.Component {
     render() {
         return (
             <div className="impExpButton">
+                <Grid
+                       container
+                       spacing={10}  
 
-                <button
-                    className="expButton"
+                       direction="row"
+                       justifyContent="center"
+                       alignItems="center"
 
-                    //    onClick = {this.onCategorieSubmit}
-                    onClick={this.expLocalStorage}
-                >Export Local Data </button>
+                       >
+                    <Grid item>
+                        <Button
+                            color="secondary"
+                            variant="contained"
+                            className="expButton"
 
-                    <input type="file"
-                        id="file" name="file"
-                        onChange={this.impLocStora}
+                            //    onClick = {this.onCategorieSubmit}
+                            onClick={this.expLocalStorage}
+                        >Export Local Data
 
-                    />
+                        </Button>
+
+                    </Grid>
+
+                    <Grid item>
+                        <input type="file"
+                            id="file" name="file"
+                            onChange={this.impLocStora}
+
+                        />
+
+                    </Grid>
+
+                </Grid>
+
+
+
+
             </div>
         )
     }

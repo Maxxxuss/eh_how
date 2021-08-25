@@ -22,6 +22,8 @@ import {
     Link,
     FormGroup,
     Snackbar,
+    FormControl,
+
 } from '@material-ui/core'
 import { blueGrey, red, yellow } from '@material-ui/core/colors'
 import DropDownCat from './DopDownCatMat'
@@ -642,24 +644,64 @@ class NotesList extends React.Component {
 
         return (
 
-            <div
-            >
-                <Link
-                    href="/proDash"
+            <div>
 
-                    // component="button"
+                <div
+                
+                style= {{
+                    marginTop:10,
+                    marginLeft:15
+                }}>
 
-
-                    style={{
-                        // fontSize: 16,
-                        backgroundColor: "yellow",
-                        padding: "20",
+                <Grid
 
 
-                    }}
+                    container
+                    spacing={2}
+                    mt={20}
+
+                    direction="row"
+                    justifyContent="flex-start"
+
+                    alignItems="center"
                 >
-                    Project Dashboard
-                </Link>
+
+                    <Grid
+                        item
+                    >
+                        <Link
+                            href="/proDash"
+                            style={{
+                                marginBottom:"20",
+                                backgroundColor: "yellow",
+
+                            }}
+                        >
+                            Project Dashboard
+                        </Link>
+
+                    </Grid>
+
+                    <Grid
+                        item
+                    >
+
+                        <AddDeleteProject
+                            setCategorie={this.props.setCategorie}
+                            removeCategorie={this.props.removeCategorie}
+                            onInputChange={(event, activeNote) => {
+                                this.setState({ activeNote })
+                            }}
+                            SnackBar={this.SnackBarForAddDeleteButton}
+
+                        />
+
+                    </Grid>
+
+
+                </Grid>
+
+                </div>
 
 
                 <Box
@@ -710,57 +752,73 @@ class NotesList extends React.Component {
 
                     </Box>
 
-                    <Grid
-                        container
-                        direction="row"
-                        alignItems="center"
-                    >
 
-                        <Grid item> Note Status:  {this.state.noteListStatus}
-                        </Grid>
-                        <Grid item>
-                            <Switch onChange={this.changDisplayNotesOnStateus} />
-                        </Grid>
-
-                        <Grid
-                            mr={10}
-                        >
-
-                            <AddDeleteProject
-                                setCategorie={this.props.setCategorie}
-                                removeCategorie={this.props.removeCategorie}
-                                onInputChange={(event, activeNote) => {
-                                    this.setState({ activeNote })
-                                }}
-                                SnackBar={this.SnackBarForAddDeleteButton}
-
-                            />
-
-                        </Grid>
-
-                    </Grid>
                 </Box>
 
                 <div>
                     <div className="box">
 
-                        <div
+                        <div >
 
-                        >
-                            <Autocomplete
-                                onChange={(event, expense) => {
-                                    expense != null ? this.setActiveNote(expense) : this.clearShowEditNotes()
-                                }}
+                            <Grid
+                                container
+                                direction="row"
+                                justifyContent="space-evenly"
 
-                                options={filteredExp ? filteredExp : this.props.expenses}
-                                getOptionLabel={(filteredExp) => filteredExp.description ? filteredExp.description + "  -  " + filteredExp.noteDecscription.substr(17, 235) : ""}
-                                style={{
-                                    marginBottom: "10px",
-                                    background: "rgba(238, 238, 238, 0.405)"
-                                }}
-                                fullWidth
-                                renderInput={(params) => <TextField {...params} label="Search Note" variant="outlined" />}
-                            />
+                            >
+
+                                <Grid
+                                    item
+                                    xs={10}
+                                >
+                                    <Autocomplete
+                                        onChange={(event, expense) => {
+                                            expense != null ? this.setActiveNote(expense) : this.clearShowEditNotes()
+                                        }}
+
+                                        options={filteredExp ? filteredExp : this.props.expenses}
+                                        getOptionLabel={(filteredExp) => filteredExp.description ? filteredExp.description + "  -  " + filteredExp.noteDecscription.substr(17, 235) : ""}
+                                        style={{
+                                            marginBottom: "10px",
+                                            background: "rgba(238, 238, 238, 0.405)"
+                                        }}
+                                        fullWidth
+                                        renderInput={(params) => <TextField {...params} label="Search Note" variant="outlined" />}
+                                    />
+
+                                </Grid>
+
+                                <Grid item>
+                                    {/* <Grid item> Note Status:  {this.state.noteListStatus}
+                                    </Grid>
+                                    <Grid item>
+                                        <Switch onChange={this.changDisplayNotesOnStateus} />
+                                    </Grid> */}
+                                    <FormControl component="fieldset">
+
+                                        <FormGroup aria-label="position" row>
+                                            <FormControlLabel
+                                                value="top"
+                                                control={ <Switch onChange={this.changDisplayNotesOnStateus} />}
+
+                                                label=    { "Status: " + this.state.noteListStatus}
+                                                labelPlacement="top"
+                                            />
+
+
+                                        </FormGroup>
+
+
+                                    </FormControl>
+
+
+
+
+                                </Grid>
+
+
+                            </Grid>
+
                         </div>
 
                         {filteredExp != "" ?
@@ -816,6 +874,8 @@ class NotesList extends React.Component {
                             container
                             spacing={2}
                             direction="row"
+                            justifyContent="space-between"
+
                         >
                             <Grid
                                 item xs={4}
