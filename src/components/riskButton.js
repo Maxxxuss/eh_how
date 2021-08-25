@@ -33,7 +33,7 @@ const theme = createTheme({
 export default function SetRisk(props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const [auswirkung, setAuswirkung] = React.useState('');
+    const [auswirkung, setAuswirkung] = React.useState("");
     const [occurence, setOccurence] = React.useState("")
 
     const propRiskAus = props.activeNote.riskAuswirkung ? props.activeNote.riskAuswirkung : ""
@@ -62,11 +62,7 @@ export default function SetRisk(props) {
             props.activeNote.id, {
             riskAuswirkung: auswirkung,
             riskWahrscheinlichkeit: occurence
-        }
-
-        )
-
-
+        })
         handleClose()
 
     }
@@ -74,11 +70,9 @@ export default function SetRisk(props) {
     const showRisikButton = () => {
         if (propRiskAus != "" || propsRiskWahr != "") {
             return "Edit Risk"
-
         } else {
             return "Set Risk"
         }
-
     }
 
 

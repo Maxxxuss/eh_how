@@ -61,8 +61,8 @@ class NotesList extends React.Component {
             journalNote: false,
             noteUpdateDate: moment()._d,
             notificationStatus: false,
-            snackbarServety:"", 
-            snackBarMessage:""
+            snackbarServety: "",
+            snackBarMessage: ""
         }
     }
 
@@ -89,11 +89,11 @@ class NotesList extends React.Component {
         this.props.removeExpense({ id: this.state.activeNote.id })
         this.clearShowEditNotes()
         this.updateFilteExp(this.state.noteListStatus)
-        this.setState({ 
+        this.setState({
             notificationStatus: true,
             snackbarServety: "info",
-            snackBarMessage:"Note erfolgreich gelöscht"
-        
+            snackBarMessage: "Note erfolgreich gelöscht"
+
         })
 
     }
@@ -271,12 +271,12 @@ class NotesList extends React.Component {
             this.props.editExpense(this.state.activeNote.id, updates)
 
             this.updateFilteExp("open")
-            this.setState({ 
+            this.setState({
                 notificationStatus: true,
                 snackbarServety: "info",
-                snackBarMessage:"Status Change erfolgreich"
-            
-            
+                snackBarMessage: "Status Change erfolgreich"
+
+
             })
 
 
@@ -293,18 +293,16 @@ class NotesList extends React.Component {
 
             this.updateFilteExp("closed")
             console.log("Else Note Status : ", this.state.noteStatus);
-   
-
 
         }
     }
 
     SnackBarForAddDeleteButton = () => {
-        this.setState({ 
+        this.setState({
             notificationStatus: true,
             snackbarServety: "success",
-            snackBarMessage:" Set new Project erfolgreich"
-        
+            snackBarMessage: "Set new Project erfolgreich"
+
         })
     }
 
@@ -429,11 +427,11 @@ class NotesList extends React.Component {
         this.updateFilteExp(activeNoteStatus)
         console.log("edit Expense: ", this.state.activeNote.id, updates);
 
-        this.setState({ 
+        this.setState({
             notificationStatus: true,
             snackbarServety: "success",
-            snackBarMessage:"Note Change erfolgreich"
-        
+            snackBarMessage: "Note Change erfolgreich"
+
         })
 
     }
@@ -442,11 +440,11 @@ class NotesList extends React.Component {
 
         this.props.editExpense(noteId, update)
         this.updateFilteExp(this.state.noteListStatus)
-        this.setState({ 
+        this.setState({
             notificationStatus: true,
             snackbarServety: "success",
-            snackBarMessage:"Risk erfolgreich hinzugefügt"
-        
+            snackBarMessage: "Risk erfolgreich hinzugefügt"
+
         })
 
 
@@ -471,11 +469,11 @@ class NotesList extends React.Component {
         })
         this.updateFilteExp(this.state.noteListStatus)
         this.clearShowEditNotes()
-        this.setState({ 
+        this.setState({
             notificationStatus: true,
             snackbarServety: "success",
-            snackBarMessage:"Note erfolgreich hinzugefügt"
-        
+            snackBarMessage: "Note erfolgreich hinzugefügt"
+
         })
 
 
@@ -734,7 +732,7 @@ class NotesList extends React.Component {
                                 onInputChange={(event, activeNote) => {
                                     this.setState({ activeNote })
                                 }}
-                                SnackBar= {this.SnackBarForAddDeleteButton}
+                                SnackBar={this.SnackBarForAddDeleteButton}
 
                             />
 
@@ -800,8 +798,6 @@ class NotesList extends React.Component {
                                     Set Status:  {this.state.activeNote.noteStatus === "closed" ? "open" : "closed"}
 
 
-
-
                                 </Button>
 
 
@@ -815,77 +811,86 @@ class NotesList extends React.Component {
                             </ButtonGroup>
                         </Box>
 
-                        <div>
-                            <div>
-                                <FormGroup row>
-                                    <Box
 
-                                        width="25%"
-                                    >
+                        <Grid
+                            container
+                            spacing={2}
+                            direction="row"
+                        >
+                            <Grid
+                                item xs={4}
+                            >
 
-                                        <Autocomplete
-                                            id="combo-box-demo"
-                                            options={categories}
+                                <Autocomplete
+                                    id="combo-box-demo"
+                                    options={categories}
 
-                                            getOptionLabel={(option) => (option ? option.catName : [])}
-                                            inputValue={categorie.toString()}
-                                            onInputChange={(event, categorie) => {
-                                                this.setState({ categorie })
-                                            }}
-                                            onChange={this.onCateChange}
+                                    getOptionLabel={(option) => (option ? option.catName : [])}
+                                    inputValue={categorie.toString()}
+                                    onInputChange={(event, categorie) => {
+                                        this.setState({ categorie })
+                                    }}
+                                    onChange={this.onCateChange}
 
-                                            renderInput={(params) =>
-                                                <TextField {...params}
-                                                    label={activeCategorieCatName ? activeCategorieCatName : "Project"}
-                                                    variant="outlined"
-                                                    autoFocus
-                                                />}
+                                    renderInput={(params) =>
+                                        <TextField {...params}
+                                            label={activeCategorieCatName ? activeCategorieCatName : "Project"}
+                                            variant="outlined"
+                                            autoFocus
+                                        />}
+                                />
+                            </Grid>
+                            <Grid >
 
-                                        />
-                                    </Box>
-                                    <Box
-                                        marginLeft="4%"
-                                    >
-                                        <FormControlLabel
-                                            control={
-                                                <Switch
-                                                    checked={infoNote}
-                                                    onChange={this.onInfoNoteChange}
-                                                    name="Info Note"
-                                                // color=
-
-                                                />
-                                            }
-                                            label="Info-Note"
-                                        />
-                                    </Box>
+                                <Grid
+                                    container
+                                    direction="column"
 
 
-                                    <Box>
-                                        <FormControlLabel
-                                            control={
-                                                <Switch
-                                                    checked={journalNote}
-                                                    onChange={this.onJournalNoteChange}
-                                                // name="Set Journal"
-                                                />
-                                            }
-                                            label="Set to Journal"
-                                        />
-                                    </Box>
+                                >
+                                    <FormControlLabel
+                                        control={
+                                            <Switch
+                                                checked={infoNote}
+                                                onChange={this.onInfoNoteChange}
+                                                name="Info Note"
+                                            // color=
 
-                                    <Box>
-                                        <SetRisk
-                                            editNote={this.editNote}
-                                            activeNote={this.state.activeNote}
-                                        />
-                                        <this.showRiskDetails />
+                                            />
+                                        }
+                                        label="Info-Note"
+                                    />
+                                </Grid>
 
-                                    </Box>
-                                </FormGroup>
 
-                            </div>
-                        </div>
+                                <Grid
+                                    container
+                                    direction="column"
+
+                                >
+                                    <FormControlLabel
+                                        control={
+                                            <Switch
+                                                checked={journalNote}
+                                                onChange={this.onJournalNoteChange}
+                                            // name="Set Journal"
+                                            />
+                                        }
+                                        label="Set to Journal"
+                                    />
+                                </Grid>
+                            </Grid>
+
+                            <Grid>
+                                <SetRisk
+                                    editNote={this.editNote}
+                                    activeNote={this.state.activeNote}
+                                />
+                                <this.showRiskDetails />
+
+                            </Grid>
+
+                        </Grid>
 
                         <div>
                             <div>
@@ -987,7 +992,7 @@ class NotesList extends React.Component {
                                         </TextField>
                                         <div>
 
-                                            <Snackbar open={this.state.notificationStatus} autoHideDuration={1500} onClose={this.handleCloseSnackbar}>
+                                            <Snackbar open={this.state.notificationStatus} autoHideDuration={2000} onClose={this.handleCloseSnackbar}>
                                                 <Alert onClose={this.handleCloseSnackbar} severity={this.state.snackbarServety}>
                                                     {this.state.snackBarMessage}
                                                 </Alert>
