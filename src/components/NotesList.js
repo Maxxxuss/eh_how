@@ -647,59 +647,59 @@ class NotesList extends React.Component {
             <div>
 
                 <div
-                
-                style= {{
-                    marginTop:10,
-                    marginLeft:15
-                }}>
 
-                <Grid
-
-
-                    container
-                    spacing={2}
-                    mt={20}
-
-                    direction="row"
-                    justifyContent="flex-start"
-
-                    alignItems="center"
-                >
+                    style={{
+                        marginTop: 10,
+                        marginLeft: 15
+                    }}>
 
                     <Grid
-                        item
-                    >
-                        <Link
-                            href="/proDash"
-                            style={{
-                                marginBottom:"20",
-                                backgroundColor: "yellow",
 
-                            }}
+
+                        container
+                        spacing={2}
+                        mt={20}
+
+                        direction="row"
+                        justifyContent="flex-start"
+
+                        alignItems="center"
+                    >
+
+                        <Grid
+                            item
                         >
-                            Project Dashboard
-                        </Link>
+                            <Link
+                                href="/proDash"
+                                style={{
+                                    marginBottom: "20",
+                                    backgroundColor: "yellow",
+
+                                }}
+                            >
+                                Project Dashboard
+                            </Link>
+
+                        </Grid>
+
+                        <Grid
+                            item
+                        >
+
+                            <AddDeleteProject
+                                setCategorie={this.props.setCategorie}
+                                removeCategorie={this.props.removeCategorie}
+                                onInputChange={(event, activeNote) => {
+                                    this.setState({ activeNote })
+                                }}
+                                SnackBar={this.SnackBarForAddDeleteButton}
+
+                            />
+
+                        </Grid>
+
 
                     </Grid>
-
-                    <Grid
-                        item
-                    >
-
-                        <AddDeleteProject
-                            setCategorie={this.props.setCategorie}
-                            removeCategorie={this.props.removeCategorie}
-                            onInputChange={(event, activeNote) => {
-                                this.setState({ activeNote })
-                            }}
-                            SnackBar={this.SnackBarForAddDeleteButton}
-
-                        />
-
-                    </Grid>
-
-
-                </Grid>
 
                 </div>
 
@@ -799,9 +799,9 @@ class NotesList extends React.Component {
                                         <FormGroup aria-label="position" row>
                                             <FormControlLabel
                                                 value="top"
-                                                control={ <Switch onChange={this.changDisplayNotesOnStateus} />}
+                                                control={<Switch onChange={this.changDisplayNotesOnStateus} />}
 
-                                                label=    { "Status: " + this.state.noteListStatus}
+                                                label={"Status: " + this.state.noteListStatus}
                                                 labelPlacement="top"
                                             />
 
@@ -896,7 +896,7 @@ class NotesList extends React.Component {
                                         <TextField {...params}
                                             label={activeCategorieCatName ? activeCategorieCatName : "Project"}
                                             variant="outlined"
-                                            autoFocus
+                                            color="secondary"
                                         />}
                                 />
                             </Grid>
@@ -954,61 +954,103 @@ class NotesList extends React.Component {
 
                         <div>
                             <div>
-                                <div  >
+                                <div  
+                                style= {{
+                                    marginBottom:10,
+                                    marginTop:15
+
+                                }}
+                                >
                                     <TextField
                                         label="Titel"
                                         variant="filled"
                                         value={description}
                                         onChange={this.onDescriptionChange}
-                                        margin="dense"
+                                        color="secondary"
                                         fullWidth
-                                    // inputProps={{
-                                    //     style: {
-                                    //         fontSize: 16,
-                                    //     }
-                                    // }}
+                                
+                                    inputProps={{
+                                        style: {
+                                            fontSize: 18,
+                                           
+                                        }
+                                    }}
 
                                     />
                                 </div>
                                 <div className="box_relprio">
-                                    <TextField
-                                        label="Dringlich"
-                                        variant="filled"
-                                        value={relevance}
-                                        onChange={this.onRelevanveChange}
-                                        margin="dense"
 
-                                    // inputProps={{
-                                    //     style: {
-                                    //         width: 50,
-                                    //         fontSize: 16
-                                    //     }
-                                    // }}
-                                    />
-                                    <TextField
-                                        label="Wichtig"
-                                        variant="filled"
-                                        value={important}
-                                        onChange={this.onimportantChange}
-                                        margin="dense"
-                                    // inputProps={{
-                                    //     style: {
-                                    //         width: 50,
-                                    //         fontSize: 16,
-                                    //     },
-                                    // }}
-                                    />
+                                    <Grid
+                                        container
+                                        direction="row"
+                                        justifyContent="space-evenly"
+                                        
 
-                                    <TextField
-                                        label="FinishTill"
-                                        variant="filled"
-                                        value={datesToFinish ? moment(datesToFinish).format("ddd - DD.MM.YY") : ""}
-                                        onChange={this.onDateChange}
-                                        margin="dense"
-                                    // inputProps={{
-                                    //     style: { fontSize: 16 }
-                                    // }}
-                                    />
+                                    >
+                                        <Grid item
+                                            xs={2}
+                                        >
+
+                                            <TextField
+                                                label="Dringlich"
+                                                variant="filled"
+                                                value={relevance}
+                                                onChange={this.onRelevanveChange}
+                                                color="secondary"
+
+                                                inputProps={{
+                                                    style: {
+                                                        fontSize: 18,
+                                                    }
+                                                }}
+                                            />
+
+                                        </Grid>
+
+                                        <Grid item
+                                            xs={2}
+
+                                        >
+
+                                            <TextField
+                                                label="Wichtig"
+                                                variant="filled"
+                                                value={important}
+                                                onChange={this.onimportantChange}
+                                                color="secondary"
+                                                inputProps={{
+                                                    style: {
+                                                        fontSize: 18,
+                                                    }
+                                                }}
+                                            />
+
+                                        </Grid>
+
+                                        <Grid item
+                                        xs={2}
+                                        >
+                                            <TextField
+                                                label="FinishTill"
+                                                variant="filled"
+                                                value={datesToFinish ? moment(datesToFinish).format("ddd - DD.MM.YY") : ""}
+                                                onChange={this.onDateChange}
+                                                color="secondary"
+                                                inputProps={{
+                                                    style: {
+                                                        fontSize: 18,
+                                                    }
+                                                }}
+                                            />
+
+                                        </Grid>
+
+
+                                    </Grid>
+
+
+
+
 
                                 </div>
 
@@ -1021,17 +1063,17 @@ class NotesList extends React.Component {
                                         value={noteDecscription}
                                         onChange={this.onNoteDescriptionChange}
                                         margin="normal"
+                                        color="secondary"
+
 
                                         minRows="10"
                                         multiline
                                         fullWidth
-                                    // inputProps={{
-                                    //     style: {
-                                    //         padding: 2,
-                                    //         height: 300,
-                                    //         lineHeight: 1.5
-                                    //     }
-                                    // }}  
+                                        inputProps={{
+                                            style: {
+                                                fontSize: 16,
+                                            }
+                                        }}
                                     />
 
                                     <div>
@@ -1042,6 +1084,8 @@ class NotesList extends React.Component {
                                             onChange={this.onNoteNextStepChange}
                                             margin="normal"
                                             fullWidth
+                                            color="secondary"
+
                                         // inputProps={{
                                         //     style: {
                                         //         fontSize: 16,

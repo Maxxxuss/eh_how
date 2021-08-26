@@ -36,7 +36,7 @@ function calculatePrio(important, relevance, datesToFinish, riskAuswirkung, risk
   var rAuswi = (parseInt(riskAuswirkung,10))/100
   var rWahr = (parseInt(riskWahrscheinlichkeit,10))/100
 
-  var rpz = rAuswi * rWahr >= 0 ? rAuswi * rWahr : 1
+  var rpz = rAuswi * rWahr >= 0 ? rAuswi * rWahr * 1.1 : 1
 
   var b = moment()
   var a = datesToFinish
