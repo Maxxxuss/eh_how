@@ -645,6 +645,7 @@ class NotesList extends React.Component {
         return (
 
             <div>
+         
 
                 <div
 
@@ -954,12 +955,12 @@ class NotesList extends React.Component {
 
                         <div>
                             <div>
-                                <div  
-                                style= {{
-                                    marginBottom:10,
-                                    marginTop:15
+                                <div
+                                    style={{
+                                        marginBottom: 10,
+                                        marginTop: 15
 
-                                }}
+                                    }}
                                 >
                                     <TextField
                                         label="Titel"
@@ -968,13 +969,13 @@ class NotesList extends React.Component {
                                         onChange={this.onDescriptionChange}
                                         color="secondary"
                                         fullWidth
-                                
-                                    inputProps={{
-                                        style: {
-                                            fontSize: 18,
-                                           
-                                        }
-                                    }}
+
+                                        inputProps={{
+                                            style: {
+                                                fontSize: 18,
+
+                                            }
+                                        }}
 
                                     />
                                 </div>
@@ -984,7 +985,7 @@ class NotesList extends React.Component {
                                         container
                                         direction="row"
                                         justifyContent="space-evenly"
-                                        
+
 
                                     >
                                         <Grid item
@@ -1028,7 +1029,7 @@ class NotesList extends React.Component {
                                         </Grid>
 
                                         <Grid item
-                                        xs={2}
+                                            xs={2}
                                         >
                                             <TextField
                                                 label="FinishTill"

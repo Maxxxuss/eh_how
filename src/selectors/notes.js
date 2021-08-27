@@ -22,7 +22,13 @@ export const getAllExpenses = createSelector(
     riskAuswirkung: expense.riskAuswirkung ? expense.riskAuswirkung : "", 
     riskWahrscheinlichkeit: expense.riskWahrscheinlichkeit ? expense.riskWahrscheinlichkeit :"", 
     infoNote: expense.infoNote ? expense.infoNote : false, 
-    journalNote: expense.journalNote ? expense.journalNote : false
+    journalNote: expense.journalNote ? expense.journalNote : false,
+    projectHistorie:  { 
+      m1Alt: expense.projectHistorie.m1Alt ? expense.projectHistorie.m1Alt : "",
+      m2Alt: expense.projectHistorie.m2Alt ? expense.projectHistorie.m2Alt : "",
+      m3Alt: expense.projectHistorie.m3Alt ? expense.projectHistorie.m3Alt : "",
+      m4Alt: expense.projectHistorie.m4Alt ? expense.projectHistorie.m4Alt : "",
+    }
   
   })), 
 )
@@ -36,7 +42,7 @@ function calculatePrio(important, relevance, datesToFinish, riskAuswirkung, risk
   var rAuswi = (parseInt(riskAuswirkung,10))/100
   var rWahr = (parseInt(riskWahrscheinlichkeit,10))/100
 
-  var rpz = rAuswi * rWahr >= 0 ? rAuswi * rWahr * 1.1 : 1
+  var rpz = rAuswi * rWahr >= 0 ? rAuswi * rWahr * 1.2 : 1
 
   var b = moment()
   var a = datesToFinish

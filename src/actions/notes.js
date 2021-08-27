@@ -40,6 +40,7 @@ export const addExpense = (
     infoNote,
     journalNote,
 
+
 }
 });
 
