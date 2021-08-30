@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { setCategorie, removeCategorie } from '../actions/categorie'
 import { removeExpense, addExpense, editExpense, changeStatus } from '../actions/notes'
-import { getAllCategories, getCategories } from '../selectors/categories'
+import { getAllCategories, getCategories, getHistorieCategorie } from '../selectors/categories'
 import { getAllExpenses } from '../selectors/notes'
 import AddCategorie from './AddCategorie'
 import moment from "moment-timezone"
@@ -25,12 +25,9 @@ import {
     FormControl,
 
 } from '@material-ui/core'
-import { blueGrey, red, yellow } from '@material-ui/core/colors'
-import DropDownCat from './DopDownCatMat'
 import { Autocomplete } from '@material-ui/lab';
 import SetRisk from './riskButton'
 import AddDeleteProject from './AddDeleteProject'
-import { CenterFocusStrong } from '@material-ui/icons'
 import DoubleCheckRemoveButton from './Button/DoubleCheckRemoveButton'
 import { Alert } from './Notification/NotificationBar'
 
@@ -636,6 +633,12 @@ class NotesList extends React.Component {
         }
     }
 
+    showHistoryCategorie = () => {
+
+        console.log("Show Hostory Notes: ", this.props.historyCategorie);
+
+        }
+
     render() {
         const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie, activeCategorieCatName, noteStatus, nextStep, infoNote, journalNote } = this.state
         const { expenses, categories } = this.props
@@ -645,6 +648,11 @@ class NotesList extends React.Component {
         return (
 
             <div>
+                <Button
+                onClick={this.showHistoryCategorie}
+                >
+                    Show Histroy Notes 
+                </Button>
          
 
                 <div
@@ -1122,6 +1130,7 @@ const mapStateToProps = (state) => {
         openExpenses: (getAllExpenses(state).sort((a, b) => (a.prio > b.prio) ? -1 : 1)).filter(expense => expense.noteStatus === "open"),
 
         categories: getAllCategories(state),
+        historyCategorie: getHistorieCategorie(state)
     }
 }
 

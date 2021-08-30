@@ -2,7 +2,7 @@
 import React from "react"
 import { connect } from 'react-redux'
 import { setCategorie, editCategorie, removeCategorie } from '../../actions/categorie'
-import { getAllCategories, getCategories } from '../../selectors/categories'
+import { getAllCategories, getCategories, getHistorieCategorie } from '../../selectors/categories'
 import {getAllExpenses} from "../../selectors/notes"
 import {
     Button,
@@ -32,6 +32,7 @@ class ProjectDashboard extends React.Component {
             noteUpdateDate:"", 
 
             activeCategorie: "",
+            actHistroyCategorie: ""
 
         }
     }
@@ -68,7 +69,20 @@ class ProjectDashboard extends React.Component {
     }
 
 
-    setActiveCategorie = (categorie) => {
+    setActiveCategorie_HisCat = (categorie ) => {
+       
+        //SetUp ActHistory 
+        const catID = categorie.id
+        const hisCat = this.props.historyCategorie
+        const activeHisCat = hisCat.filter(fHisCat => fHisCat.hid == catID)
+
+
+        this.setActiveCategorie(categorie, activeHisCat)
+ 
+    }
+
+
+    setActiveCategorie = (categorie, activeHisCat ) => {
         this.setState({
             catName: categorie.catName,
             details: categorie.details,
@@ -77,15 +91,17 @@ class ProjectDashboard extends React.Component {
             m2: categorie.m2,
             m3: categorie.m3,
             m4: categorie.m4,
+
             aktStand: categorie.aktStand,
             nextSteps: categorie.nextSteps,
             challenges: categorie.challenges,
             journal: categorie.journal,
 
-
             activeCategorie: categorie,
-        }),
-            console.log("ProjectDAshboar - SetActCategorie", this.state.activeCategorie);
+            
+            actHistroyCategorie : activeHisCat[0]
+
+        })
     }
 
 
@@ -94,7 +110,7 @@ class ProjectDashboard extends React.Component {
             <li
                 className="noteListStylProjectDas"
                 key={categorie.id}
-                onClick={() => this.setActiveCategorie(categorie)}
+                onClick={() => this.setActiveCategorie_HisCat(categorie)}
                 style={{
                     listStyleType: "none"
                 }}
@@ -204,6 +220,7 @@ class ProjectDashboard extends React.Component {
                             editCategorie={this.props.editCategorie}
                             removeCategorie={this.props.removeCategorie}
                             journalExpenses={this.props.journalExpenses}
+                            actHistroyCategorie={this.state.actHistroyCategorie}
                         />
 
                     </div>
@@ -219,6 +236,7 @@ const mapStateToProps = (state) => {
     return {
         categories: getAllCategories(state),
         journalExpenses: (getAllExpenses(state).sort((a, b) => (a.noteUpdateDate > b.noteUpdateDate) ? -1 : 1)).filter(expense => expense.journalNote === true),
+        historyCategorie: getHistorieCategorie(state)
 
     }
 }

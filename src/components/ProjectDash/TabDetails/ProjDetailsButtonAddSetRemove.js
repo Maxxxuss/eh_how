@@ -15,6 +15,18 @@ export default function PDetailsAddSetRemoveButton(props) {
             m3: props.m3,
             m4: props.m4,
 
+            // H I S T O R Y  D A T A
+
+            m1_1: props.m1_1,
+            m2_1: props.m2_1,
+            m3_1: props.m3_1,
+            m4_1: props.m4_1,
+            
+            m1_2: props.m1_2,
+            m2_2: props.m2_2,
+            m3_2: props.m3_2,
+            m4_2: props.m4_2,
+
             journal: props.journal,
 
 
@@ -24,19 +36,6 @@ export default function PDetailsAddSetRemoveButton(props) {
 
     }
 
-    const clearProjDetails = () => {
-        this.setState({
-            catName: "",
-            details: "",
-            catID: "",
-            m1: "",
-            m2: "",
-            m3: "",
-            m4: "",
-            journal: "",
-        })
-
-    }
 
     const removeProject = () => {
         const activeCategorie = props.activeCategorie.id
@@ -58,9 +57,22 @@ export default function PDetailsAddSetRemoveButton(props) {
         const m3 = props.m3
         const m4 = props.m4
 
+        const m1_1= props.m1_1
+        const m2_1= props.m2_1
+        const m3_1= props.m3_1
+        const m4_1= props.m4_1
+        
+        const m1_2= props.m1_2
+        const m2_2= props.m2_2
+        const m3_2= props.m3_2
+        const m4_2= props.m4_2
+
+        
+
+
         const journal = props.journal
 
-        const updates = { catName, details, catID, m1, m2, m3, m4, journal }
+        const updates = { catName, details, catID, m1, m2, m3, m4, m1_1, m2_1, m3_1, m4_1, m1_2, m2_2, m3_2, m4_2, journal }
 
 
         props.editCategorie(props.activeCategorie.id, updates)
@@ -83,7 +95,7 @@ export default function PDetailsAddSetRemoveButton(props) {
                 Take Changes
             </Button>
             <Button
-                onClick={clearProjDetails}
+                onClick={props.clearProjDetails}
             >
                 clear
             </Button>

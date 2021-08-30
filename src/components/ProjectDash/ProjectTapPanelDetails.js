@@ -84,6 +84,8 @@ export default function ProjectTabPanelDetails(props) {
           setCategorie={props.setCategorie}
           editCategorie={props.editCategorie}
           removeCategorie={props.removeCategorie}
+          actHistroyCategorie={props.actHistroyCategorie}
+
 
         />
 

@@ -20,3 +20,21 @@ export const getAllCategories = createSelector(
     }))
 );
 
+export const getHistorieCategorie = createSelector(
+    getCategories, 
+    categories => categories.map(historyCategorie => ({
+      hid : historyCategorie.id ? historyCategorie.id : "", 
+      m1_1: historyCategorie.m1_1 ? historyCategorie.m1_1  :"",
+      m2_1: historyCategorie.m2_1 ? historyCategorie.m2_1  :"",
+      m3_1: historyCategorie.m3_1 ? historyCategorie.m3_1  :"",
+      m4_1: historyCategorie.m4_1 ? historyCategorie.m4_1  :"", 
+      m1_2: historyCategorie.m1_1 ? historyCategorie.m1_2  :"",
+      m2_2: historyCategorie.m2_1 ? historyCategorie.m2_2  :"",
+      m3_2: historyCategorie.m3_1 ? historyCategorie.m3_2  :"",
+      m4_2: historyCategorie.m4_1 ? historyCategorie.m4_2  :"", 
+  
+  
+    })
+  
+    )
+  )

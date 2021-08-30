@@ -10,15 +10,18 @@ export const addExpense = (
     noteDecscription,
     datesToFinish,
     calenderFocused,
-    categorie, 
+    categorie,
     noteUpdateDate,
-    noteStatus, 
+    noteStatus,
     nextStep,
-    riskAuswirkung, 
+    riskAuswirkung,
     riskWahrscheinlichkeit,
     infoNote,
     journalNote,
- 
+
+
+
+
   } = {}
 ) => ({
   type: 'ADD_EXPENSE',
@@ -29,19 +32,20 @@ export const addExpense = (
     important,
     noteDecscription,
     datesToFinish,
-    calenderFocused, 
-    relevance, 
+    calenderFocused,
+    relevance,
     categorie,
     noteUpdateDate,
     noteStatus,
-    nextStep, 
-    riskAuswirkung, 
+    nextStep,
+    riskAuswirkung,
     riskWahrscheinlichkeit,
     infoNote,
     journalNote,
 
 
-}
+
+  }
 });
 
 // REMOVE_EXPENSE
@@ -51,11 +55,11 @@ export const addExpense = (
 // });
 export const removeExpense = ({ id } = {}) => {
   return (dispatch) => {
-    dispatch(({ 
+    dispatch(({
       type: 'REMOVE_EXPENSE',
       id
-      
-     }));
+
+    }));
   }
 }
 
@@ -65,7 +69,7 @@ export const editExpense = (id, updates) =>
 ({
   type: 'EDIT_EXPENSE',
   id,
-  updates, 
+  updates,
 }
 );
 
@@ -73,5 +77,5 @@ export const changeStatus = (id, updates) =>
 ({
   type: 'CHANGE_STATUS',
   id,
-  updates, 
+  updates,
 });
