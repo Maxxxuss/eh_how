@@ -50,16 +50,20 @@
     padding:1%;
 
     list-style-type: none;
+    
 }
 
-.box li:hover {
+.box li:hover  {
     background-color:gainsboro;
 }
 
 .box li:active {
     color:red;
+    background-color: rgba(139, 69, 19, 0.172);
     
 }
+
+
 
 
 .noteListStylInt {
@@ -68,6 +72,15 @@
     padding-left: 1%;
     width: 96.5%;
     background-color: rgba(220, 220, 220, 0.426)
+}
+
+.selected_noteListStylInt {
+    float: left;
+    margin-left: 1%;
+    padding-left: 1%;
+    width: 96.5%;
+    border-style: outset;
+   border-color:red
 }
 
 // ProjectDashboard Style

@@ -180,11 +180,11 @@ class NotesList extends React.Component {
     }
 
 
-    displayNotes = (expenses) =>
+    displayNotes = (expenses, active) =>
         expenses.map(expense => (
 
             <li
-                className="noteListStylInt"
+                className={ this.state.activeNote.id === expense.id ? "selected_noteListStylInt": "noteListStylInt"}
                 key={expense.id}
                 onClick={() => this.setActiveNote(expense)}
                 style={{
@@ -633,11 +633,7 @@ class NotesList extends React.Component {
         }
     }
 
-    showHistoryCategorie = () => {
 
-        console.log("Show Hostory Notes: ", this.props.historyCategorie);
-
-        }
 
     render() {
         const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie, activeCategorieCatName, noteStatus, nextStep, infoNote, journalNote } = this.state
@@ -648,12 +644,7 @@ class NotesList extends React.Component {
         return (
 
             <div>
-                <Button
-                onClick={this.showHistoryCategorie}
-                >
-                    Show Histroy Notes 
-                </Button>
-         
+
 
                 <div
 
