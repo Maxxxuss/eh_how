@@ -18,6 +18,9 @@ export const addExpense = (
     riskWahrscheinlichkeit,
     infoNote,
     journalNote,
+    snooze, 
+    onHold,
+    effort,
 
 
 
@@ -42,6 +45,9 @@ export const addExpense = (
     riskWahrscheinlichkeit,
     infoNote,
     journalNote,
+    snooze, 
+    onHold,
+    effort,
 
 
 

@@ -61,7 +61,13 @@ class NotesList extends React.Component {
             noteUpdateDate: moment()._d,
             notificationStatus: false,
             snackbarServety: "",
-            snackBarMessage: ""
+            snackBarMessage: "",
+            snooze: false,
+            onHold: false,
+            effort: "",
+
+
+
         }
     }
 
@@ -79,6 +85,9 @@ class NotesList extends React.Component {
             nextStep: "",
             infoNote: false,
             journalNote: false,
+            snooze: false,
+            onHold: false,
+            effort: "",
 
         })
     }
@@ -123,6 +132,10 @@ class NotesList extends React.Component {
         this.setState({ nextStep: expense.nextStep })
         this.setState({ infoNote: expense.infoNote })
         this.setState({ journalNote: expense.journalNote })
+        this.setState({ snooze: expense.snooze })
+        this.setState({ onHold: expense.onHold })
+        this.setState({ effort: expense.effort })
+
 
 
         console.log("setActive Note : active Note State:", this.state.activeNoteStatus);
@@ -184,7 +197,7 @@ class NotesList extends React.Component {
         expenses.map(expense => (
 
             <li
-                className={ this.state.activeNote.id === expense.id ? "selected_noteListStylInt": "noteListStylInt"}
+                className={this.state.activeNote.id === expense.id ? "selected_noteListStylInt" : "noteListStylInt"}
                 key={expense.id}
                 onClick={() => this.setActiveNote(expense)}
                 style={{
@@ -380,6 +393,33 @@ class NotesList extends React.Component {
 
     }
 
+
+    onSnoozeChange = () => {
+
+        const snooze = this.state.snooze === true ? false : true
+        this.setState(() => ({ snooze }))
+
+        const updates = { snooze }
+        this.props.editExpense(this.state.activeNote.id, updates)
+
+        this.updateFilteExp(this.state.noteListStatus)
+
+        console.log("SNOOZE Status:", snooze);
+    }
+
+    onHold = () => {
+
+        const onHold = this.state.onHold === true ? false : true
+        this.setState(() => ({ onHold }))
+
+        const updates = { onHold }
+        this.props.editExpense(this.state.activeNote.id, updates)
+
+        this.updateFilteExp(this.state.noteListStatus)
+    }
+
+
+
     onSearchNotesInputValueChange = (e) => {
         const searchNotesInputValue = e.target.value
         this.setState(() => ({ searchNotesInputValue }))
@@ -396,6 +436,11 @@ class NotesList extends React.Component {
         const updates = { journalNote, noteUpdateDate }
         this.props.editExpense(this.state.activeNote.id, updates)
 
+    }
+
+    onEffortChange = (e) => {
+        const effort = e.target.value
+        this.setState(() => ({ effort }))
     }
 
 
@@ -415,8 +460,10 @@ class NotesList extends React.Component {
         const nextStep = this.state.nextStep
         const infoNote = this.state.infoNote
         const noteUpdateDate = this.state.noteUpdateDate
+        const effort = this.state.effort
 
-        const updates = { description, relevance, important, noteDecscription, categorie, datesToFinish, nextStep, infoNote, noteUpdateDate }
+
+        const updates = { description, relevance, important, noteDecscription, categorie, datesToFinish, nextStep, infoNote, noteUpdateDate, effort }
 
         this.props.editExpense(this.state.activeNote.id, updates)
 
@@ -463,7 +510,8 @@ class NotesList extends React.Component {
             datesToFinish: this.state.datesToFinish,
             categorie: this.state.activeCategorieCatName,
             nextStep: this.state.nextStep,
-            infoNote: this.state.infoNote
+            infoNote: this.state.infoNote,
+            effort: this.state.effort, 
 
         })
         this.updateFilteExp(this.state.noteListStatus)
@@ -636,7 +684,9 @@ class NotesList extends React.Component {
 
 
     render() {
-        const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie, activeCategorieCatName, noteStatus, nextStep, infoNote, journalNote } = this.state
+        const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie, activeCategorieCatName, noteStatus, nextStep, infoNote, journalNote, 
+        snooze, onHold, effort,
+        } = this.state
         const { expenses, categories } = this.props
         const { children, value, index, ...other } = this.props;
 
@@ -920,14 +970,7 @@ class NotesList extends React.Component {
                                         }
                                         label="Info-Note"
                                     />
-                                </Grid>
 
-
-                                <Grid
-                                    container
-                                    direction="column"
-
-                                >
                                     <FormControlLabel
                                         control={
                                             <Switch
@@ -938,6 +981,40 @@ class NotesList extends React.Component {
                                         }
                                         label="Set to Journal"
                                     />
+                                </Grid>
+
+
+                            </Grid>
+
+                            <Grid>
+
+                                <Grid
+                                    container
+                                    direction="column"
+                                >
+                                    <FormControlLabel
+                                        control={
+                                            <Switch
+                                                checked={snooze}
+                                                onChange={this.onSnoozeChange}
+                                                name="Snooze Note"
+
+                                            />
+                                        }
+                                        label="Snooze"
+                                    />
+                                    {/* <FormControlLabel
+                                        control={
+                                            <Switch
+                                                checked={onHold}
+                                                onChange={this.onHold}
+                                                name="Wait for Response"
+
+                                            />
+                                        }
+                                        label="on Hold"
+                                    /> */}
+
                                 </Grid>
                             </Grid>
 
@@ -1035,6 +1112,26 @@ class NotesList extends React.Component {
                                                 variant="filled"
                                                 value={datesToFinish ? moment(datesToFinish).format("ddd - DD.MM.YY") : ""}
                                                 onChange={this.onDateChange}
+                                                color="secondary"
+                                                inputProps={{
+                                                    style: {
+                                                        fontSize: 18,
+                                                    }
+                                                }}
+                                            />
+
+                                        </Grid>
+
+                                        <Grid item
+                                            xs={2}
+
+                                        >
+
+                                            <TextField
+                                                label="Aufwand"
+                                                variant="filled"
+                                                value={effort}
+                                                onChange={this.onEffortChange}
                                                 color="secondary"
                                                 inputProps={{
                                                     style: {

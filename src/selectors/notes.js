@@ -11,7 +11,7 @@ export const getAllExpenses = createSelector(
     noteUpdateDate: expense.noteUpdateDate ? expense.noteUpdateDate : "",
     noteStatus: expense.noteStatus ? expense.noteStatus : "open",
     description: expense.description ? expense.description : "",
-    prio: calculatePrio(expense.important, expense.relevance, expense.datesToFinish, expense.riskAuswirkung, expense.riskWahrscheinlichkeit),
+    prio: calcPrioBySnooze(expense.snooze, expense.datesToFinish, expense.important, expense.relevance, expense.riskAuswirkung, expense.riskWahrscheinlichkeit, expense.effort ? expense.effort : "5"),
     // datesToFinish: expense.datesToFinish ? expense.datesToFinish : "",
     sRelevance: expense.priority * expense.relevance ? expense.priority * expense.relevance : "",
     relevance: expense.relevance ? expense.relevance : "",
@@ -23,39 +23,67 @@ export const getAllExpenses = createSelector(
     riskWahrscheinlichkeit: expense.riskWahrscheinlichkeit ? expense.riskWahrscheinlichkeit : "",
     infoNote: expense.infoNote ? expense.infoNote : false,
     journalNote: expense.journalNote ? expense.journalNote : false,
-
+    snooze: expense.snooze ? expense.snooze : false,
+    onHold: expense.onHold ? expense.onHold : false,
+    effort: expense.effort ? expense.effort : "5",
 
     //  {
     //   m2Alt: expense.projectHistorie.m2Alt ? expense.projectHistorie.m2Alt : "",
     //   m3Alt: expense.projectHistorie.m3Alt ? expense.projectHistorie.m3Alt : "",
     //   m4Alt: expense.projectHistorie.m4Alt ? expense.projectHistorie.m4Alt : "",
     // }
-  
-  })), 
+
+  })),
 )
 
 
 
+function calcPrioBySnooze(snooze, datesToFinish, important, relevance, riskAuswirkung, riskWahrscheinlichkeit, effort
+  )
+
+  {
+
+    var b = moment()
+    var a = datesToFinish
+  
+    const difference = moment(a).diff(b)
+    const days = moment.duration(difference).asDays()
+
+    console.log("Days", days);
+  if (snooze != false && days > 0.6) {
+    return 1   
+
+
+  } else {
+    return calculatePrio(days, important, relevance, riskAuswirkung, riskWahrscheinlichkeit, effort)
+
+
+  }
+
+}
 
 
 
 
-function calculatePrio(important, relevance, datesToFinish, riskAuswirkung, riskWahrscheinlichkeit) {
+function calculatePrio( days, important, relevance, riskAuswirkung, riskWahrscheinlichkeit, effort) {
 
   var rAuswi = (parseInt(riskAuswirkung, 10)) / 100
   var rWahr = (parseInt(riskWahrscheinlichkeit, 10)) / 100
+  var calEffort = (parseInt(effort, 10)) / 10 +1
+
+  console.log("Effort", calEffort);
+  console.log("Auswirkung", riskAuswirkung);
+
+
 
   var rpz = rAuswi * rWahr >= 0 ? rAuswi * rWahr * 1.2 : 1
 
-  var b = moment()
-  var a = datesToFinish
-
-  const difference = moment(a).diff(b)
-  const days = moment.duration(difference).asDays()
-
 
   var calc = (important * relevance) + important * 1.15
-  var faktor = Math.abs((3 - days) * 0.8)
+  var faktor = Math.abs((3 - days) * 0.8)*calEffort
+
+  console.log("Faktro", faktor);
+
 
   if (days <= 0) {
     return calc * faktor * rpz
