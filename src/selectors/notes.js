@@ -18,6 +18,7 @@ export const getAllExpenses = createSelector(
     important: expense.important ? expense.important : "",
     noteDecscription: expense.noteDecscription ? expense.noteDecscription : "",
     datesToFinish: expense.datesToFinish ? expense.datesToFinish : moment().add(1, 'days'),
+    absDatesToFinish : absDatesToFin(expense.datesToFinish),  
     nextStep: expense.nextStep ? expense.nextStep : "",
     riskAuswirkung: expense.riskAuswirkung ? expense.riskAuswirkung : "",
     riskWahrscheinlichkeit: expense.riskWahrscheinlichkeit ? expense.riskWahrscheinlichkeit : "",
@@ -27,14 +28,22 @@ export const getAllExpenses = createSelector(
     onHold: expense.onHold ? expense.onHold : false,
     effort: expense.effort ? expense.effort : "5",
 
-    //  {
-    //   m2Alt: expense.projectHistorie.m2Alt ? expense.projectHistorie.m2Alt : "",
-    //   m3Alt: expense.projectHistorie.m3Alt ? expense.projectHistorie.m3Alt : "",
-    //   m4Alt: expense.projectHistorie.m4Alt ? expense.projectHistorie.m4Alt : "",
-    // }
+
 
   })),
+
 )
+
+function absDatesToFin (datesToFinish) {
+  var b = moment()
+  var a = datesToFinish
+
+  const difference = moment(a).diff(b)
+  const days = moment.duration(difference).asDays()
+  return days
+
+
+}
 
 
 
@@ -42,21 +51,21 @@ function calcPrioBySnooze(snooze, datesToFinish, important, relevance, riskAuswi
   )
 
   {
-
     var b = moment()
     var a = datesToFinish
   
     const difference = moment(a).diff(b)
     const days = moment.duration(difference).asDays()
 
+
+
     console.log("Days", days);
-  if (snooze != false && days > 0.6) {
+  if (snooze === true && days > 0.6) {
     return 1   
 
 
   } else {
     return calculatePrio(days, important, relevance, riskAuswirkung, riskWahrscheinlichkeit, effort)
-
 
   }
 
@@ -71,19 +80,10 @@ function calculatePrio( days, important, relevance, riskAuswirkung, riskWahrsche
   var rWahr = (parseInt(riskWahrscheinlichkeit, 10)) / 100
   var calEffort = (parseInt(effort, 10)) / 10 +1
 
-  console.log("Effort", calEffort);
-  console.log("Auswirkung", riskAuswirkung);
-
-
-
   var rpz = rAuswi * rWahr >= 0 ? rAuswi * rWahr * 1.2 : 1
 
-
   var calc = (important * relevance) + important * 1.15
-  var faktor = Math.abs((3 - days) * 0.8)*calEffort
-
-  console.log("Faktro", faktor);
-
+  var faktor = Math.abs((3 - days) * 0.8) *calEffort
 
   if (days <= 0) {
     return calc * faktor * rpz

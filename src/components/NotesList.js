@@ -23,6 +23,9 @@ import {
     FormGroup,
     Snackbar,
     FormControl,
+    MenuItem,
+    Select,
+    InputLabel,
 
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab';
@@ -65,9 +68,7 @@ class NotesList extends React.Component {
             snooze: false,
             onHold: false,
             effort: "",
-
-
-
+            noteListFilter: "all"
         }
     }
 
@@ -318,23 +319,6 @@ class NotesList extends React.Component {
         })
     }
 
-    changDisplayNotesOnStateus = () => {
-        const expenses = this.props.expenses
-        const noteListStatus = this.state.noteListStatus
-
-        if (noteListStatus === "open") {
-            this.setState(() => ({ noteListStatus: "closed" }))
-            const filteredExpOPEN = expenses.filter(expense => expense.noteStatus === "closed")
-
-            this.setState(() => ({ filteredExp: filteredExpOPEN }))
-
-
-        } else {
-            this.setState(() => ({ noteListStatus: "open" }))
-            const filteredExpCLOSED = expenses.filter(expense => expense.noteStatus === "open")
-            this.setState(() => ({ filteredExp: filteredExpCLOSED }))
-        }
-    }
 
 
     // SHOW-Edit NOtes
@@ -390,6 +374,37 @@ class NotesList extends React.Component {
         this.props.editExpense(this.state.activeNote.id, updates)
 
         this.updateFilteExp(this.state.noteListStatus)
+    }
+
+    onNoteFilterChange = (e) => {
+        const noteListFilter = e.target.value
+        const expenses = this.props.expenses
+
+        const { filteredExp, datesToFinish } = this.state
+
+        this.setState({ noteListStatus: noteListFilter })
+
+
+
+        if (noteListFilter === "all" || noteListFilter === "closed") {
+            const filtCalc = expenses.filter(expense => expense.noteStatus === noteListFilter)
+            this.setState({ filteredExp: filtCalc })
+            console.log("filtCalc", filtCalc);
+
+        } if (noteListFilter === "allOpen") {
+            console.log("noteListFilter", noteListFilter);
+
+            const filtCalc = expenses.filter(expense => expense.noteStatus === "open" 
+                // && expense.catName === this.state.activeCategorieCatName 
+                && expense.absDatesToFinish < "0.6"
+                 )
+            console.log("filtCalc", filtCalc );
+
+            
+            return this.setState({ filteredExp: filtCalc })
+
+        }
+
 
     }
 
@@ -511,7 +526,7 @@ class NotesList extends React.Component {
             categorie: this.state.activeCategorieCatName,
             nextStep: this.state.nextStep,
             infoNote: this.state.infoNote,
-            effort: this.state.effort, 
+            effort: this.state.effort,
 
         })
         this.updateFilteExp(this.state.noteListStatus)
@@ -681,11 +696,40 @@ class NotesList extends React.Component {
         }
     }
 
+    setUpFilter = () => {
+        const { filteredExp, datesToFinish, noteListFilter } = this.state
+
+        const all = 1
+        const allOpen = 2
+        const closed = ""
+
+        var b = moment()
+        var a = datesToFinish
+
+        const difference = moment(a).diff(b)
+        const days = moment.duration(difference).asDays()
+
+        const expenses = this.props.expenses
+
+        if (noteListFilter === "allOpen") {
+            expenses.filter(expense => expense.noteStatus === noteListStatus)
+
+        }
+
+        if (noteListFilter === "closed") {
+
+        }
+        else {
+
+        }
+
+    }
+
 
 
     render() {
-        const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie, activeCategorieCatName, noteStatus, nextStep, infoNote, journalNote, 
-        snooze, onHold, effort,
+        const { filteredExp, description, relevance, important, noteDecscription, activeNote, datesToFinish, categorie, tabCategorie, activeCategorieCatName, noteStatus, nextStep, infoNote, journalNote,
+            snooze, onHold, effort, noteListStatus
         } = this.state
         const { expenses, categories } = this.props
         const { children, value, index, ...other } = this.props;
@@ -839,33 +883,24 @@ class NotesList extends React.Component {
                                 </Grid>
 
                                 <Grid item>
-                                    {/* <Grid item> Note Status:  {this.state.noteListStatus}
-                                    </Grid>
-                                    <Grid item>
-                                        <Switch onChange={this.changDisplayNotesOnStateus} />
-                                    </Grid> */}
-                                    <FormControl component="fieldset">
+                                    
 
-                                        <FormGroup aria-label="position" row>
-                                            <FormControlLabel
-                                                value="top"
-                                                control={<Switch onChange={this.changDisplayNotesOnStateus} />}
-
-                                                label={"Status: " + this.state.noteListStatus}
-                                                labelPlacement="top"
-                                            />
-
-
-                                        </FormGroup>
-
-
+                                    <FormControl>
+                                        <InputLabel id="demo-simple-select-label">Filter</InputLabel>
+                                        <Select
+                                            // labelId="demo-simple-select-label"
+                                            // id="demo-simple-select"
+                                            value={noteListStatus}
+                                            label="Filter"
+                                            onChange={this.onNoteFilterChange}
+                                        >
+                                            <MenuItem value={"all"}>All</MenuItem>
+                                            <MenuItem value={"allOpen"}>Just Do´s</MenuItem>
+                                            <MenuItem value={"closed"}>closed</MenuItem>
+                                        </Select>
                                     </FormControl>
 
-
-
-
                                 </Grid>
-
 
                             </Grid>
 
@@ -1145,14 +1180,7 @@ class NotesList extends React.Component {
 
                                     </Grid>
 
-
-
-
-
                                 </div>
-
-
-
                                 <div>
                                     <TextField
                                         label="Note Description"
