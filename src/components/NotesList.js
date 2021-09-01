@@ -55,7 +55,9 @@ class NotesList extends React.Component {
             tabCategorie: 0,
             information: "",
             activeNoteStatus: "",
-            noteListStatus: "",
+
+            noteListStatus: "open",
+
             activeCategorieID: "",
             nextStep: "",
             infoNote: false,
@@ -68,7 +70,6 @@ class NotesList extends React.Component {
             snooze: false,
             onHold: false,
             effort: "",
-            noteListFilter: "all"
         }
     }
 
@@ -257,113 +258,79 @@ class NotesList extends React.Component {
         this.setState(() => ({ activeCategorieCatName: "" }))
     }
 
-//     updateFilteExp = (noteStatus) => {
-//         const { activeCategorieCatName } = this.state
-//         console.log("UpdateFilExp Active Kategorie:", activeCategorieCatName);
-//         const expenses = this.props.expenses
 
 
-//         if (noteStatus === "open" || noteStatus === "closed") {
-//             if (activeCategorieCatName != "") {
+    updateFilteExp = (noteStatus) => {
+        const { activeCategorieCatName } = this.state
+        console.log("UpdateFilExp Active Kategorie:", activeCategorieCatName);
 
-//                 this.setState({ noteListStatus: noteStatus }, () => {
-//                     const filtCalc = expenses.filter(expense => expense.noteStatus === noteStatus && expense.categorie === activeCategorieCatName)
+    // function setnStatus (state, noteStatus) {
+    //     if (state === "allOpen" && noteStatus ==="allOpen") {
+    //         return "allOpen"
+            
+    //     }
+    //     else {
+    //         return noteStatus
+    //     }
 
-//                     this.setState({
-//                         filteredExp: filtCalc,
-//                     })
-
-//                 })
-//             }
-//             else {
-
-//                 this.setState({ noteListStatus: noteStatus }, () => {
-//                     const filtCalc = expenses.filter(expense => expense.noteStatus === noteStatus)
-// console.log("Upodate", filtCalc);
-//                     this.setState({
-//                         filteredExp: filtCalc,
-//                     })
-//                 })
-
-//             }
+    // }
+    // var nStatus = setnStatus(this.state., noteStatus)
 
 
-//         } if (noteStatus === "allOpen") {
-//             console.log("noteStatus", noteStatus);
-//             if (activeCategorieCatName != "") {
-//                 const filtCalc = expenses.filter(expense => expense.noteStatus === "open"
-//                     && expense.absDatesToFinish < "0.6"
-//                     && expense.categorie === activeCategorieCatName
-//                 )
-//                 return this.setState({
-//                     filteredExp: filtCalc,
-//                     noteListStatus: noteStatus
-//                 })
-
-//             } else {
-//                 const filtCalc = expenses.filter(expense => expense.noteStatus === "open"
-//                     && expense.absDatesToFinish < "0.6"
-//                 )
-//                 return this.setState({
-//                     filteredExp: filtCalc,
-//                     noteListStatus: noteStatus
-//                 })
-
-//             }
 
 
-//         }
+        var nStatus = noteStatus 
 
-//         console.log("noteStatus: ", noteStatus);
-//     }
-
-updateFilteExp = (noteStatus) => {
-    const { activeCategorieCatName } = this.state
-    console.log("UpdateFilExp Active Kategorie:", activeCategorieCatName);
-    
+        console.log("nStatus", nStatus);
+        console.log("noteStatus", noteStatus);
+        console.log("STATE NoteStatus", this.state.noteListStatus);
 
 
-    if (activeCategorieCatName != "" && noteStatus !="allOpen" ) {
-        this.setState({ noteStatus: noteStatus }, () => {
-            const filteExp = this.props.expenses.filter(expense => expense.categorie === activeCategorieCatName)
-            const catFilteExp = filteExp.filter(catExp => catExp.noteStatus === noteStatus)
-            this.setState({ filteredExp: catFilteExp })
-    
-            console.log("Upodate Filte Exp: ", catFilteExp);
-        })
-        
-    }
 
-    if (activeCategorieCatName === "" && noteStatus !="allOpen" ) {
-        this.setState({ noteStatus: noteStatus }, () => {
-            const catFilteExp = this.props.expenses.filter(catExp => catExp.noteStatus === noteStatus)
-            this.setState({ filteredExp: catFilteExp })
-    
-            console.log("Upodate Filte Exp: ", catFilteExp);
-        })
-        
-    }
 
-    if (activeCategorieCatName != "" && noteStatus ==="allOpen" ) {
-        this.setState({ noteStatus: noteStatus }, () => {
-            const filteExp = this.props.expenses.filter(expense => expense.categorie === activeCategorieCatName && expense.absDatesToFinish < "0.6")
-            const catFilteExp = filteExp.filter(catExp => catExp.noteStatus === "open")
-            this.setState({ filteredExp: catFilteExp })
-    
-            console.log("Upodate Filte Exp: ", catFilteExp);
-        })
-        
-    }
+        if (activeCategorieCatName != "" && nStatus === "allOpen") {
+            this.setState({ noteListStatus: nStatus }, () => {
+                const filteExp = this.props.expenses.filter(expense => expense.categorie === activeCategorieCatName && expense.absDatesToFinish < "0.6")
+                const catFilteExp = filteExp.filter(catExp => catExp.noteStatus === "open")
+                this.setState({ filteredExp: catFilteExp })
 
-    if (activeCategorieCatName === "" && noteStatus ==="allOpen" ) {
-        this.setState({ noteStatus: noteStatus }, () => {
-            const catFilteExp = this.props.expenses.filter(catExp => catExp.noteStatus === "open" && catExp.absDatesToFinish < "0.6")
-            this.setState({ filteredExp: catFilteExp })
-    
-            console.log("Upodate Filte Exp: ", catFilteExp);
-        })
-        
-    }
+                console.log("F 3 ; Upodate Filte Exp: ", catFilteExp);
+            })
+
+        }
+
+         if (activeCategorieCatName === "" && nStatus === "allOpen") {
+            this.setState({ noteListStatus: nStatus }, () => {
+                const catFilteExp = this.props.expenses.filter(catExp => catExp.noteStatus === "open" && catExp.absDatesToFinish < "0.6")
+                this.setState({ filteredExp: catFilteExp })
+
+                console.log("F 4 ; Upodate Filte Exp: ", catFilteExp);
+            })
+
+        }
+
+        if (activeCategorieCatName != "" && nStatus != "allOpen") {
+            this.setState({ noteListStatus: nStatus }, () => {
+                const filteExp = this.props.expenses.filter(expense => expense.categorie === activeCategorieCatName)
+                const catFilteExp = filteExp.filter(catExp => catExp.noteStatus === nStatus)
+                this.setState({ filteredExp: catFilteExp })
+
+                console.log("F 1 : Upodate Filte Exp: ", catFilteExp);
+            })
+
+        }
+
+         if (activeCategorieCatName === "" && nStatus != "allOpen") {
+            this.setState({ noteStatus: nStatus }, () => {
+                const catFilteExp = this.props.expenses.filter(catExp => catExp.noteStatus === nStatus)
+                this.setState({ filteredExp: catFilteExp })
+
+                console.log("F 2 ; Upodate Filte Exp: ", catFilteExp);
+            })
+
+        }
+
+  
 
 
     }
@@ -380,7 +347,7 @@ updateFilteExp = (noteStatus) => {
 
             this.props.editExpense(this.state.activeNote.id, updates)
 
-            this.updateFilteExp("open")
+            this.updateFilteExp(this.state.noteListStatus)
             this.setState({
                 notificationStatus: true,
                 snackbarServety: "info",
@@ -401,7 +368,7 @@ updateFilteExp = (noteStatus) => {
 
             this.props.editExpense(this.state.activeNote.id, updates)
 
-            this.updateFilteExp("closed")
+            this.updateFilteExp(this.state.noteListStatus)
             console.log("Else Note Status : ", this.state.noteStatus);
 
         }
@@ -449,7 +416,7 @@ updateFilteExp = (noteStatus) => {
     onTabChange = (e, newValue) => {
         const categories = this.props.categories
         const tabCategorie = newValue
-        this.setState(() => ({ tabCategorie }))
+        this.setState(() => ({ tabCategorie, noteListStatus: "open" }))
         console.log("Tab categorei: ", this.state.tabCategorie);
         this.clearShoweditRisks()
 
@@ -475,10 +442,11 @@ updateFilteExp = (noteStatus) => {
 
     onNoteFilterChange = (e) => {
         const noteListFilter = e.target.value
+        // this.setState(()=>({ noteListStatus: noteListFilter }))
+        this.setState({noteListStatus : noteListFilter})
+
 
         this.updateFilteExp(noteListFilter)
-        this.setState()
-        console.log("NOtelistFilter Status", noteListFilter);
 
     }
 
@@ -560,7 +528,7 @@ updateFilteExp = (noteStatus) => {
         const activeNoteStatus = this.state.activeNote.noteStatus
 
 
-        this.updateFilteExp(activeNoteStatus)
+        this.updateFilteExp(this.state.noteListStatus)
         console.log("edit Expense: ", this.state.activeNote.id, updates);
 
         this.setState({
@@ -951,6 +919,8 @@ updateFilteExp = (noteStatus) => {
                             </Grid>
 
                         </div>
+
+
 
                         {filteredExp != "" ?
                             this.displayNotes(filteredExp) :
