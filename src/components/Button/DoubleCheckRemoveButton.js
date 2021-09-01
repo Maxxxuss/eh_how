@@ -22,7 +22,6 @@ export default function DoubleCheckRemoveButton(props) {
     handleClose()
 }
     const propAcNote = props.activeNote
-    console.log("actove Note Remove Button ", propAcNote);
 
     return (
         <div>

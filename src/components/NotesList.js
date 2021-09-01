@@ -55,7 +55,7 @@ class NotesList extends React.Component {
             tabCategorie: 0,
             information: "",
             activeNoteStatus: "",
-            noteListStatus: "open",
+            noteListStatus: "",
             activeCategorieID: "",
             nextStep: "",
             infoNote: false,
@@ -73,7 +73,7 @@ class NotesList extends React.Component {
     }
 
 
-    clearShowEditNotes = () => {
+    clearShoweditRisks = () => {
         this.setState({
             description: "",
             relevance: "",
@@ -96,7 +96,7 @@ class NotesList extends React.Component {
 
     handelRemoveNote = () => {
         this.props.removeExpense({ id: this.state.activeNote.id })
-        this.clearShowEditNotes()
+        this.clearShoweditRisks()
         this.updateFilteExp(this.state.noteListStatus)
         this.setState({
             notificationStatus: true,
@@ -144,16 +144,16 @@ class NotesList extends React.Component {
     }
 
     showHintForTimedNotes = (expense) => {
-        const datesToFinish = expense.datesToFinish
+        const days = expense.absDatesToFinish
 
-        var b = moment()
-        var a = datesToFinish
+        // var b = moment()
+        // var a = datesToFinish
 
-        const difference = moment(a).diff(b)
-        const days = moment.duration(difference).asDays()
+        // const difference = moment(a).diff(b)
+        // const days = moment.duration(difference).asDays()
         const daySubStrin = parseInt(days)
 
-        if (days > -0.4 && days < 0.4) {
+        if (days > -0.4 && days < 0.6) {
             return (
 
                 <p
@@ -257,17 +257,114 @@ class NotesList extends React.Component {
         this.setState(() => ({ activeCategorieCatName: "" }))
     }
 
-    updateFilteExp = (noteStatus) => {
-        const { activeCategorieCatName } = this.state
-        console.log("UpdateFilExp Active Kategorie:", activeCategorieCatName);
+//     updateFilteExp = (noteStatus) => {
+//         const { activeCategorieCatName } = this.state
+//         console.log("UpdateFilExp Active Kategorie:", activeCategorieCatName);
+//         const expenses = this.props.expenses
 
+
+//         if (noteStatus === "open" || noteStatus === "closed") {
+//             if (activeCategorieCatName != "") {
+
+//                 this.setState({ noteListStatus: noteStatus }, () => {
+//                     const filtCalc = expenses.filter(expense => expense.noteStatus === noteStatus && expense.categorie === activeCategorieCatName)
+
+//                     this.setState({
+//                         filteredExp: filtCalc,
+//                     })
+
+//                 })
+//             }
+//             else {
+
+//                 this.setState({ noteListStatus: noteStatus }, () => {
+//                     const filtCalc = expenses.filter(expense => expense.noteStatus === noteStatus)
+// console.log("Upodate", filtCalc);
+//                     this.setState({
+//                         filteredExp: filtCalc,
+//                     })
+//                 })
+
+//             }
+
+
+//         } if (noteStatus === "allOpen") {
+//             console.log("noteStatus", noteStatus);
+//             if (activeCategorieCatName != "") {
+//                 const filtCalc = expenses.filter(expense => expense.noteStatus === "open"
+//                     && expense.absDatesToFinish < "0.6"
+//                     && expense.categorie === activeCategorieCatName
+//                 )
+//                 return this.setState({
+//                     filteredExp: filtCalc,
+//                     noteListStatus: noteStatus
+//                 })
+
+//             } else {
+//                 const filtCalc = expenses.filter(expense => expense.noteStatus === "open"
+//                     && expense.absDatesToFinish < "0.6"
+//                 )
+//                 return this.setState({
+//                     filteredExp: filtCalc,
+//                     noteListStatus: noteStatus
+//                 })
+
+//             }
+
+
+//         }
+
+//         console.log("noteStatus: ", noteStatus);
+//     }
+
+updateFilteExp = (noteStatus) => {
+    const { activeCategorieCatName } = this.state
+    console.log("UpdateFilExp Active Kategorie:", activeCategorieCatName);
+    
+
+
+    if (activeCategorieCatName != "" && noteStatus !="allOpen" ) {
         this.setState({ noteStatus: noteStatus }, () => {
             const filteExp = this.props.expenses.filter(expense => expense.categorie === activeCategorieCatName)
             const catFilteExp = filteExp.filter(catExp => catExp.noteStatus === noteStatus)
             this.setState({ filteredExp: catFilteExp })
-
-            console.log("Upodate Filte Exp: ", filteExp);
+    
+            console.log("Upodate Filte Exp: ", catFilteExp);
         })
+        
+    }
+
+    if (activeCategorieCatName === "" && noteStatus !="allOpen" ) {
+        this.setState({ noteStatus: noteStatus }, () => {
+            const catFilteExp = this.props.expenses.filter(catExp => catExp.noteStatus === noteStatus)
+            this.setState({ filteredExp: catFilteExp })
+    
+            console.log("Upodate Filte Exp: ", catFilteExp);
+        })
+        
+    }
+
+    if (activeCategorieCatName != "" && noteStatus ==="allOpen" ) {
+        this.setState({ noteStatus: noteStatus }, () => {
+            const filteExp = this.props.expenses.filter(expense => expense.categorie === activeCategorieCatName && expense.absDatesToFinish < "0.6")
+            const catFilteExp = filteExp.filter(catExp => catExp.noteStatus === "open")
+            this.setState({ filteredExp: catFilteExp })
+    
+            console.log("Upodate Filte Exp: ", catFilteExp);
+        })
+        
+    }
+
+    if (activeCategorieCatName === "" && noteStatus ==="allOpen" ) {
+        this.setState({ noteStatus: noteStatus }, () => {
+            const catFilteExp = this.props.expenses.filter(catExp => catExp.noteStatus === "open" && catExp.absDatesToFinish < "0.6")
+            this.setState({ filteredExp: catFilteExp })
+    
+            console.log("Upodate Filte Exp: ", catFilteExp);
+        })
+        
+    }
+
 
     }
 
@@ -295,7 +392,7 @@ class NotesList extends React.Component {
 
             console.log("Status Change NoteStatus:", this.state.noteStatus);
 
-            this.clearShowEditNotes()
+            this.clearShoweditRisks()
 
 
         } else {
@@ -354,7 +451,7 @@ class NotesList extends React.Component {
         const tabCategorie = newValue
         this.setState(() => ({ tabCategorie }))
         console.log("Tab categorei: ", this.state.tabCategorie);
-        this.clearShowEditNotes()
+        this.clearShoweditRisks()
 
     }
 
@@ -378,33 +475,10 @@ class NotesList extends React.Component {
 
     onNoteFilterChange = (e) => {
         const noteListFilter = e.target.value
-        const expenses = this.props.expenses
 
-        const { filteredExp, datesToFinish } = this.state
-
-        this.setState({ noteListStatus: noteListFilter })
-
-
-
-        if (noteListFilter === "all" || noteListFilter === "closed") {
-            const filtCalc = expenses.filter(expense => expense.noteStatus === noteListFilter)
-            this.setState({ filteredExp: filtCalc })
-            console.log("filtCalc", filtCalc);
-
-        } if (noteListFilter === "allOpen") {
-            console.log("noteListFilter", noteListFilter);
-
-            const filtCalc = expenses.filter(expense => expense.noteStatus === "open" 
-                // && expense.catName === this.state.activeCategorieCatName 
-                && expense.absDatesToFinish < "0.6"
-                 )
-            console.log("filtCalc", filtCalc );
-
-            
-            return this.setState({ filteredExp: filtCalc })
-
-        }
-
+        this.updateFilteExp(noteListFilter)
+        this.setState()
+        console.log("NOtelistFilter Status", noteListFilter);
 
     }
 
@@ -485,6 +559,7 @@ class NotesList extends React.Component {
 
         const activeNoteStatus = this.state.activeNote.noteStatus
 
+
         this.updateFilteExp(activeNoteStatus)
         console.log("edit Expense: ", this.state.activeNote.id, updates);
 
@@ -497,7 +572,7 @@ class NotesList extends React.Component {
 
     }
 
-    editNote = (noteId, update) => {
+    editRisk = (noteId, update) => {
 
         this.props.editExpense(noteId, update)
         this.updateFilteExp(this.state.noteListStatus)
@@ -530,7 +605,7 @@ class NotesList extends React.Component {
 
         })
         this.updateFilteExp(this.state.noteListStatus)
-        this.clearShowEditNotes()
+        this.clearShoweditRisks()
         this.setState({
             notificationStatus: true,
             snackbarServety: "success",
@@ -696,35 +771,6 @@ class NotesList extends React.Component {
         }
     }
 
-    setUpFilter = () => {
-        const { filteredExp, datesToFinish, noteListFilter } = this.state
-
-        const all = 1
-        const allOpen = 2
-        const closed = ""
-
-        var b = moment()
-        var a = datesToFinish
-
-        const difference = moment(a).diff(b)
-        const days = moment.duration(difference).asDays()
-
-        const expenses = this.props.expenses
-
-        if (noteListFilter === "allOpen") {
-            expenses.filter(expense => expense.noteStatus === noteListStatus)
-
-        }
-
-        if (noteListFilter === "closed") {
-
-        }
-        else {
-
-        }
-
-    }
-
 
 
     render() {
@@ -867,7 +913,7 @@ class NotesList extends React.Component {
                                 >
                                     <Autocomplete
                                         onChange={(event, expense) => {
-                                            expense != null ? this.setActiveNote(expense) : this.clearShowEditNotes()
+                                            expense != null ? this.setActiveNote(expense) : this.clearShoweditRisks()
                                         }}
 
                                         options={filteredExp ? filteredExp : this.props.expenses}
@@ -883,7 +929,7 @@ class NotesList extends React.Component {
                                 </Grid>
 
                                 <Grid item>
-                                    
+
 
                                     <FormControl>
                                         <InputLabel id="demo-simple-select-label">Filter</InputLabel>
@@ -894,7 +940,7 @@ class NotesList extends React.Component {
                                             label="Filter"
                                             onChange={this.onNoteFilterChange}
                                         >
-                                            <MenuItem value={"all"}>All</MenuItem>
+                                            <MenuItem value={"open"}>Open</MenuItem>
                                             <MenuItem value={"allOpen"}>Just Do´s</MenuItem>
                                             <MenuItem value={"closed"}>closed</MenuItem>
                                         </Select>
@@ -929,7 +975,7 @@ class NotesList extends React.Component {
 
 
                                 <Button
-                                    onClick={this.clearShowEditNotes}
+                                    onClick={this.clearShoweditRisks}
 
                                 > CLEAR
                                 </Button>
@@ -1055,7 +1101,7 @@ class NotesList extends React.Component {
 
                             <Grid>
                                 <SetRisk
-                                    editNote={this.editNote}
+                                    editRisk={this.editRisk}
                                     activeNote={this.state.activeNote}
                                 />
                                 <this.showRiskDetails />
