@@ -335,7 +335,7 @@ class NotesList extends React.Component {
 
     }
 
-    statusChange = () => {
+    statusChange = (e) => {
         const { activeCategorieCatName, noteUpdateDate } = this.state
 
         console.log("Status Change activeCategorieCatName:", activeCategorieCatName);
@@ -344,6 +344,8 @@ class NotesList extends React.Component {
         if (this.state.activeNote.noteStatus === "open") {
             const noteStatus = "closed"
             const updates = { noteStatus, noteUpdateDate }
+
+            this.onSubmitChanges(e)
 
             this.props.editExpense(this.state.activeNote.id, updates)
 
