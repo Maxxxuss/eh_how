@@ -6,10 +6,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
+
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import { green } from '@material-ui/core/colors';
 import { TextField } from '@material-ui/core';
 
@@ -97,24 +95,6 @@ export default function AddDeleteProject(props) {
                             </TextField>
                             
                         </FormControl>
-                        
-                        {/* <FormControl className={classes.formControl}>
-                            <InputLabel id="demo-dialog-select-label"> E-WS </InputLabel>
-                            <Select
-                                labelId="demo-dialog-select-label"
-                                id="demo-dialog-select"
-                                value={occurence}
-                                onChange={handeloccurenceChange}
-                                input={<Input />}
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                <MenuItem value={10}>Hoch</MenuItem>
-                                <MenuItem value={20}>Mittel</MenuItem>
-                                <MenuItem value={30}>Niedrig</MenuItem>
-                            </Select>
-                        </FormControl> */}
                     </form>
                 </DialogContent>
                 <DialogActions>

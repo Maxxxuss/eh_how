@@ -2,12 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { setCategorie, removeCategorie } from '../actions/categorie'
 import { removeExpense, addExpense, editExpense, changeStatus } from '../actions/notes'
-import { getAllCategories, getCategories, getHistorieCategorie } from '../selectors/categories'
+import { getAllCategories, getHistorieCategorie } from '../selectors/categories'
 import { getAllExpenses } from '../selectors/notes'
-import AddCategorie from './AddCategorie'
 import moment from "moment-timezone"
 import {
-    colors,
     TextField,
     Button,
     Box,
@@ -20,7 +18,6 @@ import {
     Switch,
     Grid,
     Link,
-    FormGroup,
     Snackbar,
     FormControl,
     MenuItem,
@@ -83,7 +80,6 @@ class NotesList extends React.Component {
             datesToFinish: "",
             activeNote: "",
             categorie: "",
-            // activeCategorieCatName: "",
             nextStep: "",
             infoNote: false,
             journalNote: false,
@@ -147,11 +143,6 @@ class NotesList extends React.Component {
     showHintForTimedNotes = (expense) => {
         const days = expense.absDatesToFinish
 
-        // var b = moment()
-        // var a = datesToFinish
-
-        // const difference = moment(a).diff(b)
-        // const days = moment.duration(difference).asDays()
         const daySubStrin = parseInt(days)
 
         if (days > -0.4 && days < 0.6) {
@@ -159,7 +150,6 @@ class NotesList extends React.Component {
 
                 <p
                     style={{
-                        // fontSize: "large",
                         color: "Green",
                         backgroundColor: "ghostWhite"
                     }}
@@ -167,7 +157,6 @@ class NotesList extends React.Component {
                     Do-Today
                 </p>
             )
-            // ,console.log(days);
 
 
         }
@@ -182,7 +171,7 @@ class NotesList extends React.Component {
                     "Done till "{daySubStrin} Days
                 </p>
             )
-            // ,console.log(b);
+
 
         }
         else {
@@ -214,16 +203,14 @@ class NotesList extends React.Component {
                         style={{
                             color: 'red',
                             backgroundColor: 'yellow',
-                            // width:300,
-                            // textAlign: "right"
+
                         }}     >info</span> : ""} -
 
                     {expense.riskAuswirkung != "" || expense.riskWahrscheinlichkeit != "" ? <span
                         style={{
                             color: 'yellow',
                             backgroundColor: 'red',
-                            // width:300,
-                            // textAlign: "right"
+
                         }}     >Risk</span> : ""} -
 
                     {this.showHintForTimedNotes(expense)}
@@ -232,7 +219,6 @@ class NotesList extends React.Component {
                         {expense.noteDecscription.substr(16, 80)}
 
                     </p>
-
                 </div>
 
             </li>
@@ -263,21 +249,6 @@ class NotesList extends React.Component {
     updateFilteExp = (noteStatus) => {
         const { activeCategorieCatName } = this.state
         console.log("UpdateFilExp Active Kategorie:", activeCategorieCatName);
-
-    // function setnStatus (state, noteStatus) {
-    //     if (state === "allOpen" && noteStatus ==="allOpen") {
-    //         return "allOpen"
-            
-    //     }
-    //     else {
-    //         return noteStatus
-    //     }
-
-    // }
-    // var nStatus = setnStatus(this.state., noteStatus)
-
-
-
 
         var nStatus = noteStatus 
 
@@ -354,10 +325,7 @@ class NotesList extends React.Component {
                 notificationStatus: true,
                 snackbarServety: "info",
                 snackBarMessage: "Status Change erfolgreich"
-
-
             })
-
 
             console.log("Status Change NoteStatus:", this.state.noteStatus);
 
@@ -444,7 +412,6 @@ class NotesList extends React.Component {
 
     onNoteFilterChange = (e) => {
         const noteListFilter = e.target.value
-        // this.setState(()=>({ noteListStatus: noteListFilter }))
         this.setState({noteListStatus : noteListFilter})
 
 
@@ -580,7 +547,6 @@ class NotesList extends React.Component {
             notificationStatus: true,
             snackbarServety: "success",
             snackBarMessage: "Note erfolgreich hinzugefügt"
-
         })
 
 
@@ -1056,17 +1022,7 @@ class NotesList extends React.Component {
                                         }
                                         label="Snooze"
                                     />
-                                    {/* <FormControlLabel
-                                        control={
-                                            <Switch
-                                                checked={onHold}
-                                                onChange={this.onHold}
-                                                name="Wait for Response"
-
-                                            />
-                                        }
-                                        label="on Hold"
-                                    /> */}
+      
 
                                 </Grid>
                             </Grid>
@@ -1158,7 +1114,7 @@ class NotesList extends React.Component {
                                         </Grid>
 
                                         <Grid item
-                                            xs={2}
+                                            xs={3}
                                         >
                                             <TextField
                                                 label="FinishTill"
@@ -1228,12 +1184,6 @@ class NotesList extends React.Component {
                                             margin="normal"
                                             fullWidth
                                             color="secondary"
-
-                                        // inputProps={{
-                                        //     style: {
-                                        //         fontSize: 16,
-                                        //     }
-                                        // }}
                                         >
 
                                         </TextField>

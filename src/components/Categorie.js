@@ -22,18 +22,11 @@ class Categories extends React.Component {
       console.log("Categorie Ref", this.state.categoriesRef);
     }
   
-    // componentWillUnmount() {
-    //   this.removeListeners();
-    // }
-  
+
     addListeners = () => {
       let loadedCategories = [];
       this.setState({ categorie: loadedCategories }, () => this.setFirstCategorie());
 
-      // this.state.categoriesRef.on("child_added", snap => {
-      //   loadedCategories.push(snap.val());
-      //   this.setState({ categorie: loadedCategories }, () => this.setFirstCategorie());
-      // });
     };
   
     removeListeners = () => {
@@ -75,7 +68,6 @@ class Categories extends React.Component {
   
     handleSubmit = event => {
       event.preventDefault();
-      // if (this.isFormValid(this.state))
        {
         this.addCategorie();
       }
@@ -111,8 +103,7 @@ class Categories extends React.Component {
         </Menu.Item>
       ));
   
-    // isFormValid = ({ categorieName, categorieDetails }) =>
-    //   categorieName && categorieDetails;
+
   
     openModal = () => this.setState({ modal: true });
   

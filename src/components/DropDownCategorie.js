@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Downshift, { StateChangeTypes } from 'downshift'
+import Downshift from 'downshift'
 import {matchSorter} from 'match-sorter'
 import styled from '@emotion/styled'
 import { css as emoCSS } from '@emotion/css'

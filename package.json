@@ -14,7 +14,6 @@
     "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
-    "babel-polyfill": "^6.26.0",
     "css-loader": "^6.2.0",
     "downshift": "^6.1.3",
     "emotion": "^11.0.0",
@@ -47,7 +46,7 @@
   "scripts": {
     "dev": "webpack server --mode=development  ",
     "build": "webpack",
-    "test": "react-scripts test",
+    "test": "jest --watch",
     "eject": "react-scripts eject",
     "start": "node server/server.js",
     "heroku-postbuild": "npm run build"
@@ -79,6 +78,11 @@
     "webpack": "^5.45.1",
     "webpack-cli": "^4.7.2",
     "webpack-dev-middleware": "^5.0.0",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^3.11.2",
+    "jest": "^27.1.0",
+    "@testing-library/jest-dom": "^5.13.0",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "babel-polyfill": "^6.26.0"
   }
 }
