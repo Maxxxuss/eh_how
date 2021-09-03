@@ -12,9 +12,6 @@ const NotesListFilter = (props) => (
          value = {props.filters.text}
          onChange ={(e)=>{props.dispatch(setTextFilter(e.target.value))
          }}
-        // onChange = {(e)=>(
-        //     prop.dispatch(setTextFilter(e.target.value))
-        //     console.log(e.target.value))}
          /> 
          <select
          value={props.filters.sortBy}

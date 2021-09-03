@@ -55,19 +55,19 @@ export const addExpense = (
 });
 
 // REMOVE_EXPENSE
-// export const removeExpense = ({ id } = {}) => ({
-//   type: 'REMOVE_EXPENSE',
-//   id
-// });
-export const removeExpense = ({ id } = {}) => {
-  return (dispatch) => {
-    dispatch(({
-      type: 'REMOVE_EXPENSE',
-      id
+export const removeExpense = ({ id } = {}) => ({
+  type: 'REMOVE_EXPENSE',
+  id
+});
+// export const removeExpense = ({ id } = {}) => {
+//   return (dispatch) => {
+//     dispatch(({
+//       type: 'REMOVE_EXPENSE',
+//       id
 
-    }));
-  }
-}
+//     }));
+//   }
+// }
 
 
 // EDIT_EXPENSE

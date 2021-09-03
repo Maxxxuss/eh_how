@@ -48,7 +48,6 @@ export default class ImpExpData extends React.Component {
                             variant="contained"
                             className="expButton"
 
-                            //    onClick = {this.onCategorieSubmit}
                             onClick={this.expLocalStorage}
                         >Export Local Data
 

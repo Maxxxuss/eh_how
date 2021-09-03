@@ -2,8 +2,6 @@ import {createStore, combineReducers, applyMiddleware, compose} from 'redux'
 import expensesReducer from '../reducers/notes';
 import filtersReducer from '../reducers/filters';
 import categorieReducer from '../reducers/categorie'
-// import localStorageMiddleware from './local-storage';
-// import loggingMiddleware from './logging';
 import thunk from 'redux-thunk';
 import {localStorageKey} from './constants'
 
