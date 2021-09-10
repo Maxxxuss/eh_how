@@ -5,6 +5,7 @@ export const getCategories = state => state.categories;
 export const getAllCategories = createSelector(
     getCategories,
     categories => categories.map(categorie => ({
+      sorting: categorie.sorting ? categorie.sorting : "", 
         id: categorie.id ? categorie.id : "", 
         catName: categorie.catName ? categorie.catName : "",
         details: categorie.details ? categorie.details : "",

@@ -15,6 +15,7 @@ export const setCategorie = (
     nextSteps,
     challenges,
     journal,
+    sorting,
 
     //historyCategorie
     m1_1,
@@ -39,9 +40,10 @@ export const setCategorie = (
     m3,
     m4,
     aktStand,
-    nextSteps,
+    nextSteps,  
     challenges,
     journal,
+    sorting,
     //historyCategorie
     m1_1,
     m2_1,

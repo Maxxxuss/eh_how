@@ -32,6 +32,7 @@ export default function TabDetailsProDetails(props) {
     const classes = useStyles();
 
 
+    const [sorting, setSorting] = React.useState("")
     const [catID, setCatID] = React.useState("")
     const [catName, setCatName] = React.useState("")
     const [m1, setM1] = React.useState("")
@@ -54,9 +55,13 @@ export default function TabDetailsProDetails(props) {
 
     const [activeCategorie, setActiveCategorie] = React.useState("")
 
-
-
     const [journal, setJournal] = React.useState("")
+
+
+    const onChangeSorting = (e) => {
+        const sorting = e.target.value
+        setSorting(sorting)
+    }
 
     const onCatIDChange = (e) => {
         const catID = e.target.value
@@ -126,6 +131,7 @@ export default function TabDetailsProDetails(props) {
 
 
     const clearProjDetails = () => {
+        setSorting("")
         setCatID("")
         setCatName("")
         setM1("")
@@ -147,9 +153,10 @@ export default function TabDetailsProDetails(props) {
 
 
     if (activeCategorie != props.activeCategorie) {
-        setActiveCategorie(props.activeCategorie),
+        setActiveCategorie(props.activeCategorie)
 
-            setCatID(props.activeCategorie.catID)
+        setSorting(props.activeCategorie.sorting)
+     setCatID(props.activeCategorie.catID)
         setCatName(props.activeCategorie.catName)
         setM1(props.activeCategorie.m1)
         setM2(props.activeCategorie.m2)
@@ -184,6 +191,8 @@ export default function TabDetailsProDetails(props) {
 
                     activeCategorie={activeCategorie}
 
+                    sorting={sorting}
+
                     catID={catID}
                     catName={catName}
                     m1={m1}
@@ -205,7 +214,12 @@ export default function TabDetailsProDetails(props) {
                 />
             </div>
 
-
+            <TextField
+                    label="Sort"
+                    value={sorting}
+                onChange={onChangeSorting}
+                >
+                </TextField>
 
             <TextField
 

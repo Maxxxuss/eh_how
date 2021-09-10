@@ -7,6 +7,7 @@ export default function PDetailsAddSetRemoveButton(props) {
 
     const addCategorie = () => {
         props.setCategorie({
+            sorting: props.sorting, 
             catName: props.catName,
             details: props.details,
             catID: props.catID,
@@ -48,6 +49,7 @@ export default function PDetailsAddSetRemoveButton(props) {
 
     const changeCategorieDetails = () => {
 
+        const sorting = props.sorting
 
         const catName = props.catName
         const details = props.details
@@ -61,7 +63,7 @@ export default function PDetailsAddSetRemoveButton(props) {
         const m2_1= props.m2_1
         const m3_1= props.m3_1
         const m4_1= props.m4_1
-        
+            
         const m1_2= props.m1_2
         const m2_2= props.m2_2
         const m3_2= props.m3_2
@@ -72,7 +74,7 @@ export default function PDetailsAddSetRemoveButton(props) {
 
         const journal = props.journal
 
-        const updates = { catName, details, catID, m1, m2, m3, m4, m1_1, m2_1, m3_1, m4_1, m1_2, m2_2, m3_2, m4_2, journal }
+        const updates = { catName, details, sorting, catID, m1, m2, m3, m4, m1_1, m2_1, m3_1, m4_1, m1_2, m2_2, m3_2, m4_2, journal }
 
 
         props.editCategorie(props.activeCategorie.id, updates)

@@ -30,14 +30,13 @@ class ProjectDashboard extends React.Component {
             challenges: "",
             journal: "",
             noteUpdateDate:"", 
+            sorting:"",
 
             activeCategorie: "",
             actHistroyCategorie: ""
 
         }
     }
-
-
 
     onCatIDChange = (e) => {
         const catID = e.target.value
@@ -67,6 +66,11 @@ class ProjectDashboard extends React.Component {
         const journal = e.target.value
         this.setState(() => ({ journal }))
     }
+    onChangeSorting = (e) => {
+        const sorting = e.target.value
+        this.setState(() => ({ sorting }))
+    }
+
 
 
     setActiveCategorie_HisCat = (categorie ) => {
@@ -115,6 +119,12 @@ class ProjectDashboard extends React.Component {
                     listStyleType: "none"
                 }}
             >
+                 <TextField
+                    label="Sort"
+                    value={categorie.sorting}
+                onChange={this.onChangeSorting}
+                >
+                </TextField>
 
                 <TextField
                     className="projectDasTextfield"
@@ -161,12 +171,7 @@ class ProjectDashboard extends React.Component {
                     onChange={this.onM4Cahnge}
                 >
                 </TextField>
-                <TextField
-                    label="Proj.- Journal"
-                    value={categorie.journal}
-                // onChange={this.onChange}
-                >
-                </TextField>
+               
             </li>
 
         ))
