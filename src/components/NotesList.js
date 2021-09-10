@@ -622,7 +622,7 @@ class NotesList extends React.Component {
     },
   }));
 
-  a11yProps(index) {
+  aherokuyProps(index) {
     return {
       id: `action-tab-${index}`,
       "aria-controls": `action-tabpanel-${index}`,
@@ -1102,7 +1102,9 @@ const mapStateToProps = (state) => {
       .sort((a, b) => (a.prio > b.prio ? -1 : 1))
       .filter((expense) => expense.noteStatus === "open"),
 
-    categories: getAllCategories(state).sort((a, b)=> (a.sorting > b.sorting ? 1: -1)),
+    categories: getAllCategories(state).sort((a, b) =>
+      a.sorting > b.sorting ? 1 : -1
+    ),
     historyCategorie: getHistorieCategorie(state),
   };
 };
