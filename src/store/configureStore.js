@@ -4,6 +4,7 @@ import filtersReducer from '../reducers/filters';
 import categorieReducer from '../reducers/categorie'
 import thunk from 'redux-thunk';
 import {localStorageKey} from './constants'
+import globalVariabels from '../reducers/globalVariables';
 
 const composerFunction = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -28,7 +29,10 @@ export const locCache = () => {
  const store =  combineReducers({
     expenses: expensesReducer,
     filters: filtersReducer, 
-    categories: categorieReducer
+    categories: categorieReducer, 
+    globalVariables: globalVariabels, 
+
+    
   })
 
   const loggingMiddleware = (store) => (next) => (action) => {

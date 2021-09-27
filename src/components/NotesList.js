@@ -37,6 +37,9 @@ import SetRisk from "./riskButton";
 import AddDeleteProject from "./AddDeleteProject";
 import DoubleCheckRemoveButton from "./Button/DoubleCheckRemoveButton";
 import { Alert } from "./Notification/NotificationBar";
+import { getGlobalVariables } from "../selectors/autoSave";
+import { editGlobalVariables } from "../actions/globalVariables";
+import { locCache } from "../store/configureStore";
 
 class NotesList extends React.Component {
   constructor(props) {
@@ -347,6 +350,7 @@ class NotesList extends React.Component {
       this.updateFilteExp(this.state.noteListStatus);
       console.log("Else Note Status : ", this.state.noteStatus);
     }
+    this.autoSaveFunc()
   };
 
   SnackBarForAddDeleteButton = () => {
@@ -500,7 +504,7 @@ class NotesList extends React.Component {
 
     this.props.editExpense(this.state.activeNote.id, updates);
 
-    const activeNoteStatus = this.state.activeNote.noteStatus;
+    this.autoSaveFunc();
 
     this.updateFilteExp(this.state.noteListStatus);
     console.log("edit Expense: ", this.state.activeNote.id, updates);
@@ -510,6 +514,25 @@ class NotesList extends React.Component {
       snackbarServety: "success",
       snackBarMessage: "Note Change erfolgreich",
     });
+  };
+
+  autoSaveFunc = () => {
+    const text = locCache()
+    const autoSave = this.props.globalVariables.autoSave;
+    if (autoSave === 10) {
+        var blob = new Blob([text], { type: "text/plain" });
+        var url = window.URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = "Download";
+        a.click();
+
+        this.props.editGlobalVariables(0);
+
+    
+    } else {
+      this.props.editGlobalVariables(autoSave + 1);
+    }
   };
 
   editRisk = (noteId, update) => {
@@ -550,6 +573,7 @@ class NotesList extends React.Component {
       snackbarServety: "success",
       snackBarMessage: "Note erfolgreich hinzugefügt",
     });
+    this.autoSaveFunc()
   };
 
   dateFormater = (datesToFinish) => {
@@ -1106,6 +1130,7 @@ const mapStateToProps = (state) => {
       a.sorting > b.sorting ? 1 : -1
     ),
     historyCategorie: getHistorieCategorie(state),
+    globalVariables: getGlobalVariables(state),
   };
 };
 
@@ -1116,6 +1141,7 @@ const mapDispatchToProps = (dispatch) => ({
   editExpense: (id, updates) => dispatch(editExpense(id, updates)),
   changeStatus: (id, updates) => dispatch(changeStatus(id, updates)),
   removeCategorie: (id) => dispatch(removeCategorie(id)),
+  editGlobalVariables: (autoSave) => dispatch(editGlobalVariables(autoSave)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotesList);

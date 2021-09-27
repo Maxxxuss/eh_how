@@ -1,33 +1,26 @@
-
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 // ADD_EXPENSE
-export const addExpense = (
-  {
-    description,
-    relevance,
-    important,
-    noteDecscription,
-    datesToFinish,
-    calenderFocused,
-    categorie,
-    noteUpdateDate,
-    noteStatus,
-    nextStep,
-    riskAuswirkung,
-    riskWahrscheinlichkeit,
-    infoNote,
-    journalNote,
-    snooze, 
-    onHold,
-    effort,
-
-
-
-
-  } = {}
-) => ({
-  type: 'ADD_EXPENSE',
+export const addExpense = ({
+  description,
+  relevance,
+  important,
+  noteDecscription,
+  datesToFinish,
+  calenderFocused,
+  categorie,
+  noteUpdateDate,
+  noteStatus,
+  nextStep,
+  riskAuswirkung,
+  riskWahrscheinlichkeit,
+  infoNote,
+  journalNote,
+  snooze,
+  onHold,
+  effort,
+} = {}) => ({
+  type: "ADD_EXPENSE",
   expense: {
     id: uuidv4(),
     description,
@@ -45,19 +38,16 @@ export const addExpense = (
     riskWahrscheinlichkeit,
     infoNote,
     journalNote,
-    snooze, 
+    snooze,
     onHold,
     effort,
-
-
-
-  }
+  },
 });
 
 // REMOVE_EXPENSE
 export const removeExpense = ({ id } = {}) => ({
-  type: 'REMOVE_EXPENSE',
-  id
+  type: "REMOVE_EXPENSE",
+  id,
 });
 // export const removeExpense = ({ id } = {}) => {
 //   return (dispatch) => {
@@ -69,19 +59,15 @@ export const removeExpense = ({ id } = {}) => ({
 //   }
 // }
 
-
 // EDIT_EXPENSE
-export const editExpense = (id, updates) =>
-({
-  type: 'EDIT_EXPENSE',
+export const editExpense = (id, updates) => ({
+  type: "EDIT_EXPENSE",
   id,
   updates,
-}
-);
+});
 
-export const changeStatus = (id, updates) =>
-({
-  type: 'CHANGE_STATUS',
+export const changeStatus = (id, updates) => ({
+  type: "CHANGE_STATUS",
   id,
   updates,
 });
