@@ -350,7 +350,7 @@ class NotesList extends React.Component {
       this.updateFilteExp(this.state.noteListStatus);
       console.log("Else Note Status : ", this.state.noteStatus);
     }
-    this.autoSaveFunc()
+    this.autoSaveFunc();
   };
 
   SnackBarForAddDeleteButton = () => {
@@ -517,21 +517,29 @@ class NotesList extends React.Component {
   };
 
   autoSaveFunc = () => {
-    const text = locCache()
+    const text = locCache();
     const autoSave = this.props.globalVariables.autoSave;
-    if (autoSave === 10) {
+    const onOffSwitch = this.props.globalVariables.onOffSwitch;
+
+    if (onOffSwitch === true) {
+      if (autoSave === 10) {
         var blob = new Blob([text], { type: "text/plain" });
         var url = window.URL.createObjectURL(blob);
         var a = document.createElement("a");
         a.href = url;
-        a.download = "Download";
+        a.download = "eHowAutoSave";
         a.click();
 
-        this.props.editGlobalVariables(0);
+        this.props.editGlobalVariables({ autoSave: 0 });
+        this.setState({
+          notificationStatus: true,
+          snackbarServety: "info",
+          snackBarMessage: " Auto Save",
+        });
 
-    
-    } else {
-      this.props.editGlobalVariables(autoSave + 1);
+      } else {
+        this.props.editGlobalVariables({ autoSave: autoSave + 1 });
+      }
     }
   };
 
@@ -573,7 +581,7 @@ class NotesList extends React.Component {
       snackbarServety: "success",
       snackBarMessage: "Note erfolgreich hinzugefügt",
     });
-    this.autoSaveFunc()
+    this.autoSaveFunc();
   };
 
   dateFormater = (datesToFinish) => {
@@ -1096,6 +1104,7 @@ class NotesList extends React.Component {
                     ></TextField>
                     <div>
                       <Snackbar
+                      anchorOrigin={{vertical:"top", horizontal:"center"}}
                         open={this.state.notificationStatus}
                         autoHideDuration={2000}
                         onClose={this.handleCloseSnackbar}
@@ -1103,6 +1112,9 @@ class NotesList extends React.Component {
                         <Alert
                           onClose={this.handleCloseSnackbar}
                           severity={this.state.snackbarServety}
+                          style={{
+                            width:"300px"
+                          }}
                         >
                           {this.state.snackBarMessage}
                         </Alert>

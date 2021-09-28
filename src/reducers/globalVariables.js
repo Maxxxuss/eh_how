@@ -1,6 +1,6 @@
 const globalVariablesDefaultState = {
-    autoSave : 1
-
+    autoSave : 1,
+    onOffSwitch : true
 }
 
 const globalVariabels = (state = globalVariablesDefaultState, action) => {
@@ -26,7 +26,8 @@ const globalVariabels = (state = globalVariablesDefaultState, action) => {
             case 'EDIT_GLOBALVARIABLES':
                 return {
                     ...state,
-                    autoSave: action.autoSave 
+                    // autoSave: action.autoSave 
+                    ...action.updates
                 }
                 
 

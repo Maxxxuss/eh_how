@@ -25,9 +25,9 @@ export const addGlobalVariables = ({
 // }
 
 // EDIT_GLOBALVARIABLES
-export const editGlobalVariables = ( autoSave) => ({
+export const editGlobalVariables = ( updates) => ({
   type: "EDIT_GLOBALVARIABLES",
-  autoSave
+  updates
   
 });
 
