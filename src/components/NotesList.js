@@ -60,7 +60,8 @@ class NotesList extends React.Component {
       noteStatus: "",
       tabCategorie: 0,
       information: "",
-      activeNoteStatus: "",
+      activeNoteStatus: false,
+      notificationStatusAutoSave: false,
 
       noteListStatus: "open",
 
@@ -73,6 +74,8 @@ class NotesList extends React.Component {
       notificationStatus: false,
       snackbarServety: "",
       snackBarMessage: "",
+      snackbarAutoSaveServety: "",
+      snackBarAutoSaveMessage: "",
       snooze: false,
       onHold: false,
       effort: "",
@@ -106,6 +109,7 @@ class NotesList extends React.Component {
       snackbarServety: "info",
       snackBarMessage: "Note erfolgreich gelöscht",
     });
+    this.autoSaveFunc();
   };
 
   handelSnackAlert = (notMess) => {
@@ -116,7 +120,10 @@ class NotesList extends React.Component {
       return;
     }
 
-    this.setState({ notificationStatus: false });
+    this.setState({
+      notificationStatus: false,
+      notificationStatusAutoSave: false,
+    });
   };
 
   setActiveNote = (expense) => {
@@ -532,11 +539,10 @@ class NotesList extends React.Component {
 
         this.props.editGlobalVariables({ autoSave: 0 });
         this.setState({
-          notificationStatus: true,
-          snackbarServety: "info",
-          snackBarMessage: " Auto Save",
+          notificationStatusAutoSave: true,
+          snackbarAutoSaveServety: "info",
+          snackBarAutoSaveMessage: " Auto Save",
         });
-
       } else {
         this.props.editGlobalVariables({ autoSave: autoSave + 1 });
       }
@@ -551,6 +557,7 @@ class NotesList extends React.Component {
       snackbarServety: "success",
       snackBarMessage: "Risk erfolgreich hinzugefügt",
     });
+    this.autoSaveFunc();
   };
 
   onSubmitAddNote = (e) => {
@@ -1104,7 +1111,7 @@ class NotesList extends React.Component {
                     ></TextField>
                     <div>
                       <Snackbar
-                      anchorOrigin={{vertical:"top", horizontal:"center"}}
+                        anchorOrigin={{ vertical: "top", horizontal: "right" }}
                         open={this.state.notificationStatus}
                         autoHideDuration={2000}
                         onClose={this.handleCloseSnackbar}
@@ -1113,10 +1120,26 @@ class NotesList extends React.Component {
                           onClose={this.handleCloseSnackbar}
                           severity={this.state.snackbarServety}
                           style={{
-                            width:"300px"
+                            width: "300px",
                           }}
                         >
                           {this.state.snackBarMessage}
+                        </Alert>
+                      </Snackbar>
+                      <Snackbar
+                        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                        open={this.state.notificationStatusAutoSave}
+                        autoHideDuration={2000}
+                        onClose={this.handleCloseSnackbar}
+                      >
+                        <Alert
+                          onClose={this.handleCloseSnackbar}
+                          severity={this.state.snackbarAutoSaveServety}
+                          style={{
+                            width: "300px",
+                          }}
+                        >
+                          {this.state.snackBarAutoSaveMessage}
                         </Alert>
                       </Snackbar>
                     </div>
