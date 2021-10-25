@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
 
-// ADD_EXPENSE
-export const addExpense = ({
+// ADD_ACTIVE_NOTE
+export const addActiveNote = ({
+  id,
   description,
   relevance,
   important,
@@ -20,9 +21,9 @@ export const addExpense = ({
   onHold,
   effort,
 } = {}) => ({
-  type: "ADD_EXPENSE",
-  expense: {
-    id: uuidv4(),
+  type: "ADD_ACTIVE_NOTE",
+  activeNote: {
+    id,
     description,
     relevance,
     important,
@@ -44,28 +45,33 @@ export const addExpense = ({
   },
 });
 
-// REMOVE_EXPENSE
-export const removeExpense = ({ id } = {}) => ({
-  type: "REMOVE_EXPENSE",
-  id,
+// export const addActiveNote=({updates}) =>({
+//   type: "ADD_ACTIVE_NOTE",
+//   updates
+// })
+
+// REMOVE_ACTIVE_NOTE
+export const removeActiveNote = () => ({
+  type: "REMOVE_ACTIVE_NOTE",
+  activeNote:""
+  
 });
-// export const removeExpense = ({ id } = {}) => {
+// export const removeActiveNote = ({ id } = {}) => {
 //   return (dispatch) => {
 //     dispatch(({
-//       type: 'REMOVE_EXPENSE',
+//       type: 'REMOVE_ACTIVE_NOTE',
 //       id
 
 //     }));
 //   }
 // }
 
-// EDIT_EXPENSE
-export const editExpense = (id, updates) => ({
-  type: "EDIT_EXPENSE",
+// EDIT_ACTIVE_NOTE
+export const editActiveNote = (id, updates) => ({
+  type: "EDIT_ACTIVE_NOTE",
   id,
   updates,
-}
-);
+});
 
 export const changeStatus = (id, updates) => ({
   type: "CHANGE_STATUS",

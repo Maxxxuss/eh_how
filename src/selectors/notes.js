@@ -29,7 +29,6 @@ export const getAllExpenses = createSelector(
     effort: expense.effort ? expense.effort : "5",
 
 
-
   })),
 
 )

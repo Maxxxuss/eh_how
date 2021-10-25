@@ -40,6 +40,7 @@ import { Alert } from "./Notification/NotificationBar";
 import { getGlobalVariables } from "../selectors/autoSave";
 import { editGlobalVariables } from "../actions/globalVariables";
 import { locCache } from "../store/configureStore";
+import ShortDescription from "./inputs/titel";
 
 class NotesList extends React.Component {
   constructor(props) {
@@ -369,10 +370,7 @@ class NotesList extends React.Component {
   };
 
   // SHOW-Edit NOtes
-  onDescriptionChange = (e) => {
-    const description = e.target.value;
-    this.setState(() => ({ description }));
-  };
+ 
   onNoteDescriptionChange = (e) => {
     const noteDecscription = e.target.value;
     this.setState(() => ({ noteDecscription }));
@@ -877,13 +875,13 @@ class NotesList extends React.Component {
               </Grid>
             </div>
 
-            {filteredExp != ""
+            {/* {filteredExp != ""
               ? this.displayNotes(filteredExp)
               : this.displayNotes(
                   this.props.expenses.filter(
                     (expense) => expense.noteStatus === "open"
                   )
-                )}
+                )} */}
           </div>
           <div className="box">
             <Box mb={2}>
@@ -1000,19 +998,14 @@ class NotesList extends React.Component {
                     marginTop: 15,
                   }}
                 >
-                  <TextField
-                    label="Titel"
-                    variant="filled"
-                    value={description}
-                    onChange={this.onDescriptionChange}
-                    color="secondary"
-                    fullWidth
-                    inputProps={{
-                      style: {
-                        fontSize: 18,
-                      },
-                    }}
-                  />
+              
+                </div>
+                <div>
+                {/* <ShortDescription
+                activeNote = {this.state.activeNote}
+                
+                /> */}
+
                 </div>
                 <div className="box_relprio">
                   <Grid container direction="row" justifyContent="space-evenly">
