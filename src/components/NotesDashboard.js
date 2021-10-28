@@ -4,12 +4,12 @@ import store from "../store/configureStore";
 import { Grid } from "@mui/material";
 
 import ImpExpData from "./ImpExpData";
-import NoteDetails from "./NoteDetails";
 import { getAllExpenses } from "../selectors/notes";
 import { ShortDescription } from "./inputs/titel";
 import { addActiveNote, removeActiveNote } from "../actions/activeNote";
 import { getAllActiveNotes } from "../selectors/activeNote";
 import { addExpense, editExpense, removeExpense } from "../actions/notes";
+import { SearchForNotes } from "./inputs/search";
 
 const showHintForTimedNotes = (expense) => {
   const days = expense.absDatesToFinish;
@@ -44,29 +44,33 @@ const showHintForTimedNotes = (expense) => {
   }
 };
 
-export function setActiveNote(expense, addActiveNote) {
-  const updates = {
-    id: expense.id,
-    description: expense.description,
-    relevance: expense.relevance,
-    important: expense.important,
-    noteDecscription: expense.noteDecscription,
-    datesToFinish: expense.datesToFinish,
-    activeCategorieCatName: expense.activeCategorieCatName,
-    nextStep: expense.nextStep,
-    infoNote: expense.infoNote,
-    effort: expense.effort,
-  };
-  addActiveNote(updates)
-
-  console.log("Active Note: ", updates);
+export function setActiveNote(expense, props) {
+  //ALS PROPS MÜSSEN ÜBERGEBEN WERDEN (1) Add ActiveNote und RemoveActiveNote
+  props.removeActiveNote();
+  if (expense != "" && expense != null && expense != undefined) {
+    const updates = {
+      id: expense.id,
+      description: expense.description,
+      relevance: expense.relevance,
+      important: expense.important,
+      noteDecscription: expense.noteDecscription,
+      datesToFinish: expense.datesToFinish,
+      activeCategorieCatName: expense.activeCategorieCatName,
+      nextStep: expense.nextStep,
+      infoNote: expense.infoNote,
+      effort: expense.effort,
+      noteStatus: expense.noteStatus,
+    };
+    props.addActiveNote(updates);
+    console.log("Active Notee: ", updates);
+  }
 }
 
 export function ShowNotes(props) {
   return props.props.expenses.map((expense) => (
     <li
       key={expense.id}
-      onClick={() => setActiveNote(expense, props.props.addActiveNote)}
+      onClick={() => setActiveNote(expense, props.props)}
       style={{
         marginBottom: "8px",
       }}
@@ -107,19 +111,6 @@ export function ShowNotes(props) {
 }
 
 export function NotesDashboardPage(props) {
-  // const updates = {
-  //   id: activeNoteID,
-  //   description: description,
-  //   relevance: relevance,
-  //   important: important,
-  //   noteDecscription: noteDecscription,
-  //   datesToFinish: datesToFinish,
-  //   activeCategorieCatName: activeCategorieCatName,
-  //   nextStep: nextStep,
-  //   infoNote: infoNote,
-  //   effort: effort,
-  // };
-
   const updates = {
     id: "",
     description: "",
@@ -133,37 +124,23 @@ export function NotesDashboardPage(props) {
     effort: "",
   };
 
-  // const setActiveNote = (expense) => {
-  //   setActiveNoteID(expense.id);
-  //   setDescription(expense.description);
-  //   setrelevance(expense.relevance);
-  //   setimportant(expense.important);
-  //   setnoteDecscription(expense.noteDecscription);
-  //   setdatesToFinish(expense.datesToFinish);
-  //   setactiveCategorieCatName(expense.activeCategorieCatName);
-  //   setnextStep(expense.nextStep);
-  //   setinfoNote(expense.infoNote);
-  //   seteffort(expense.effort);
-
-  //   console.log("Active Note:", expense);
-  // };
-
   return (
     <Grid
       container
       direction="column"
-      justifyContent="center"
+      justifyContent="flex-start"
       alignItems="center"
-    >
+
+      >
       <Grid>Header</Grid>
 
-      <Grid container direction="row" alignItems="center">
+      <Grid container direction="row">
         <Grid item xs={6}>
+          <SearchForNotes props={props} />
           <ShowNotes props={props} />
         </Grid>
         <Grid item xs={6}>
-          {/* <NoteDetails activeNote={updates} /> */}
-          <ShortDescription NotesDashboradProps={props}/>
+          <ShortDescription NotesDashboradProps={props} />
         </Grid>
       </Grid>
 
@@ -177,7 +154,7 @@ console.log(store.getState());
 
 const mapStateToProps = (state) => {
   return {
-    activeNote: getAllActiveNotes(state), 
+    activeNote: getAllActiveNotes(state),
     expenses: getAllExpenses(state).sort((a, b) => (a.prio > b.prio ? -1 : 1)),
     openExpenses: getAllExpenses(state)
       .sort((a, b) => (a.prio > b.prio ? -1 : 1))

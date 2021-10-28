@@ -2,14 +2,14 @@ import { TextField } from "@material-ui/core";
 import { Button, ButtonBase, Grid } from "@mui/material";
 import moment from "moment";
 import React, { useState } from "react";
-import { handelAddNote, handelTakeChanges } from "../Button/AddNote";
-
-
-
+import {
+  handelAddNote,
+  handelRemoveNote,
+  handelTakeChanges,
+} from "../Button/AddNote";
 
 export function ShortDescription(properties) {
-
-  const props = properties.NotesDashboradProps
+  const props = properties.NotesDashboradProps;
   const [activeNoteID, setActiveNoteID] = useState("");
   const [description, setDescription] = useState("");
 
@@ -21,33 +21,26 @@ export function ShortDescription(properties) {
   const [nextStep, setnextStep] = useState("");
   const [infoNote, setinfoNote] = useState("");
   const [effort, seteffort] = useState("");
+  const [noteStatus, setnoteStatus] = useState("");
 
   const space = "\n";
   const timeStamp = moment().format("ddd - DD.MM.YY");
 
+  const clearInputValues = (props) => {
+    props.removeActiveNote();
+    setActiveNoteID("");
+    setDescription("");
+    setrelevance("");
+    setimportant("");
+    setnoteDecscription("");
+    setdatesToFinish("");
+    setactiveCategorieCatName("");
+    setnextStep("");
+    setinfoNote("");
+    seteffort("");
+  };
 
-  const clearInputValues = (props) =>{
-    props.removeActiveNote()
-    setActiveNoteID("")
-setDescription("")
-setrelevance("")
-setimportant("")
-setnoteDecscription("")
-setdatesToFinish("")
-setactiveCategorieCatName("")
-setnextStep("")
-setinfoNote("")
-seteffort("")
-
-  }
-
-
-  if (
-    props.activeNote != "" &&
-    props.activeNote[0].id != activeNoteID
-
-  ) {
-
+  if (props.activeNote != "" && props.activeNote[0].id != activeNoteID) {
     setActiveNoteID(props.activeNote[0].id);
     setDescription(props.activeNote[0].description);
     setrelevance(props.activeNote[0].relevance);
@@ -58,8 +51,8 @@ seteffort("")
     setnextStep(props.activeNote[0].nextStep);
     setinfoNote(props.activeNote[0].infoNote);
     seteffort(props.activeNote[0].effort);
+    setnoteStatus(props.activeNote[0].noteStatus);
   }
-
 
   const updates = {
     id: activeNoteID,
@@ -73,7 +66,17 @@ seteffort("")
     nextStep: nextStep,
     infoNote: infoNote,
     effort: effort,
-  }; 
+  };
+
+  function statusChange(props, updates) {
+    if (noteStatus === "open") {
+      const noteStatus = { ...updates, ...{ noteStatus: "closed" } };
+      handelTakeChanges(props, noteStatus);
+    } else {
+      const noteStatus = { ...updates, ...{ noteStatus: "open" } };
+      handelTakeChanges(props, noteStatus);
+    }
+  }
 
   return (
     <div>
@@ -188,18 +191,20 @@ seteffort("")
           />
         </Grid>
       </Grid>
-      {/* 
-      <AddNoteButton
-      updates={updates} 
-          /> */}
 
       {activeNoteID ? (
-        <Button onClick={() => handelTakeChanges(props, updates)+ clearInputValues(props)}>
+        <Button
+          onClick={() =>
+            handelTakeChanges(props, updates) + clearInputValues(props)
+          }
+        >
           take Changes
         </Button>
       ) : (
         <Button
-          onClick={() => handelAddNote(props, updates) + clearInputValues(props)}
+          onClick={() =>
+            handelAddNote(props, updates) + clearInputValues(props)
+          }
         >
           Direkt Add
         </Button>
@@ -207,23 +212,33 @@ seteffort("")
 
       <Button onClick={() => clearInputValues(props)}>Clear</Button>
 
-      <Button onClick={() => console.log("props Shirt Description:", updates)}>
+      <Button
+        onClick={() =>
+          handelRemoveNote(props, updates) + clearInputValues(props)
+        }
+      >
+        Remove
+      </Button>
+
+      <Button
+        onClick={() =>
+          // handelTakeChanges(props, updates) + clearInputValues(props)
+          statusChange(props, updates) + clearInputValues(props)
+        }
+      >
+        Satus Changes
+      </Button>
+
+      <Button
+        onClick={() =>
+          console.log(
+            "props Shirt Description:",
+            props.activeNote[0].noteStatus
+          )
+        }
+      >
         Show Props
       </Button>
     </div>
   );
 }
-
-// const mapStateToProps = (state) => {
-//   return {};
-// };
-
-// const mapDispatchToProps = (dispatch) => ({
-//   removeExpense: (id) => dispatch(removeExpense(id)),
-//   addExpense: (expense) => dispatch(addExpense(expense)),
-//   editExpense: (id, updates) => dispatch(editExpense(id, updates)),
-//   changeStatus: (id, updates) => dispatch(changeStatus(id, updates)),
-//   // removeCategorie: (id) => dispatch(removeCategorie(id)),
-// });
-
-// export default connect(null, mapDispatchToProps)(ShortDescription);

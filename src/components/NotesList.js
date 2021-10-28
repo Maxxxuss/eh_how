@@ -145,7 +145,6 @@ class NotesList extends React.Component {
 
     console.log(
       "setActive Note : active Note State:",
-      this.state.activeNoteStatus
     );
     console.log("Date Time", this.state.noteUpdateDate);
   };
