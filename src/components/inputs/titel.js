@@ -78,7 +78,10 @@ export function ShortDescription(properties) {
     }
   }
 
-  useEffect(()=>(console.log("Dates TO Finisch: ", datesToFinish)),[datesToFinish])
+  useEffect(
+    () => console.log("Dates TO Finisch: ", datesToFinish),
+    [datesToFinish]
+  );
 
   return (
     <div>
@@ -144,6 +147,13 @@ export function ShortDescription(properties) {
             />
           </Grid>
           <Grid item xs>
+            <TextField 
+            label="Days"
+            // value={}
+            onChange={(e) =>
+              setdatesToFinish(moment().add(e.target.value, "days"))
+            }            
+            />
             <TextField
               label="Finish Till"
               variant="filled"
@@ -151,10 +161,10 @@ export function ShortDescription(properties) {
                 datesToFinish
                   ? moment(datesToFinish).format("ddd - DD.MM.YY")
                   : ""
-               }             
-  
-                onChange={(e)=>setdatesToFinish (moment().add(e.target.value, 'days'))}
-
+              }
+              onChange={(e) =>
+                setdatesToFinish(moment().add(e.target.value, "days"))
+              }
               color="secondary"
               fullWidth
               inputProps={{
