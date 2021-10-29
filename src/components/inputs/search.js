@@ -14,7 +14,6 @@ export function SearchForNotes(properties) {
   const props = properties.props;
 
   const [filteredNotes, setFilteredNotes] = useState("");
-  const [noteListStatus, setnoteListStatus] = useState("open");
 
   useEffect(
     () => setActiveNote(filteredNotes, props),
@@ -49,20 +48,7 @@ export function SearchForNotes(properties) {
           />
         </Grid>
 
-        <Grid item>
-          <FormControl>
-            <InputLabel id="demo-simple-select-label">Filter</InputLabel>
-            <Select
-              value={noteListStatus}
-              label="Filter"
-              onChange={(e) => setnoteListStatus(e.target.value)}
-            >
-              <MenuItem value={"open"}>Open</MenuItem>
-              <MenuItem value={"allOpen"}>Just Do´s</MenuItem>
-              <MenuItem value={"closed"}>closed</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
+
       </Grid>
     </div>
   );

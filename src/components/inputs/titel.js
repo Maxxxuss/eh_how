@@ -1,7 +1,7 @@
 import { TextField } from "@material-ui/core";
 import { Button, ButtonBase, Grid } from "@mui/material";
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   handelAddNote,
   handelRemoveNote,
@@ -78,6 +78,8 @@ export function ShortDescription(properties) {
     }
   }
 
+  useEffect(()=>(console.log("Dates TO Finisch: ", datesToFinish)),[datesToFinish])
+
   return (
     <div>
       <Grid
@@ -130,7 +132,8 @@ export function ShortDescription(properties) {
               label="Wichtig"
               variant="filled"
               value={important}
-              onChange={(e) => setimportant(e.target.value)}
+              // onChange={(e) => setimportant(e.target.value)}
+              onSubmit={(e) => setimportant(e.target.value)}
               color="secondary"
               fullWidth
               inputProps={{
@@ -144,8 +147,14 @@ export function ShortDescription(properties) {
             <TextField
               label="Finish Till"
               variant="filled"
-              value={datesToFinish}
-              onChange={(e) => setdatesToFinish(e.target.value)}
+              value={
+                datesToFinish
+                  ? moment(datesToFinish).format("ddd - DD.MM.YY")
+                  : ""
+               }             
+  
+                onChange={(e)=>setdatesToFinish (moment().add(e.target.value, 'days'))}
+
               color="secondary"
               fullWidth
               inputProps={{

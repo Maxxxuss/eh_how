@@ -10,39 +10,9 @@ import { addActiveNote, removeActiveNote } from "../actions/activeNote";
 import { getAllActiveNotes } from "../selectors/activeNote";
 import { addExpense, editExpense, removeExpense } from "../actions/notes";
 import { SearchForNotes } from "./inputs/search";
+import { FilteredNotesList, ShowNotes } from "./showNoteList";
 
-const showHintForTimedNotes = (expense) => {
-  const days = expense.absDatesToFinish;
 
-  const daySubStrin = parseInt(days);
-
-  if (days > -0.4 && days < 0.6) {
-    return (
-      <p
-        style={{
-          color: "Green",
-          backgroundColor: "ghostWhite",
-        }}
-      >
-        Do-Today
-      </p>
-    );
-  }
-  if (days < -0.4) {
-    return (
-      <p
-        style={{
-          color: "DarkRed",
-          backgroundColor: "Orange",
-        }}
-      >
-        "Done till "{daySubStrin} Days
-      </p>
-    );
-  } else {
-    return <p></p>;
-  }
-};
 
 export function setActiveNote(expense, props) {
   //ALS PROPS MÜSSEN ÜBERGEBEN WERDEN (1) Add ActiveNote und RemoveActiveNote
@@ -66,63 +36,8 @@ export function setActiveNote(expense, props) {
   }
 }
 
-export function ShowNotes(props) {
-  return props.props.expenses.map((expense) => (
-    <li
-      key={expense.id}
-      onClick={() => setActiveNote(expense, props.props)}
-      style={{
-        marginBottom: "8px",
-      }}
-    >
-      <div className="noteListStylInt">
-        {Math.round(expense.prio)} {expense.categorie} - {expense.description} -
-        {expense.infoNote === true ? (
-          <span
-            style={{
-              color: "red",
-              backgroundColor: "yellow",
-            }}
-          >
-            info
-          </span>
-        ) : (
-          ""
-        )}{" "}
-        -
-        {expense.riskAuswirkung != "" ||
-        expense.riskWahrscheinlichkeit != "" ? (
-          <span
-            style={{
-              color: "yellow",
-              backgroundColor: "red",
-            }}
-          >
-            Risk
-          </span>
-        ) : (
-          ""
-        )}{" "}
-        -{showHintForTimedNotes(expense)}
-        <p>{expense.noteDecscription.substr(16, 80)}</p>
-      </div>
-    </li>
-  ));
-}
 
 export function NotesDashboardPage(props) {
-  const updates = {
-    id: "",
-    description: "",
-    relevance: "",
-    important: "",
-    noteDecscription: "",
-    datesToFinish: "",
-    activeCategorieCatName: "",
-    nextStep: "",
-    infoNote: "",
-    effort: "",
-  };
 
   return (
     <Grid
@@ -137,7 +52,8 @@ export function NotesDashboardPage(props) {
       <Grid container direction="row">
         <Grid item xs={6}>
           <SearchForNotes props={props} />
-          <ShowNotes props={props} />
+          {/* <ShowNotes props={props} /> */}
+          <FilteredNotesList props={props}/>
         </Grid>
         <Grid item xs={6}>
           <ShortDescription NotesDashboradProps={props} />
