@@ -57,7 +57,7 @@ export default function AddDeleteProject(props) {
             catID: categorieID,
         }),
             handleClose()
-            props.SnackBar()
+            // props.SnackBar()
 
     }
 

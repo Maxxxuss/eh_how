@@ -1,116 +1,116 @@
-.box {
-    float: left;
-    width: 48%;
-    margin-right: 1%;
-    margin-left: 1%;
-    padding: 10px;
-    background: rgba(238, 238, 238, 0.405);
-    box-sizing: border-box;
-    margin-top: 2%;
-    font-size: 16px;
+// .box {
+//     float: left;
+//     width: 48%;
+//     margin-right: 1%;
+//     margin-left: 1%;
+//     padding: 10px;
+//     background: rgba(238, 238, 238, 0.405);
+//     box-sizing: border-box;
+//     margin-top: 2%;
+//     font-size: 16px;
 
-}
+// }
 
-.proBox {
-    background: rgba(238, 238, 238, 0.405);
-    box-sizing: border-box;
-    margin-top: 0.5%;
-    font-size: 16px;
+// .proBox {
+//     background: rgba(238, 238, 238, 0.405);
+//     box-sizing: border-box;
+//     margin-top: 0.5%;
+//     font-size: 16px;
 
-}
+// }
 
 
-.proBoxItems {
-    float: left;
-    margin-right: 2%;
-    margin-left: 2%;
-    padding: 0.5%;
-    background: rgba(238, 238, 238, 0.405);
-    box-sizing: border-box;
-    margin-top: 0.5%;
-    font-size: 16px;
-    width: 95%;
+// .proBoxItems {
+//     float: left;
+//     margin-right: 2%;
+//     margin-left: 2%;
+//     padding: 0.5%;
+//     background: rgba(238, 238, 238, 0.405);
+//     box-sizing: border-box;
+//     margin-top: 0.5%;
+//     font-size: 16px;
+//     width: 95%;
 
-}
+// }
 
-.proBoxItemsDetails {
-    margin-right: 2%;
-    margin-left: 2%;
-    // padding: 0.5%;
-    // background: rgba(238, 238, 238, 0.405);
-    // box-sizing: border-box;
-    // margin-top: 0.5%;
-    // font-size: 16px;
-    float: none;
+// .proBoxItemsDetails {
+//     margin-right: 2%;
+//     margin-left: 2%;
+//     // padding: 0.5%;
+//     // background: rgba(238, 238, 238, 0.405);
+//     // box-sizing: border-box;
+//     // margin-top: 0.5%;
+//     // font-size: 16px;
+//     float: none;
 
-}
+// }
 
-.box li{
-    color: black;
-    padding:1%;
+// .box li{
+//     color: black;
+//     padding:1%;
 
-    list-style-type: none;
+//     list-style-type: none;
     
-}
+// }
 
-.box li:hover  {
-    background-color:gainsboro;
-}
+// .box li:hover  {
+//     background-color:gainsboro;
+// }
 
-.box li:active {
-    color:red;
-    background-color: rgba(139, 69, 19, 0.172);
+// .box li:active {
+//     color:red;
+//     background-color: rgba(139, 69, 19, 0.172);
     
-}
+// }
 
 
-.noteListStylInt {
-    float: left;
-    margin-left: 1%;
-    padding-left: 1%;
-    width: 96.5%;
-    background-color: rgba(220, 220, 220, 0.426)
-}
+// .noteListStylInt {
+//     float: left;
+//     margin-left: 1%;
+//     padding-left: 1%;
+//     width: 96.5%;
+//     background-color: rgba(220, 220, 220, 0.426)
+// }
 
-.selected_noteListStylInt {
-    float: left;
-    margin-left: 1%;
-    padding-left: 1%;
-    width: 96.5%;
-    border-style: outset;
-   border-color:red
-}
+// .selected_noteListStylInt {
+//     float: left;
+//     margin-left: 1%;
+//     padding-left: 1%;
+//     width: 96.5%;
+//     border-style: outset;
+//    border-color:red
+// }
 
-// ProjectDashboard Style
-
-
-.boxProjectdDash {
-    margin: auto;
-    width: 90%;
-    background: rgba(238, 238, 238, 0.405);
-    box-sizing: border-box;
-    margin-top: 2%;
+// // ProjectDashboard Style
 
 
-}
+// .boxProjectdDash {
+//     margin: auto;
+//     width: 90%;
+//     background: rgba(238, 238, 238, 0.405);
+//     box-sizing: border-box;
+//     margin-top: 2%;
 
-.noteListStylProjectDas {
-    float: left;
-    width: 99%;
-    background-color:rgba(238, 238, 238, 0.405);
-}
-.noteListStylProjectDetails {
-    float: center;
-    margin-left: 2%;
-    padding-left: 2.5%;
-    width: 90%;
-    background-color:rgba(238, 238, 238, 0.405);
-}
 
-.boxProjectdDash li:hover {
-    background-color:gainsboro;
+// }
 
-}
+// .noteListStylProjectDas {
+//     float: left;
+//     width: 99%;
+//     background-color:rgba(238, 238, 238, 0.405);
+// }
+// .noteListStylProjectDetails {
+//     float: center;
+//     margin-left: 2%;
+//     padding-left: 2.5%;
+//     width: 90%;
+//     background-color:rgba(238, 238, 238, 0.405);
+// }
+
+// .boxProjectdDash li:hover {
+//     background-color:gainsboro;
+
+// }
 
 
 
