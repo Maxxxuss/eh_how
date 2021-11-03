@@ -10,6 +10,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import { green } from "@material-ui/core/colors";
 import { TextField } from "@material-ui/core";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -28,7 +29,6 @@ const theme = createTheme({
 });
 
 export default function AddDeleteProject(props) {
-
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [categorieName, setCategorieName] = React.useState("");
@@ -54,19 +54,25 @@ export default function AddDeleteProject(props) {
     props.setCategorie({
       catName: categorieName,
       catID: categorieID,
-      sorting: (1+Math.max.apply(Math, props.categories.map(categorie=> categorie.sorting))),
+      sorting:
+        1 +
+        Math.max.apply(
+          Math,
+          props.categories.map((categorie) => categorie.sorting)
+        ),
     }),
       handleClose();
     // props.SnackBar()
   };
 
-
-
   return (
     <div>
-
-      <Button onClick={handleClickOpen} color="primary" variant="contained">
-        Start Project
+      <Button
+        onClick={handleClickOpen}
+        color="primary"
+        startIcon={<AddCircleOutlineIcon fontSize="large" />}
+      >
+        Add Project
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Start New Project</DialogTitle>

@@ -22,7 +22,7 @@ import { addExpense, editExpense, removeExpense } from "../actions/notes";
 import { setCategorie, removeCategorie } from "../actions/categorie";
 
 import { SearchForNotes } from "./inputs/search";
-import { FilteredNotesList,  } from "./showNoteList";
+import { FilteredNotesList } from "./showNoteList";
 import { getAllCategories } from "../selectors/categories";
 import AddDeleteProject from "./AddDeleteProject";
 
@@ -57,7 +57,7 @@ export function setActiveNote(expense, props) {
 
 export function NotesDashboardPage(props) {
   const [tabCategorie, setTabCategorie] = useState(0);
-  const [activeCategorie, setActiveCategorie] = useState({catName: "ALL"});
+  const [activeCategorie, setActiveCategorie] = useState({ catName: "ALL" });
 
   if (props.categories.length < 1) {
     props.setCategorie({
@@ -71,23 +71,9 @@ export function NotesDashboardPage(props) {
       <Tab
         key={categorie.sorting ? categorie.sorting : index}
         label={categorie.catName}
-        //ADD Filter for Showing Notes on Selctesd Categorie
-        // onClick={() => props.addActiveNote(categorie)}
-        onClick={() => setActiveCategorie(categorie) }
-   
+        onClick={() => setActiveCategorie(categorie)}
       ></Tab>
-    //   <Tab
-    //   key={categorie.sorting ? categorie.sorting : index}
-    //   label={categorie.catName}
-    //   //ADD Filter for Showing Notes on Selctesd Categorie
-    //   // onClick={() => props.addActiveNote(categorie)}
-    //   onClick={() => setActiveCategorie(categorie) }
-    //   style={{
-    //     fontSize: 16,
-    //   }}
-    // ></Tab>
     ));
-
 
   return (
     <Box
@@ -98,77 +84,49 @@ export function NotesDashboardPage(props) {
       }}
     >
       <Box mt={2} mb={2} mr={2} ml={2}>
-        <Grid container>
-          <Grid item xs={10}>
-            <AppBar position="static" color="default">
+        <AppBar position="static" color="default">
+          <Grid container alignItems="row">
+            <Grid item xs={10}>
               <Tabs
                 value={tabCategorie}
                 onChange={(e, newValue) => setTabCategorie(newValue)}
-                // indicatorColor="secondary"
-                // textColor="primary"
                 variant="scrollable"
                 scrollButtons="auto"
                 aria-label="scrollable auto tabs example"
-                >
+              >
                 {ProjectTab(props.categories)}
               </Tabs>
-            </AppBar>
+            </Grid>
+            <Grid item xs>
+              <AddDeleteProject
+                setCategorie={props.setCategorie}
+                categories={props.categories}
+              />
+            </Grid>
           </Grid>
-          <AddDeleteProject 
-          setCategorie={props.setCategorie}
-          categories ={props.categories}
-          />
-
-          <Grid item xs={2}></Grid>
+        </AppBar>
+      </Box>
+      {/* BODY  */}
+      <Box mt={2} mb={2} mr={2} ml={2}>
+        <Grid container spacing={2} direction="row">
+          <Grid item xs>
+            {/* Left Side - ShoW Notes & Filter */}
+            <SearchForNotes props={props} activeCategorie={activeCategorie} />
+          </Grid>
+          {/* RIGHT-SIDE - Note Details  */}
+          <Grid item xs>
+            <ShortDescription
+              NotesDashboradProps={props}
+              activeCategorie={activeCategorie}
+            />
+          </Grid>
         </Grid>
       </Box>
-      <Container>
-        <Box sx={{ mt: 2 }}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}></Grid>
-            <Grid item xs={6}>
-              <SearchForNotes props={props} />
-              <FilteredNotesList
-                props={props}
-                activeCategorie={activeCategorie}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <ShortDescription
-                NotesDashboradProps={props}
-                activeCategorie={activeCategorie}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <ImpExpData />
-            </Grid>
-          </Grid>
-        </Box>
-      </Container>
+
+      <Grid item xs={12}>
+        <ImpExpData />
+      </Grid>
     </Box>
-
-    // <Grid container direction="column" alignItems="center">
-    //   <Grid>Header</Grid>
-
-    //   <Grid container direction="row" justifyContent="flex-start" spacing={2}>
-    //     <Grid item xs>
-    //       <Item elevation={24}>
-    //         <SearchForNotes props={props} />
-    //         {/* <ShowNotes props={props} /> */}
-    //         <FilteredNotesList props={props} />
-    //       </Item>
-    //     </Grid>
-    //     <Grid item xs>
-    //       <Paper>
-    //         <ShortDescription NotesDashboradProps={props} />
-    //       </Paper>
-    //     </Grid>
-    //   </Grid>
-
-    //   <Grid>
-    //     <ImpExpData />
-    //   </Grid>
-    // </Grid>
   );
 }
 console.log(store.getState());

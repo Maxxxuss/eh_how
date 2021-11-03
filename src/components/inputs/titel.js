@@ -50,7 +50,6 @@ export function ShortDescription(properties) {
     setActiveCategorie("");
   };
 
-
   if (props.activeNote != "" && props.activeNote[0].id != activeNoteID) {
     setActiveNoteID(props.activeNote[0].id);
     setDescription(props.activeNote[0].description);
@@ -88,7 +87,6 @@ export function ShortDescription(properties) {
       handelTakeChanges(props, noteStatus);
     }
   }
-
 
   return (
     <div>
@@ -285,8 +283,6 @@ export function ShortDescription(properties) {
       >
         Satus Changes
       </Button>
-
-     
     </div>
   );
 }

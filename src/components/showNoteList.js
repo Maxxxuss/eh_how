@@ -13,6 +13,7 @@ import {
   Grid,
   FormControl,
   InputLabel,
+  Paper,
 } from "@mui/material";
 import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
 
@@ -49,35 +50,9 @@ const showHintForTimedNotes = (expense) => {
   }
 };
 
-export function FilteredNotesList(properties) {
-  const props = properties.props;
-  const [noteListStatus, setnoteListStatus] = useState("open");
-
-
-
-  return (
-    <div>
-      <Grid item>
-        <FormControl>
-          <InputLabel id="demo-simple-select-label">Filter</InputLabel>
-          <Select
-            value={noteListStatus}
-            label="Filter"
-            onChange={(e) => setnoteListStatus(e.target.value)}
-          >
-            <MenuItem value={"open"}>Open</MenuItem>
-            <MenuItem value={"allOpen"}>Just Do´s</MenuItem>
-            <MenuItem value={"closed"}>closed</MenuItem>
-          </Select>
-        </FormControl>
-        <ShowNotes noteListStatus={noteListStatus} props={props} activeCategorie={properties.activeCategorie}/>
-      </Grid>
-    </div>
-  );
-}
 
 export function ShowNotes(props) {
-  const expenses = props.props.expenses;
+  const expenses = props.expenses;
   const noteListStatus = props.noteListStatus;
 
   const [selectedIndex, setSelectedIndex] = useState("");
@@ -95,98 +70,34 @@ export function ShowNotes(props) {
             ? expense.noteStatus === noteListStatus
             : expense.noteStatus === "open" && expense.absDatesToFinish < "0.6"
         )
-        .filter((expense)=>
-        props.activeCategorie.catName === "ALL" 
-       ? expense
-       :  expense.categorie === props.activeCategorie.catName
+        .filter((expense) =>
+          props.activeCategorie.catName === "ALL"
+            ? expense
+            : expense.categorie === props.activeCategorie.catName
         )
         .map((expense, index) => {
           const labelId = expense.id;
           return (
-            <ListItem
-              key={expense.id}
-              // secondaryAction={
-              //   <Checkbox
-              //     edge="end"
-              //     // onChange={handleToggle(value)}
-              //     // checked={checked.indexOf(value) !== -1}
-              //     // inputProps={{ 'aria-labelledby': labelId }}
-              //   />
-              // }
-              // disablePadding
-            >
-              <ListItemButton
-                selected={selectedIndex === index}
-                onClick={(event) =>
-                  //
-                  // &&
-                  handleListItemClick(expense, props, event, index)
-                }
-              >
-                {/* <NotificationImportantIcon/> */}
-                {showHintForTimedNotes(expense)}
+            <Paper key={expense.id} elevation={6}>
+              <ListItem key={expense.id}>
+                <ListItemButton
+                  selected={selectedIndex === index}
+                  onClick={(event) =>
+                    handleListItemClick(expense, props, event, index)
+                  }
+                >
+                  {showHintForTimedNotes(expense)}
 
-                <ListItemText
-                  id={expense.id}
-                  primary={expense.description}
-                  secondary={expense.noteDecscription.substr(16, 80)}
-                />
-              </ListItemButton>
-            </ListItem>
+                  <ListItemText
+                    id={expense.id}
+                    primary={expense.description}
+                    secondary={expense.noteDecscription.substr(16, 80)}
+                  />
+                </ListItemButton>
+              </ListItem>
+            </Paper>
           );
         })}
     </List>
   );
-
-  // return (
-  //   expenses
-  //     // .filter((expense) => expense.noteStatus === noteListStatus )
-  //     .filter((expense) =>
-  //       noteListStatus != "allOpen"
-  //         ? expense.noteStatus === noteListStatus
-  //         : expense.noteStatus === "open" && expense.absDatesToFinish < "1.0"
-  //     )
-  //     .map((expense) => (
-  //       <li
-  //         key={expense.id}
-  //         onClick={() => setActiveNote(expense, props.props)}
-  //         style={{
-  //           marginBottom: "8px",
-  //         }}
-  //       >
-  //         <div className="noteListStylInt">
-  //           {Math.round(expense.prio)} {expense.categorie} -{" "}
-  //           {expense.description} -
-  //           {expense.infoNote === true ? (
-  //             <span
-  //               style={{
-  //                 color: "red",
-  //                 backgroundColor: "yellow",
-  //               }}
-  //             >
-  //               info
-  //             </span>
-  //           ) : (
-  //             ""
-  //           )}{" "}
-  //           -
-  //           {expense.riskAuswirkung != "" ||
-  //           expense.riskWahrscheinlichkeit != "" ? (
-  //             <span
-  //               style={{
-  //                 color: "yellow",
-  //                 backgroundColor: "red",
-  //               }}
-  //             >
-  //               Risk
-  //             </span>
-  //           ) : (
-  //             ""
-  //           )}{" "}
-  //           -{showHintForTimedNotes(expense)}
-  //           <p>{expense.noteDecscription.substr(16, 80)}</p>
-  //         </div>
-  //       </li>
-  //     ))
-  // );
 }
