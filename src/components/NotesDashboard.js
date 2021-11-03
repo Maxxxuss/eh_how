@@ -11,6 +11,7 @@ import {
   makeStyles,
   Paper,
   styled,
+  Link,
 } from "@mui/material";
 
 import ImpExpData from "./ImpExpData";
@@ -83,6 +84,15 @@ export function NotesDashboardPage(props) {
         py: 8,
       }}
     >
+         <Link
+          href="/proDash"
+          style={{
+            backgroundColor: "yellow",
+            padding: "20",
+          }}
+        >
+          Project Dashboard
+        </Link>
       <Box mt={2} mb={2} mr={2} ml={2}>
         <AppBar position="static" color="default">
           <Grid container alignItems="row">

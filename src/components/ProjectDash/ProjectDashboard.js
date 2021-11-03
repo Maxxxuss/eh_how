@@ -13,6 +13,7 @@ import {
 import { getAllExpenses } from "../../selectors/notes";
 import { Button, ButtonGroup, List, TextField, Link } from "@material-ui/core";
 import ProjectTabPanelDetails from "./ProjectTapPanelDetails";
+import { addExpense, editExpense, removeExpense } from "../../actions/notes";
 
 class ProjectDashboard extends React.Component {
   constructor(props) {

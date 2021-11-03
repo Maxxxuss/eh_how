@@ -4,6 +4,9 @@ import {
   Button,
   ButtonBase,
   Grid,
+  Card,
+  ButtonGroup,
+  IconButton,
 } from "@mui/material";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -12,6 +15,7 @@ import {
   handelRemoveNote,
   handelTakeChanges,
 } from "../Button/AddNote";
+import ClearIcon from "@mui/icons-material/Clear";
 
 export function ShortDescription(properties) {
   const props = properties.NotesDashboradProps;
@@ -92,129 +96,43 @@ export function ShortDescription(properties) {
     <div>
       <Grid
         container
-        spacing={1}
+        spacing={2}
         direction="column"
         justifyContent="center"
         alignItems="center"
       >
         <Grid container item spacing={1}>
-          <TextField
-            label="Titel"
-            variant="filled"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            color="secondary"
-            fullWidth
-            inputProps={{
-              style: {
-                fontSize: 18,
-              },
-            }}
-          />
+          <Grid item xs={1}>
+          <IconButton>
+            <ClearIcon onClick={() => clearInputValues(props)} />
+          </IconButton>
+          </Grid> 
+
+          <Grid item xs={11}>
+            <TextField
+              label="Titel"
+              variant="filled"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              color="secondary"
+              fullWidth
+              // inputProps={{
+              //   style: {
+              //     fontSize: 18,
+              //   },
+              // }}
+            />
+          </Grid>
         </Grid>
 
         <Grid
           container
-          spacing={2}
+          spacing={1}
           direction="row"
           justifyContent="center"
           alignItems="center"
         >
-          <Grid item xs>
-            <TextField
-              label="Days"
-              onChange={(e) =>
-                setdatesToFinish(moment().add(e.target.value, "days"))
-              }
-            />
-            <TextField
-              label="Finish Till"
-              value={
-                datesToFinish
-                  ? moment(datesToFinish).format("ddd - DD.MM.YY")
-                  : ""
-              }
-              onChange={(e) =>
-                setdatesToFinish(moment().add(e.target.value, "days"))
-              }
-              color="secondary"
-              fullWidth
-              inputProps={{
-                style: {
-                  fontSize: 18,
-                },
-              }}
-            />
-          </Grid>
-          <Grid item xs>
-            <TextField
-              label="Dringlich"
-              variant="filled"
-              value={relevance}
-              onChange={(e) => setrelevance(e.target.value)}
-              color="secondary"
-              fullWidth
-              inputProps={{
-                style: {
-                  fontSize: 18,
-                },
-              }}
-            />
-          </Grid>
-          <Grid item xs>
-            <TextField
-              label="Wichtig"
-              variant="filled"
-              value={important}
-              onChange={(e) => setimportant(e.target.value)}
-              color="secondary"
-              fullWidth
-              inputProps={{
-                style: {
-                  fontSize: 18,
-                },
-              }}
-            />
-          </Grid>
-
-          <Grid item xs>
-            <TextField
-              label="Aufwand"
-              variant="filled"
-              value={effort}
-              onChange={(e) => seteffort(e.target.value)}
-              color="secondary"
-              fullWidth
-              inputProps={{
-                style: {
-                  fontSize: 18,
-                },
-              }}
-            />
-          </Grid>
-        </Grid>
-
-        <Grid container item spacing={1}>
-          <TextField
-            label="Note Description"
-            variant="outlined"
-            value={noteDecscription}
-            onChange={(e) => setnoteDecscription(e.target.value)}
-            margin="normal"
-            color="secondary"
-            minRows="10"
-            multiline
-            fullWidth
-            inputProps={{
-              style: {
-                fontSize: 16,
-              },
-            }}
-          />
-        </Grid>
-
-        <Grid container>
-          <Grid item xs={12}>
+          <Grid item xs={4}>
             <Autocomplete
               value={activeCategorie}
               onChange={(e, newValue) => {
@@ -238,51 +156,150 @@ export function ShortDescription(properties) {
                 <TextField
                   {...params}
                   label="Project"
-                  variant="outlined"
+                  variant="filled"
                   color="secondary"
                 />
               )}
             />
           </Grid>
+
+          <Grid item xs>
+            <TextField
+              label="Dringlich"
+              variant="filled"
+              value={relevance}
+              onChange={(e) => setrelevance(e.target.value)}
+              color="secondary"
+              fullWidth
+              // inputProps={{
+              //   style: {
+              //     fontSize: 18,
+              //   },
+              // }}
+            />
+          </Grid>
+          <Grid item xs>
+            <TextField
+              label="Wichtig"
+              variant="filled"
+              color="secondary"
+              value={important}
+              onChange={(e) => setimportant(e.target.value)}
+              fullWidth
+              // inputProps={{
+              //   style: {
+              //     fontSize: 18,
+              //   },
+              // }}
+            />
+          </Grid>
+
+          <Grid item xs>
+            <TextField
+              label="Aufwand"
+              variant="filled"
+              value={effort}
+              onChange={(e) => seteffort(e.target.value)}
+              color="secondary"
+              fullWidth
+              // inputProps={{
+              //   style: {
+              //     fontSize: 18,
+              //   },
+              // }}
+            />
+          </Grid>
+          <Grid item xs={1}>
+            <TextField
+              label="Days"
+              onChange={(e) =>
+                setdatesToFinish(moment().add(e.target.value, "days"))
+              }
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              label="Finish Till"
+              value={
+                datesToFinish
+                  ? moment(datesToFinish).format("ddd - DD.MM.YY")
+                  : ""
+              }
+              onChange={(e) =>
+                setdatesToFinish(moment().add(e.target.value, "days"))
+              }
+              variant="filled"
+              color="secondary"
+              fullWidth
+              // inputProps={{
+              //   style: {
+              //     fontSize: 18,
+              //   },
+              // }}
+            />
+          </Grid>
+        </Grid>
+
+        <Grid container item spacing={1}>
+          <TextField
+            label="Note Description"
+            variant="outlined"
+            value={noteDecscription}
+            onChange={(e) => setnoteDecscription(e.target.value)}
+            margin="normal"
+            color="secondary"
+            minRows="10"
+            multiline
+            fullWidth
+            // inputProps={{
+            //   style: {
+            //     fontSize: 16,
+            //   },
+            // }}
+          />
         </Grid>
       </Grid>
-
-      {activeNoteID ? (
+      <ButtonGroup color="primary" variant="text">
+        {activeNoteID ? (
+          <Button
+            variant="contained"
+            onClick={() =>
+              handelTakeChanges(props, updates) + clearInputValues(props)
+            }
+          >
+            take Changes
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            onClick={() =>
+              handelAddNote(props, updates) + clearInputValues(props)
+            }
+          >
+            Direkt Add
+          </Button>
+        )}
         <Button
           onClick={() =>
-            handelTakeChanges(props, updates) + clearInputValues(props)
+            // handelTakeChanges(props, updates) + clearInputValues(props)
+            statusChange(props, updates) + clearInputValues(props)
           }
         >
-          take Changes
+          Satus Changes
         </Button>
-      ) : (
+
+        <Button onClick={() => clearInputValues(props)}>Clear</Button>
+
         <Button
+          color="secondary"
+          variant="contained"
           onClick={() =>
-            handelAddNote(props, updates) + clearInputValues(props)
+            handelRemoveNote(props, updates) + clearInputValues(props)
           }
         >
-          Direkt Add
+          Remove
         </Button>
-      )}
-
-      <Button onClick={() => clearInputValues(props)}>Clear</Button>
-
-      <Button
-        onClick={() =>
-          handelRemoveNote(props, updates) + clearInputValues(props)
-        }
-      >
-        Remove
-      </Button>
-
-      <Button
-        onClick={() =>
-          // handelTakeChanges(props, updates) + clearInputValues(props)
-          statusChange(props, updates) + clearInputValues(props)
-        }
-      >
-        Satus Changes
-      </Button>
+      </ButtonGroup>
     </div>
   );
 }
