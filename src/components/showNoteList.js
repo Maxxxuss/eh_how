@@ -50,27 +50,10 @@ const showHintForTimedNotes = (expense) => {
 };
 
 export function FilteredNotesList(properties) {
-  console.log("Properties", properties);
   const props = properties.props;
   const [noteListStatus, setnoteListStatus] = useState("open");
-  const [filteredNotes, setFilteredNotes] = useState(props.expenses);
 
-  // useEffect(
-  //   () =>
-  //     setFilteredNotes(
-  //       noteListStatus === "allOpen"
-  //         ? props.expenses.filter(
-  //             (expense) =>
-  //               expense.noteStatus === "open" &&
-  //               expense.absDatesToFinish < "0.6"
-  //           )
-  //         : props.expenses.filter(
-  //             (expense) => expense.noteStatus === noteListStatus
-  //           )
-  //     ),
-  //   // console.log("UseEffect Fired")
-  //   [noteListStatus]
-  // );
+
 
   return (
     <div>
@@ -113,7 +96,7 @@ export function ShowNotes(props) {
             : expense.noteStatus === "open" && expense.absDatesToFinish < "0.6"
         )
         .filter((expense)=>
-        props.activeCategorie === undefined
+        props.activeCategorie.catName === "ALL" 
        ? expense
        :  expense.categorie === props.activeCategorie.catName
         )

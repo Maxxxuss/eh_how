@@ -27,7 +27,6 @@ export default function PDetailsAddSetRemoveButton(props) {
 
       journal: props.journal,
     });
-    console.log("categorie added");
   };
 
   const removeProject = () => {

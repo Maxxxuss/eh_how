@@ -1,5 +1,10 @@
-import { TextField } from "@material-ui/core";
-import { Autocomplete, Button, ButtonBase, Grid } from "@mui/material";
+import {
+  TextField,
+  Autocomplete,
+  Button,
+  ButtonBase,
+  Grid,
+} from "@mui/material";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import {
@@ -10,7 +15,6 @@ import {
 
 export function ShortDescription(properties) {
   const props = properties.NotesDashboradProps;
-  console.log("P0oprs Shjord Descriotn: ", properties);
   const [activeNoteID, setActiveNoteID] = useState("");
   const [description, setDescription] = useState("");
 
@@ -23,21 +27,16 @@ export function ShortDescription(properties) {
   const [effort, seteffort] = useState("");
   const [noteStatus, setnoteStatus] = useState("");
 
-  const [activeCategorie, setActiveCategorie] = useState("")
-  const [inputCategorie, setInputCategorie] = useState("")
-
+  const [activeCategorie, setActiveCategorie] = useState("");
+  const [inputCategorie, setInputCategorie] = useState("");
 
   // const [] = useState("")
-
-
-
 
   const space = "\n";
   const timeStamp = moment().format("ddd - DD.MM.YY");
 
   const clearInputValues = (props) => {
     props.removeActiveNote();
-
     setActiveNoteID("");
     setDescription("");
     setrelevance("");
@@ -47,10 +46,10 @@ export function ShortDescription(properties) {
     setnextStep("");
     setinfoNote("");
     seteffort("");
-  
+    setInputCategorie("");
+    setActiveCategorie("");
   };
 
-  console.log("TITEL Properties: ", props.categories  );
 
   if (props.activeNote != "" && props.activeNote[0].id != activeNoteID) {
     setActiveNoteID(props.activeNote[0].id);
@@ -58,29 +57,14 @@ export function ShortDescription(properties) {
     setrelevance(props.activeNote[0].relevance);
     setimportant(props.activeNote[0].important);
     setnoteDecscription(props.activeNote[0].noteDecscription);
+
+    setInputCategorie(props.activeNote[0].categorie);
     setdatesToFinish(props.activeNote[0].datesToFinish);
     setnextStep(props.activeNote[0].nextStep);
     setinfoNote(props.activeNote[0].infoNote);
     seteffort(props.activeNote[0].effort);
     setnoteStatus(props.activeNote[0].noteStatus);
   }
-
-  // if (
-  //   properties.activeCategorie != "" &&
-  //   properties.activeCategorie != undefined
-  //   && props.activeNote !="" &&
-  //   activeCategorie.id != properties.activeCategorie.id
-  // ) {
-  //   clearInputValues(props)
-
-  //   setactiveCategorieCatName(properties.activeCategorie);
-  // }
-
-  // useEffect(()=> setactiveCategorieCatName(properties.activeCategorie.catName), [properties.activeCategorie.catName])
-  // useEffect(
-  //   () => console.log("USe Effect Fired, internal", activeCategorieCatName),
-  //   [activeCategorieCatName]
-  // );
 
   const updates = {
     id: activeNoteID,
@@ -89,7 +73,7 @@ export function ShortDescription(properties) {
     important: important,
     noteDecscription: space + timeStamp + space + noteDecscription,
     datesToFinish: datesToFinish,
-    // categorie:,
+    categorie: inputCategorie,
     nextStep: nextStep,
     infoNote: infoNote,
     effort: effort,
@@ -105,10 +89,6 @@ export function ShortDescription(properties) {
     }
   }
 
-  useEffect(
-    () => console.log("Dates TO Finisch: ", datesToFinish),
-    [datesToFinish]
-  );
 
   return (
     <div>
@@ -235,68 +215,36 @@ export function ShortDescription(properties) {
           />
         </Grid>
 
-        <Grid
-          container
-          //   direction="column"
-          // justifyContent="center"
-          // alignItems="center"
-        >
+        <Grid container>
           <Grid item xs={12}>
             <Autocomplete
-              // value={activeCategorie}
-              // onChange={(event, newValue) => {
-              //   // setActiveCategorie(newValue);
-              //   console.log("onChange Caluie:" , newValue);
-
-              // }}
-              inputValue={inputCategorie}
+              value={activeCategorie}
+              onChange={(e, newValue) => {
+                setActiveCategorie(newValue);
+              }}
+              inputValue={
+                inputCategorie
+                  ? inputCategorie
+                  : props.activeNote != ""
+                  ? props.activeNote[0].categorie
+                  : properties.activeCategorie.catName
+              }
               onInputChange={(e, newInputValue) => {
-                setInputCategorie(newInputValue ? newInputValue : "");
-                  console.log("on Input Change: ", newInputValue);
+                setInputCategorie(newInputValue);
               }}
               options={props.categories}
-              getOptionLabel={(option) => (option.catName ? option.catName : "")}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant="outlined"
-                  color="secondary"
-                  label="Project"
-                />
-              )}
-            />
-
-            {/* <Autocomplete
-              id="combo-box-demo"
-              options={props.categories}
-              getOptionLabel={(option) => (option ? option.catName : [])}
-              onInputChange={(e, newInputValue) => {
-                setactiveCategorieCatName(newInputValue.catName);
-              }}
-              // onChange={(e, newInputValue) =>
-              //   setactiveCategorieCatName(newInputValue.catName)
-              // }
-              inputValue={activeCategorieCatName
-
-             
-                // activeCategorieCatName
-                //   ? activeCategorieCatName
-                //   : props.activeCategorie !=undefined&& activeCategorie != undefined && activeCategorie.catName != ""
-                //   ? activeCategorie.catName
-                //   : ""
-
-
+              getOptionLabel={(option) =>
+                option.catName ? option.catName : ""
               }
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label={"Project"}
-                  //  label="Project"
+                  label="Project"
                   variant="outlined"
                   color="secondary"
                 />
               )}
-            /> */}
+            />
           </Grid>
         </Grid>
       </Grid>
@@ -338,16 +286,7 @@ export function ShortDescription(properties) {
         Satus Changes
       </Button>
 
-      <Button
-        onClick={() =>
-          console.log(
-            "props Shirt Description:",
-            props.activeNote[0].noteStatus
-          )
-        }
-      >
-        Show Props
-      </Button>
+     
     </div>
   );
 }

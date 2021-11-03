@@ -165,8 +165,9 @@ class Categories extends React.Component {
 
   const mapStateToProps = (state)=>{
     return{
-        categories: getAllCategories(state), 
-        
+      categories: getAllCategories(state).sort((a, b) =>
+      a.sorting > b.sorting ? 1 : -1
+    ),        
     }
 }
 

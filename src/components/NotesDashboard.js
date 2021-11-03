@@ -22,8 +22,7 @@ import { addExpense, editExpense, removeExpense } from "../actions/notes";
 import { setCategorie, removeCategorie } from "../actions/categorie";
 
 import { SearchForNotes } from "./inputs/search";
-import { FilteredNotesList, ShowNotes } from "./showNoteList";
-import ProjectTabPanelDetails from "./ProjectDash/ProjectTapPanelDetails";
+import { FilteredNotesList,  } from "./showNoteList";
 import { getAllCategories } from "../selectors/categories";
 import AddDeleteProject from "./AddDeleteProject";
 
@@ -58,12 +57,12 @@ export function setActiveNote(expense, props) {
 
 export function NotesDashboardPage(props) {
   const [tabCategorie, setTabCategorie] = useState(0);
-  const [activeCategorie, setActiveCategorie] = useState("");
+  const [activeCategorie, setActiveCategorie] = useState({catName: "ALL"});
 
   if (props.categories.length < 1) {
     props.setCategorie({
       catName: "ALL",
-      catID: 0,
+      sorting: 1,
     });
   }
 
@@ -75,13 +74,20 @@ export function NotesDashboardPage(props) {
         //ADD Filter for Showing Notes on Selctesd Categorie
         // onClick={() => props.addActiveNote(categorie)}
         onClick={() => setActiveCategorie(categorie) }
-        style={{
-          fontSize: 16,
-        }}
+   
       ></Tab>
+    //   <Tab
+    //   key={categorie.sorting ? categorie.sorting : index}
+    //   label={categorie.catName}
+    //   //ADD Filter for Showing Notes on Selctesd Categorie
+    //   // onClick={() => props.addActiveNote(categorie)}
+    //   onClick={() => setActiveCategorie(categorie) }
+    //   style={{
+    //     fontSize: 16,
+    //   }}
+    // ></Tab>
     ));
 
-    useEffect(()=> console.log("CAT_ NotesDashboarPage - Active Catergorie: ", activeCategorie))
 
   return (
     <Box
@@ -98,24 +104,20 @@ export function NotesDashboardPage(props) {
               <Tabs
                 value={tabCategorie}
                 onChange={(e, newValue) => setTabCategorie(newValue)}
-                indicatorColor="secondary"
-                textColor="primary"
+                // indicatorColor="secondary"
+                // textColor="primary"
                 variant="scrollable"
                 scrollButtons="auto"
-                aria-label="action tabs example"
-              >
-                {/* <Tab
-                  label="ALL"
-                  onClick={(e, newValue) => setActiveCategorie(newValue)}
-                  style={{
-                    fontSize: 14,
-                  }}
-                ></Tab> */}
+                aria-label="scrollable auto tabs example"
+                >
                 {ProjectTab(props.categories)}
               </Tabs>
             </AppBar>
           </Grid>
-          <AddDeleteProject setCategorie={props.setCategorie} />
+          <AddDeleteProject 
+          setCategorie={props.setCategorie}
+          categories ={props.categories}
+          />
 
           <Grid item xs={2}></Grid>
         </Grid>

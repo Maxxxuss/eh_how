@@ -336,8 +336,9 @@ const Menu = React.forwardRef((props, ref) => (
 const mapStateToProps = (state)=>{
   return{
       expenses : getAllExpenses(state).sort((a,b) => (a.prio > b.prio) ? -1: 1), 
-      categories: getAllCategories(state), 
-      
+      categories: getAllCategories(state).sort((a, b) =>
+      a.sorting > b.sorting ? 1 : -1
+    ),      
   }
 }
 

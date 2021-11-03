@@ -51,7 +51,6 @@ export function absDatesToFin(datesToFinish) {
   const difference = moment(a).diff(b);
   const days = moment.duration(difference).asDays();
   return days;
-  console.log("Days", days);
 }
 
 function calcPrioBySnooze(
