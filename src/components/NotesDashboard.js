@@ -26,6 +26,8 @@ import { SearchForNotes } from "./inputs/search";
 import { FilteredNotesList } from "./showNoteList";
 import { getAllCategories } from "../selectors/categories";
 import AddDeleteProject from "./AddDeleteProject";
+import { getGlobalVariables } from "../selectors/autoSave";
+import { editGlobalVariables } from "../actions/globalVariables";
 
 export function setActiveNote(expense, props) {
   //ALS PROPS MÜSSEN ÜBERGEBEN WERDEN (1) Add ActiveNote und RemoveActiveNote
@@ -134,7 +136,9 @@ export function NotesDashboardPage(props) {
       </Box>
 
       <Grid item xs={12}>
-        <ImpExpData />
+        <ImpExpData 
+        props={props}
+        />
       </Grid>
     </Box>
   );
@@ -153,7 +157,7 @@ const mapStateToProps = (state) => {
     ),
 
     //   historyCategorie: getHistorieCategorie(state),
-    //   globalVariables: getGlobalVariables(state),
+      globalVariables: getGlobalVariables(state),
   };
 };
 
@@ -166,6 +170,8 @@ const mapDispatchToProps = (dispatch) => ({
   removeExpense: (id) => dispatch(removeExpense(id)),
   addExpense: (expense) => dispatch(addExpense(expense)),
   editExpense: (id, updates) => dispatch(editExpense(id, updates)),
+  editGlobalVariables: (autoSave) => dispatch(editGlobalVariables(autoSave)),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotesDashboardPage);

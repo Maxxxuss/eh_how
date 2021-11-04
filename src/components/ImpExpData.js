@@ -5,9 +5,10 @@ import { editGlobalVariables } from "../actions/globalVariables";
 import { getGlobalVariables } from "../selectors/autoSave";
 
 import { locCache, setLocalStorageState } from "../store/configureStore";
+import { AutoSave } from "./inputs/autoSave";
 import { Alert } from "./Notification/NotificationBar";
 
-class ImpExpData extends React.Component {
+// class ImpExpData extends React.Component {
 // constructor (props) {
 //   super(props)
 //   this.state= {
@@ -15,8 +16,10 @@ class ImpExpData extends React.Component {
 //   }
 // }
 
+export function ImpExpData (props) {
 
-  expLocalStorage = (filename, text = locCache()) => {
+
+  const expLocalStorage = (filename, text = locCache()) => {
     var blob = new Blob([text], { type: "text/plain" });
     var url = window.URL.createObjectURL(blob);
     var a = document.createElement("a");
@@ -26,7 +29,7 @@ class ImpExpData extends React.Component {
     this.props.editGlobalVariables({ autoSave: 0 });
   };
 
-  impLocStora = (event) => {
+ const impLocStora = (event) => {
     var file = event.target.files[0];
     var reader = new FileReader();
     reader.onload = function (event) {
@@ -37,29 +40,28 @@ class ImpExpData extends React.Component {
     window.location.reload();
   };
 
-  autoSaveSwitch = () => {
-    const onOffSwitch = this.props.globalVariables.onOffSwitch;
+  // autoSaveSwitch = () => {
+  //   const onOffSwitch = this.props.globalVariables.onOffSwitch;
 
-    if (onOffSwitch != true) {
-      this.props.editGlobalVariables({ onOffSwitch: true });
+  //   if (onOffSwitch != true) {
+  //     this.props.editGlobalVariables({ onOffSwitch: true });
   
-    } else {
-      this.props.editGlobalVariables({ onOffSwitch: false });
-    }
-  };
+  //   } else {
+  //     this.props.editGlobalVariables({ onOffSwitch: false });
+  //   }
+  // };
 
-  autoSaveLabel = () => {
-    const onOffSwitch = this.props.globalVariables.onOffSwitch;
-    const autoSave = this.props.globalVariables.autoSave;
+  // autoSaveLabel = () => {
+  //   const onOffSwitch = this.props.globalVariables.onOffSwitch;
+  //   const autoSave = this.props.globalVariables.autoSave;
 
-    if (onOffSwitch != true) {
-      return "Auto Save OFF";
-    } else {
-      return ["Auto Save in ", 11 - autoSave, " Actions"];
-    }
-  };
+  //   if (onOffSwitch != true) {
+  //     return "Auto Save OFF";
+  //   } else {
+  //     return ["Auto Save in ", 11 - autoSave, " Actions"];
+  //   }
+  // };
 
-  render() {
     return (
       // <div className="impExpButton">
       <div>
@@ -71,7 +73,10 @@ class ImpExpData extends React.Component {
           alignItems="center"
         >
           <Grid item>
-            <FormControlLabel
+            <AutoSave
+            props={props}
+            />
+            {/* <FormControlLabel
               control={
                 <Switch
                   checked={
@@ -84,7 +89,7 @@ class ImpExpData extends React.Component {
                 />
               }
               label={this.autoSaveLabel()}
-            />
+            /> */}
           </Grid>
 
           <Grid item>
@@ -92,7 +97,7 @@ class ImpExpData extends React.Component {
               color="secondary"
               variant="contained"
               className="expButton"
-              onClick={this.expLocalStorage}
+              onClick={()=>expLocalStorage()}
             >
               Export Local Data
             </Button>
@@ -103,14 +108,14 @@ class ImpExpData extends React.Component {
               type="file"
               id="file"
               name="file"
-              onChange={this.impLocStora}
+              onChange={()=> impLocStora()}
             />
           </Grid>
         </Grid>
        
       </div>
     );
-  }
+  
 }
 
 const mapStateToProps = (state) => {

@@ -103,8 +103,12 @@ export function ShortDescription(properties) {
       >
         <Grid container item spacing={1}>
           <Grid item xs={1}>
-          <IconButton>
-            <ClearIcon onClick={() => clearInputValues(props)} />
+          <IconButton
+          onClick={() => clearInputValues(props)}
+          >
+            <ClearIcon 
+            
+            fontSize="large"/>
           </IconButton>
           </Grid> 
 

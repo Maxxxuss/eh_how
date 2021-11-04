@@ -16,6 +16,8 @@ import {
   Paper,
 } from "@mui/material";
 import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
+import ErrorIcon from '@mui/icons-material/Error';
+import WarningIcon from '@mui/icons-material/Warning';
 
 const showHintForTimedNotes = (expense) => {
   const days = expense.absDatesToFinish;
@@ -36,14 +38,22 @@ const showHintForTimedNotes = (expense) => {
   }
   if (days < -0.4) {
     return (
+
+      <div>
+        
+      <p>
+      <WarningIcon 
+      color="error" />
+      </p>
       <p
         style={{
           color: "DarkRed",
           backgroundColor: "Orange",
         }}
-      >
-        "Done till "{daySubStrin} Days
+      >      {daySubStrin} D
       </p>
+
+      </div>
     );
   } else {
     return <p></p>;
